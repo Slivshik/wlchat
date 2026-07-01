@@ -47,14 +47,21 @@ jobs:
     - name: Build Debug APK
       run: |
         export ANDROID_HOME=$ANDROID_HOME
-        ./gradlew assembleFossDebug --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+        ./gradlew assembleFossDebug -PABI_FILTER=arm64-v8a,armeabi-v7a,x86,x86_64 --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
         
     - name: Find APK file
       id: find-apk
       run: |
-        APK_PATH=$(find . -name "*.apk" -type f | head -1)
+        APK_PATH=$(find . -name "*foss-debug.apk" -type f | head -1)
+        if [ -z "$APK_PATH" ]; then
+          APK_PATH=$(find . -name "*.apk" -type f | head -1)
+        fi
         echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
         echo "Found APK at: $APK_PATH"
+        echo "APK size: $(du -h "$APK_PATH" | cut -f1)"
+        # Verify native libs are in the APK
+        echo "Native libs in APK:"
+        unzip -l "$APK_PATH" | grep -E '\.so$' | head -10
         
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
