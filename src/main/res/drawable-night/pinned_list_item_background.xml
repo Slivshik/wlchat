@@ -7,10 +7,16 @@
         android:drawable="@android:color/black" />
     <item>
         <selector>
-            <item
-                android:drawable="#18229AF0"
-                android:state_selected="true" />
-            <item android:drawable="#1C2936" />
+            <item android:state_selected="true">
+                <shape android:shape="rectangle">
+                    <solid android:color="#18229AF0" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#1C2936" />
+                </shape>
+            </item>
         </selector>
     </item>
 </ripple>
