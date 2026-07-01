@@ -173,7 +173,8 @@ public class ProfileAdapter extends RecyclerView.Adapter {
     } else if (viewType == ITEM_GROUP_SETTING_MUTE
         || viewType == ITEM_GROUP_SETTING_EPHEMERAL
         || viewType == ITEM_GROUP_SETTING_CHANNEL_TYPE
-        || viewType == ITEM_GROUP_SETTING_BANNED) {
+        || viewType == ITEM_GROUP_SETTING_BANNED
+        || viewType == ITEM_GROUP_SETTING_FORUM) {
       final ProfileTextItem item =
           (ProfileTextItem) layoutInflater.inflate(R.layout.profile_text_item, parent, false);
       return new ViewHolder(item);
@@ -261,6 +262,8 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         iconRes = R.drawable.ic_forum_24dp;
       } else if (data.viewType == ITEM_GROUP_SETTING_BANNED) {
         iconRes = R.drawable.contact_blocked_24;
+      } else if (data.viewType == ITEM_GROUP_SETTING_FORUM) {
+        iconRes = R.drawable.ic_forum_24dp;
       }
 
       item.set(data.label, iconRes, tintIcon);
