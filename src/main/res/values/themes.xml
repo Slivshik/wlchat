@@ -10,8 +10,8 @@
         <item name="windowActionModeOverlay">true</item>
 
         <item name="theme_type">light</item>
-        <item name="colorPrimary">@color/def_primary</item>
-        <item name="colorPrimaryDark">@color/def_primary</item>
+        <item name="colorPrimary">@color/tg_blue</item>
+        <item name="colorPrimaryDark">@color/tg_blue</item>
 
         <item name="profile_toolbar_background">@color/white</item>
         <item name="profile_toolbar_foreground">@color/gray70</item>
@@ -27,8 +27,8 @@
 
         <item name="theme_type">dark</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
-        <item name="colorPrimary">@color/gray95</item>
-        <item name="colorPrimaryDark">@color/gray95</item>
+        <item name="colorPrimary">@color/tg_blue</item>
+        <item name="colorPrimaryDark">@color/tg_blue</item>
 
         <item name="profile_toolbar_background">@color/black</item>
         <item name="profile_toolbar_foreground">@color/white</item>
@@ -42,14 +42,14 @@
         <item name="actionBarStyle">@style/TextSecure.LightActionBar</item>
         <item name="actionBarTabBarStyle">@style/TextSecure.LightActionBar.TabBar</item>
         <item name="actionModeBackground">@color/def_primary</item>
-        <item name="colorPrimary">@color/def_primary</item>
-        <item name="colorPrimaryDark">@color/def_primary</item>
+        <item name="colorPrimary">@color/tg_blue</item>
+        <item name="colorPrimaryDark">@color/tg_blue</item>
 
-        <item name="colorAccent">@color/def_accent</item>
-        <item name="colorControlActivated">@color/def_accent</item>
-        <item name="colorControlHighlight">@color/def_accent</item>
+        <item name="colorAccent">@color/tg_blue</item>
+        <item name="colorControlActivated">@color/tg_blue</item>
+        <item name="colorControlHighlight">@color/tg_blue</item>
 
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/tg_bg_light</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyleLight</item>
         <item name="android:alertDialogTheme">@style/AppCompatDialogStyleLight</item>
         <!--<item name="android:windowContentOverlay">@drawable/compat_actionbar_shadow_background</item> -->
@@ -59,9 +59,9 @@
         <item name="conversation_list_item_unreadcount_color">@color/def_unreadcount</item>
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background</item>
-        <item name="conversation_list_item_contact_color">@color/core_light_90</item>
-        <item name="conversation_list_item_subject_color">@color/core_light_60</item>
-        <item name="conversation_list_item_date_color">@color/core_light_60</item>
+        <item name="conversation_list_item_contact_color">@color/tg_text_primary_light</item>
+        <item name="conversation_list_item_subject_color">@color/tg_text_secondary_light</item>
+        <item name="conversation_list_item_date_color">@color/tg_text_secondary_light</item>
         <item name="conversation_list_item_unread_color">@color/core_black</item>
         <item name="conversation_list_item_divider">@drawable/conversation_list_divider_shape</item>
 
@@ -158,18 +158,18 @@
             tools:targetApi="21">@color/black</item>
         <item name="actionBarStyle">@style/TextSecure.DarkActionBar</item>
         <item name="actionBarTabBarStyle">@style/TextSecure.DarkActionBar.TabBar</item>
-        <item name="colorPrimary">@color/gray95</item>
-        <item name="colorPrimaryDark">@color/gray95</item>
+        <item name="colorPrimary">@color/tg_blue</item>
+        <item name="colorPrimaryDark">@color/tg_blue</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
-        <item name="actionModeBackground">@color/gray95</item>
+        <item name="actionModeBackground">@color/tg_blue</item>
         <item name="android:textColor">@color/text_color_dark_theme</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_dark_theme</item>
 
-        <item name="colorAccent">@color/def_accent</item>
-        <item name="colorControlActivated">@color/def_accent</item>
-        <item name="colorControlHighlight">@color/def_accent</item>
+        <item name="colorAccent">@color/tg_blue</item>
+        <item name="colorControlActivated">@color/tg_blue</item>
+        <item name="colorControlHighlight">@color/tg_blue</item>
 
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/tg_bg_dark</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyleDark</item>
 
         <item name="attachment_type_selector_background">@color/gray95</item>
@@ -177,9 +177,9 @@
         <item name="conversation_list_item_unreadcount_color">@color/def_unreadcount</item>
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background</item>
-        <item name="conversation_list_item_contact_color">@color/white</item>
-        <item name="conversation_list_item_subject_color">@color/core_dark_30</item>
-        <item name="conversation_list_item_date_color">@color/core_dark_30</item>
+        <item name="conversation_list_item_contact_color">@color/tg_text_primary_dark</item>
+        <item name="conversation_list_item_subject_color">@color/tg_text_secondary_dark</item>
+        <item name="conversation_list_item_date_color">@color/tg_text_secondary_dark</item>
         <item name="conversation_list_item_unread_color">@color/core_white</item>
         <item name="conversation_list_item_divider">@drawable/conversation_list_divider_shape_dark</item>
 
@@ -335,7 +335,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_purple</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_purple</item>
         <item name="fab_color">@color/purple_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/purple_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_purple</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_purple</item>
@@ -407,7 +407,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_green</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_green</item>
         <item name="fab_color">@color/green_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/green_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_green</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_green</item>
@@ -480,7 +480,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_blue</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_blue</item>
         <item name="fab_color">@color/blue_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/blue_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_blue</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_blue</item>
@@ -552,7 +552,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_red</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_red</item>
         <item name="fab_color">@color/red_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/red_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_red</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_red</item>
@@ -624,7 +624,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_pink</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_pink</item>
         <item name="fab_color">@color/pink_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/pink_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_pink</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_pink</item>
@@ -696,7 +696,7 @@
         <item name="conversation_list_item_background">@drawable/conversation_list_item_background_gray</item>
         <item name="pinned_list_item_background">@drawable/pinned_list_item_background_gray</item>
         <item name="fab_color">@color/gray_primary_lite</item>
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <item name="conversation_item_outgoing_text_secondary_color">@color/gray_outgoing_label</item>
         <item name="conversation_item_background">@drawable/conversation_item_background_gray</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated_gray</item>
