@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Map;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.connect.DcHelper;
@@ -296,8 +297,9 @@ public class BucketedThreadMediaLoader
 
       String getName(int section) {
         Date sectionDate = getSection(section);
-
-        return new SimpleDateFormat("MMMM yyyy", Util.getLocale()).format(sectionDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Util.getLocale());
+        sdf.setTimeZone(TimeZone.getDefault());
+        return sdf.format(sectionDate);
       }
     }
   }

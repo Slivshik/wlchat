@@ -6,7 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class SmoothSlideItemAnimator extends DefaultItemAnimator {
 
-  private static final int ADD_DURATION = 250;
-  private static final int REMOVE_DURATION = 200;
-  private static final int MOVE_DURATION = 220;
+  private static final int ADD_DURATION = 180;
+  private static final int REMOVE_DURATION = 140;
+  private static final int MOVE_DURATION = 180;
 
   public SmoothSlideItemAnimator() {
     setSupportsChangeAnimations(false);
@@ -32,20 +32,20 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
     View view = holder.itemView;
 
     // Start from slightly below and transparent
-    view.setTranslationY(60f);
+    view.setTranslationY(24f);
     view.setAlpha(0f);
-    view.setScaleX(0.97f);
-    view.setScaleY(0.97f);
+    view.setScaleX(0.99f);
+    view.setScaleY(0.99f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationY", 60f, 0f),
+        ObjectAnimator.ofFloat(view, "translationY", 24f, 0f),
         ObjectAnimator.ofFloat(view, "alpha", 0f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleX", 0.97f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleY", 0.97f, 1f)
+        ObjectAnimator.ofFloat(view, "scaleX", 0.99f, 1f),
+        ObjectAnimator.ofFloat(view, "scaleY", 0.99f, 1f)
     );
     set.setDuration(ADD_DURATION);
-    set.setInterpolator(new OvershootInterpolator(1.15f));
+    set.setInterpolator(new FastOutSlowInInterpolator());
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
@@ -66,13 +66,13 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.25f),
+        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.08f),
         ObjectAnimator.ofFloat(view, "alpha", 1f, 0f),
-        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.95f),
-        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.95f)
+        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.99f),
+        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.99f)
     );
     set.setDuration(REMOVE_DURATION);
-    set.setInterpolator(new DecelerateInterpolator(2.5f));
+    set.setInterpolator(new DecelerateInterpolator(2f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
@@ -105,7 +105,7 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
       set.play(ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, -dy, 0f));
     }
     set.setDuration(MOVE_DURATION);
-    set.setInterpolator(new DecelerateInterpolator(1.8f));
+    set.setInterpolator(new FastOutSlowInInterpolator());
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {

@@ -21,6 +21,7 @@ import android.text.format.DateFormat;
 import androidx.annotation.NonNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.thoughtcrime.securesms.R;
 
@@ -41,7 +42,9 @@ public class DateUtils extends android.text.format.DateUtils {
 
   private static String getFormattedDateTime(long time, String template) {
     final String localizedPattern = getLocalizedPattern(template);
-    String ret = new SimpleDateFormat(localizedPattern).format(new Date(time));
+    SimpleDateFormat sdf = new SimpleDateFormat(localizedPattern);
+    sdf.setTimeZone(TimeZone.getDefault());
+    String ret = sdf.format(new Date(time));
 
     // having ".," in very common and known abbreviates as weekdays or month names is not needed,
     // looks ugly and makes the string longer than needed

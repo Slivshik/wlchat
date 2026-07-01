@@ -185,11 +185,21 @@
     <color name="tg_divider_dark">#ff101921</color>
     <color name="tg_surface_light">#ffFFFFFF</color>
     <color name="tg_surface_dark">#ff1E2C3A</color>
+    <color name="tg_surface_elevated_light">#FFF8FAFC</color>
+    <color name="tg_surface_elevated_dark">#FF223242</color>
+    <color name="tg_toolbar_subtle_light">#14FFFFFF</color>
+    <color name="tg_toolbar_subtle_dark">#14FFFFFF</color>
 
     <!-- Input panel -->
     <color name="tg_input_bg_light">#ffF0F2F5</color>
     <color name="tg_input_bg_dark">#ff17212B</color>
     <color name="tg_send_button">#ff229AF0</color>
+    <color name="tg_input_field_light">#FFFFFFFF</color>
+    <color name="tg_input_field_dark">#FF22303D</color>
+    <color name="tg_input_field_stroke_light">#11000000</color>
+    <color name="tg_input_field_stroke_dark">#22FFFFFF</color>
+    <color name="tg_ripple_light">#12000000</color>
+    <color name="tg_ripple_dark">#24FFFFFF</color>
 
     <!-- Reaction pills -->
     <color name="tg_reaction_bg">#ff242E39</color>

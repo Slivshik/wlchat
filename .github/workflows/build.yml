@@ -1,4 +1,4 @@
-name: Build Debug APK
+name: Build APK
 
 on:
   push:
@@ -29,10 +29,22 @@ jobs:
 
     - name: Install Android SDK platforms and build tools
       run: |
-        sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+        sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Generate debug keystore for release signing
+      run: |
+        if [ ! -f ~/.android/debug.keystore ]; then
+          keytool -genkey -v -keystore ~/.android/debug.keystore \
+            -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+          echo "Debug keystore generated"
+        else
+          echo "Debug keystore already exists"
+        fi
 
     - name: Fetch native libraries from official release
       run: |
@@ -48,34 +60,45 @@ jobs:
       run: |
         export ANDROID_HOME=$ANDROID_HOME
         ./gradlew assembleFossDebug --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+
+    - name: Build Release APK
+      run: |
+        export ANDROID_HOME=$ANDROID_HOME
+        ./gradlew assembleFossRelease --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
         
-    - name: Find APK file
+    - name: Find APK files
       id: find-apk
       run: |
         echo "All APKs built:"
         find . -name "*.apk" -type f -exec echo "  {} ($(du -h {} | cut -f1))" \;
-        # Prefer universal APK (has all ABIs + native libs)
-        APK_PATH=$(find . -name "*universal*.apk" -type f | head -1)
-        if [ -z "$APK_PATH" ]; then
-          # Fallback: pick any APK with .so files inside
-          for apk in $(find . -name "*.apk" -type f); do
-            if unzip -l "$apk" 2>/dev/null | grep -q "libnative-utils.so"; then
-              APK_PATH="$apk"
-              break
+        # Find release APK first, then debug
+        RELEASE_APK=$(find . -name "*foss*release*.apk" -type f | head -1)
+        DEBUG_APK=$(find . -name "*foss*debug*.apk" -type f | head -1)
+        # Prefer universal APK with native libs
+        for apk in $(find . -name "*.apk" -type f); do
+          if unzip -l "$apk" 2>/dev/null | grep -q "libnative-utils.so"; then
+            if echo "$apk" | grep -q "release"; then
+              RELEASE_APK="$apk"
+            else
+              DEBUG_APK="$apk"
             fi
-          done
-        fi
-        if [ -z "$APK_PATH" ]; then
-          APK_PATH=$(find . -name "*.apk" -type f | head -1)
-        fi
-        echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-        echo "Selected APK: $APK_PATH ($(du -h "$APK_PATH" | cut -f1))"
-        echo "Native libs in APK:"
-        unzip -l "$APK_PATH" | grep -E '\.so$' | head -10
+          fi
+        done
+        echo "release_apk=$RELEASE_APK" >> $GITHUB_OUTPUT
+        echo "debug_apk=$DEBUG_APK" >> $GITHUB_OUTPUT
+        echo "Release APK: $RELEASE_APK"
+        echo "Debug APK: $DEBUG_APK"
         
-    - name: Upload APK artifact
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: wl-chat-release-apk
+        path: ${{ steps.find-apk.outputs.release_apk }}
+        retention-days: 30
+
+    - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: wl-chat-debug-apk
-        path: ${{ steps.find-apk.outputs.apk_path }}
+        path: ${{ steps.find-apk.outputs.debug_apk }}
         retention-days: 14

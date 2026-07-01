@@ -49,7 +49,6 @@ import org.thoughtcrime.securesms.util.StickyHeaderDecoration;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 
 /**
  * A DC adapter for a conversation thread. Ultimately used by ConversationActivity to display a
@@ -255,16 +254,11 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
             playbackViewModel,
             audioPlayPauseListener);
 
-    // Subtle fade-in for newly bound items (smooth scroll feel)
-    View itemView = holder.itemView;
-    if (itemView.getAlpha() < 1f) {
-      itemView.setAlpha(0.92f);
-      itemView.animate()
-          .alpha(1f)
-          .setDuration(120)
-          .setInterpolator(new DecelerateInterpolator(2f))
-          .start();
-    }
+    holder.itemView.setAlpha(1f);
+    holder.itemView.setTranslationX(0f);
+    holder.itemView.setTranslationY(0f);
+    holder.itemView.setScaleX(1f);
+    holder.itemView.setScaleY(1f);
   }
 
   @Override

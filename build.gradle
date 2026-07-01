@@ -98,6 +98,22 @@ android {
                 storeFile file(DC_DEBUG_STORE_FILE )
             }
         }
+        release {
+            // Uses release properties if defined, otherwise falls back to debug keystore
+            // This ensures release builds always have a consistent signing config
+            if(project.hasProperty("DC_RELEASE_STORE_FILE")) {
+                storeFile file(DC_RELEASE_STORE_FILE)
+                storePassword DC_RELEASE_STORE_PASSWORD
+                keyAlias DC_RELEASE_KEY_ALIAS_FDROID
+                keyPassword DC_RELEASE_KEY_PASSWORD
+            } else {
+                // Fallback: use debug keystore for release builds (CI/local builds)
+                storeFile file(System.getProperty("user.home") + "/.android/debug.keystore")
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
+            }
+        }
         releaseFdroid {
             // can be defined at `~/.gradle/gradle.properties` or at "Build/Generate signed APK"
             if(project.hasProperty("DC_RELEASE_STORE_FILE")) {
@@ -159,8 +175,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             testProguardFiles 'test-proguard-rules.pro'
-            productFlavors.foss.signingConfig signingConfigs.releaseFdroid
-            productFlavors.gplay.signingConfig signingConfigs.releaseApk
+            signingConfig signingConfigs.release
         }
     }
 

@@ -6,7 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class SmoothChatListAnimator extends DefaultItemAnimator {
 
-  private static final int ADD_DURATION = 280;
-  private static final int REMOVE_DURATION = 220;
-  private static final int MOVE_DURATION = 250;
-  private static final int CHANGE_DURATION = 200;
+  private static final int ADD_DURATION = 190;
+  private static final int REMOVE_DURATION = 150;
+  private static final int MOVE_DURATION = 180;
+  private static final int CHANGE_DURATION = 160;
 
   public SmoothChatListAnimator() {
     setSupportsChangeAnimations(false);
@@ -35,24 +35,25 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
     View view = holder.itemView;
 
     // Start state: slide in from left + fade in
-    view.setTranslationX(-view.getWidth() * 0.3f);
+    view.setTranslationY(12f);
     view.setAlpha(0f);
-    view.setScaleX(0.95f);
-    view.setScaleY(0.95f);
+    view.setScaleX(0.99f);
+    view.setScaleY(0.99f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationX", -view.getWidth() * 0.3f, 0f),
+        ObjectAnimator.ofFloat(view, "translationY", 12f, 0f),
         ObjectAnimator.ofFloat(view, "alpha", 0f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleX", 0.95f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleY", 0.95f, 1f)
+        ObjectAnimator.ofFloat(view, "scaleX", 0.99f, 1f),
+        ObjectAnimator.ofFloat(view, "scaleY", 0.99f, 1f)
     );
     set.setDuration(ADD_DURATION);
-    set.setInterpolator(new OvershootInterpolator(1.1f));
+    set.setInterpolator(new FastOutSlowInInterpolator());
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
         view.setTranslationX(0f);
+        view.setTranslationY(0f);
         view.setAlpha(1f);
         view.setScaleX(1f);
         view.setScaleY(1f);
@@ -69,10 +70,10 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.3f),
+        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.05f),
         ObjectAnimator.ofFloat(view, "alpha", 1f, 0f),
-        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.95f),
-        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.95f)
+        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.99f),
+        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.99f)
     );
     set.setDuration(REMOVE_DURATION);
     set.setInterpolator(new DecelerateInterpolator(2f));
@@ -100,14 +101,14 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
     if (deltaX != 0) {
       ObjectAnimator slideX = ObjectAnimator.ofFloat(view, "translationX", -deltaX, 0f);
       slideX.setDuration(MOVE_DURATION);
-      slideX.setInterpolator(new DecelerateInterpolator(1.5f));
+      slideX.setInterpolator(new FastOutSlowInInterpolator());
       slideX.start();
     }
 
     if (deltaY != 0) {
       ObjectAnimator slideY = ObjectAnimator.ofFloat(view, "translationY", -deltaY, 0f);
       slideY.setDuration(MOVE_DURATION);
-      slideY.setInterpolator(new DecelerateInterpolator(1.5f));
+      slideY.setInterpolator(new FastOutSlowInInterpolator());
       slideY.start();
     }
 
@@ -122,22 +123,23 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
       View newView = newHolder.itemView;
 
       newView.setAlpha(0f);
-      newView.setTranslationX(oldView.getWidth() * 0.1f);
+      newView.setTranslationY(10f);
 
       AnimatorSet set = new AnimatorSet();
       set.playTogether(
           ObjectAnimator.ofFloat(oldView, "alpha", 1f, 0f),
           ObjectAnimator.ofFloat(newView, "alpha", 0f, 1f),
-          ObjectAnimator.ofFloat(newView, "translationX", oldView.getWidth() * 0.1f, 0f)
+          ObjectAnimator.ofFloat(newView, "translationY", 10f, 0f)
       );
       set.setDuration(CHANGE_DURATION);
-      set.setInterpolator(new DecelerateInterpolator(2f));
+      set.setInterpolator(new FastOutSlowInInterpolator());
       set.addListener(new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
           oldView.setAlpha(1f);
           newView.setAlpha(1f);
           newView.setTranslationX(0f);
+          newView.setTranslationY(0f);
           dispatchChangeFinished(oldHolder, true);
           dispatchChangeFinished(newHolder, false);
         }

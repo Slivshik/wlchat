@@ -16,8 +16,8 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:clipToPadding="false"
         android:clipChildren="false">
 
@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             android:clipToPadding="false"
             android:clipChildren="false"
             android:background="@drawable/message_bubble_background_sent_alone"
@@ -50,10 +50,10 @@
                 android:id="@+id/group_sender_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="9dp"
                 android:layout_marginBottom="2dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
                 tools:visibility="visible">
@@ -78,9 +78,9 @@
                 android:id="@+id/quote_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:visibility="gone"
                 app:message_type="outgoing"
                 app:quote_colorPrimary="?attr/conversation_item_quote_text_color"
@@ -104,62 +104,62 @@
                 android:layout="@layout/conversation_item_sent_audio"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
 
             <ViewStub
                 android:id="@+id/document_view_stub"
                 android:layout="@layout/conversation_item_sent_document"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
 
             <ViewStub
                 android:id="@+id/webxdc_view_stub"
                 android:layout="@layout/conversation_item_webxdc"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
 
             <ViewStub
                 android:id="@+id/vcard_view_stub"
                 android:layout="@layout/conversation_item_vcard"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
 
             <ViewStub
                 android:id="@+id/call_view_stub"
                 android:layout="@layout/conversation_item_call"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
 
             <org.thoughtcrime.securesms.components.emoji.AutoScaledEmojiTextView
                 android:id="@+id/conversation_item_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Signal.Text.Body"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="4dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="5dp"
                 android:textSize="16sp"
                 android:textColor="?conversation_item_outgoing_text_primary_color"
-                android:textColorLink="?attr/colorAccent"
+                android:textColorLink="@color/tg_link"
                 android:importantForAccessibility="no"
                 tools:text="Mango pickle lorem ipsum" />
 
@@ -170,9 +170,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginBottom="6dp"
                 android:padding="8dp"
                 android:minHeight="1dp"
                 android:minWidth="0dp"
@@ -186,8 +186,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:minHeight="1dp"
@@ -202,9 +202,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginBottom="5dp"
                 android:layout_gravity="end"
                 android:gravity="end"
                 android:clipChildren="false"
@@ -220,7 +220,7 @@
             android:layout_below="@id/body_bubble"
             android:layout_alignEnd="@id/body_bubble"
             android:layout_alignRight="@id/body_bubble"
-            android:layout_marginTop="-4dp"
+            android:layout_marginTop="-2dp"
             android:orientation="horizontal"
             app:message_type="outgoing" />
 
@@ -236,6 +236,19 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/jumpto_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:padding="6dp"
+            android:src="@drawable/rounded_arrow_forward_24"
+            android:background="@drawable/jumpto_btn_bg"
+            android:contentDescription="@string/show_in_chat"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 

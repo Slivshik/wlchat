@@ -3,9 +3,9 @@
     android:shape="rectangle">
     <!-- Telegram-style sent bubble with tail at bottom-right -->
     <corners
-        android:topLeftRadius="18dp"
-        android:topRightRadius="18dp"
-        android:bottomLeftRadius="18dp"
-        android:bottomRightRadius="4dp" />
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp"
+        android:bottomLeftRadius="20dp"
+        android:bottomRightRadius="6dp" />
     <solid android:color="#EFFFDE" />
 </shape>

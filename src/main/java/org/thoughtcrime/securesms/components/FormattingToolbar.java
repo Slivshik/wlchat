@@ -8,10 +8,9 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.Selection;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -24,9 +23,9 @@ import org.thoughtcrime.securesms.R;
  */
 public class FormattingToolbar extends LinearLayout {
 
-  private static final int ANIM_DURATION_SHOW = 250;
-  private static final int ANIM_DURATION_HIDE = 200;
-  private static final int STAGGER_DELAY = 30;
+  private static final int ANIM_DURATION_SHOW = 180;
+  private static final int ANIM_DURATION_HIDE = 140;
+  private static final int STAGGER_DELAY = 16;
 
   private EditText targetEditText;
   private boolean isShowing = false;
@@ -144,17 +143,25 @@ public class FormattingToolbar extends LinearLayout {
 
     setVisibility(VISIBLE);
     setAlpha(0f);
-    setTranslationY(60f);
+    setTranslationY(18f);
+    setScaleX(0.96f);
+    setScaleY(0.96f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
         ObjectAnimator.ofFloat(this, "alpha", 0f, 1f),
-        ObjectAnimator.ofFloat(this, "translationY", 60f, 0f)
+        ObjectAnimator.ofFloat(this, "translationY", 18f, 0f),
+        ObjectAnimator.ofFloat(this, "scaleX", 0.96f, 1f),
+        ObjectAnimator.ofFloat(this, "scaleY", 0.96f, 1f)
     );
     set.setDuration(ANIM_DURATION_SHOW);
-    set.setInterpolator(new OvershootInterpolator(1.2f));
+    set.setInterpolator(new FastOutSlowInInterpolator());
     set.addListener(new AnimatorListenerAdapter() {
-      @Override public void onAnimationEnd(Animator animation) { isAnimating = false; }
+      @Override public void onAnimationEnd(Animator animation) {
+        setScaleX(1f);
+        setScaleY(1f);
+        isAnimating = false;
+      }
     });
     set.start();
 
@@ -164,15 +171,15 @@ public class FormattingToolbar extends LinearLayout {
       ImageButton btn = btns[i];
       if (btn != null) {
         btn.setAlpha(0f);
-        btn.setScaleX(0.5f);
-        btn.setScaleY(0.5f);
+        btn.setScaleX(0.88f);
+        btn.setScaleY(0.88f);
         btn.animate()
             .alpha(1f)
             .scaleX(1f)
             .scaleY(1f)
             .setDuration(ANIM_DURATION_SHOW)
             .setStartDelay(STAGGER_DELAY * (i + 1))
-            .setInterpolator(new OvershootInterpolator(1.5f))
+            .setInterpolator(new FastOutSlowInInterpolator())
             .start();
       }
     }
@@ -186,14 +193,19 @@ public class FormattingToolbar extends LinearLayout {
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
         ObjectAnimator.ofFloat(this, "alpha", 1f, 0f),
-        ObjectAnimator.ofFloat(this, "translationY", 0f, 40f)
+        ObjectAnimator.ofFloat(this, "translationY", 0f, 10f),
+        ObjectAnimator.ofFloat(this, "scaleX", 1f, 0.98f),
+        ObjectAnimator.ofFloat(this, "scaleY", 1f, 0.98f)
     );
     set.setDuration(ANIM_DURATION_HIDE);
-    set.setInterpolator(new DecelerateInterpolator(2f));
+    set.setInterpolator(new DecelerateInterpolator(1.5f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
         setVisibility(GONE);
+        setTranslationY(0f);
+        setScaleX(1f);
+        setScaleY(1f);
         isAnimating = false;
       }
     });
