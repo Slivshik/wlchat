@@ -1,10 +1,6 @@
-name: Build Debug APK
+name: Build Release APK
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -34,6 +30,18 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    - name: Generate debug keystore for release signing
+      run: |
+        if [ ! -f ~/.android/debug.keystore ]; then
+          keytool -genkey -v -keystore ~/.android/debug.keystore \
+            -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+          echo "Debug keystore generated"
+        else
+          echo "Debug keystore already exists"
+        fi
+
     - name: Fetch native libraries from official release
       run: |
         curl -sLO "https://github.com/deltachat/deltachat-android/releases/download/v2.53.0/deltachat-gplay-release-2.53.0.apk"
@@ -44,27 +52,29 @@ jobs:
         echo "Native libraries extracted:"
         find libs -name "*.so" | head -10
 
-    - name: Build Debug APK
+    - name: Build Release APK
       run: |
         export ANDROID_HOME=$ANDROID_HOME
-        ./gradlew assembleFossDebug --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+        ./gradlew assembleFossRelease --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
 
     - name: Find APK file
       id: find-apk
       run: |
-        APK_PATH=$(find . -name "*foss*debug*.apk" -type f | head -1)
+        APK_PATH=$(find . -name "*foss*release*.apk" -type f | head -1)
         for apk in $(find . -name "*.apk" -type f); do
           if unzip -l "$apk" 2>/dev/null | grep -q "libnative-utils.so"; then
-            APK_PATH="$apk"
-            break
+            if echo "$apk" | grep -q "release"; then
+              APK_PATH="$apk"
+              break
+            fi
           fi
         done
         echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
         echo "Selected APK: $APK_PATH"
         
-    - name: Upload Debug APK
+    - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
-        name: wl-chat-debug-apk
+        name: wl-chat-release-apk
         path: ${{ steps.find-apk.outputs.apk_path }}
-        retention-days: 14
+        retention-days: 30
