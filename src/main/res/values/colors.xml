@@ -74,7 +74,7 @@
     <color name="primary_alpha_focus">#882090ea</color>
 
 
-    <color name="unread_count">#ff3792fc</color>
+    <color name="unread_count">#ff2AABEE</color>
     <color name="unread_count_muted">#b6b6bb</color>
     <color name="unread_count_muted_dark">#3b3b3b</color>
 
@@ -128,9 +128,9 @@
         unknown_sender is used for the sender-name/quote-bar if the sender is unknown -->
     <color name="unknown_sender">#ff999999</color>
 
-    <color name="reaction_pill_background">@color/white</color>
-    <color name="reaction_pill_border">#88dddddd</color>
-    <color name="reaction_pill_text_color">#545863</color>
+    <color name="reaction_pill_background">@color/tg_reaction_bg</color>
+    <color name="reaction_pill_border">@color/tg_reaction_border</color>
+    <color name="reaction_pill_text_color">@color/tg_reaction_text</color>
     <color name="reaction_pill_background_selected">@color/reaction_pill_background</color>
     <color name="reaction_pill_border_selected">?attr/colorPrimary</color>
     <color name="reaction_pill_text_color_selected">@color/reaction_pill_text_color</color>
@@ -141,4 +141,59 @@
     <color name="calls_button_background">#6B6B6B</color>
     <color name="calls_red">#FF0017</color>
     <color name="calls_green">#00AD00</color>
+
+    <!-- TELEGRAM DESIGN SYSTEM -->
+    <!-- Primary brand colors -->
+    <color name="tg_blue">#ff2AABEE</color>
+    <color name="tg_blue_dark">#ff229ED9</color>
+    <color name="tg_green">#ff4FAE4E</color>
+    <color name="tg_green_bubble">#EEFFDE</color>
+
+    <!-- Chat backgrounds -->
+    <color name="tg_bg_light">#ffE6EBEF</color>
+    <color name="tg_bg_dark">#ff17212B</color>
+    <color name="tg_bg_chat_pattern_light">#ffDCE3E8</color>
+
+    <!-- Message bubbles -->
+    <color name="tg_bubble_out_light">#ffEFFDDE</color>
+    <color name="tg_bubble_out_dark">#ff2B5278</color>
+    <color name="tg_bubble_in_light">#ffFFFFFF</color>
+    <color name="tg_bubble_in_dark">#ff182533</color>
+
+    <!-- Text colors -->
+    <color name="tg_text_primary_light">#ff000000</color>
+    <color name="tg_text_secondary_light">#ff707579</color>
+    <color name="tg_text_primary_dark">#ffF5F5F5</color>
+    <color name="tg_text_secondary_dark">#ff6C7883</color>
+
+    <!-- Accent & interactive -->
+    <color name="tg_accent">#ff2AABEE</color>
+    <color name="tg_accent_green">#ff4FAE4E</color>
+    <color name="tg_link">#ff2AABEE</color>
+    <color name="tg_time_light">#ff4FAE4E</color>
+    <color name="tg_time_dark">#ff5D9A5D</color>
+
+    <!-- Status & badges -->
+    <color name="tg_badge">#ff2AABEE</color>
+    <color name="tg_badge_muted">#ffA0ADB6</color>
+    <color name="tg_online">#ff4DCD5E</color>
+    <color name="tg_read_check">#ff4FAE4E</color>
+    <color name="tg_unread">#ff2AABEE</color>
+
+    <!-- Dividers & surfaces -->
+    <color name="tg_divider_light">#ffE6E6E6</color>
+    <color name="tg_divider_dark">#ff101921</color>
+    <color name="tg_surface_light">#ffFFFFFF</color>
+    <color name="tg_surface_dark">#ff1E2C3A</color>
+
+    <!-- Input panel -->
+    <color name="tg_input_bg_light">#ffF0F2F5</color>
+    <color name="tg_input_bg_dark">#ff17212B</color>
+    <color name="tg_send_button">#ff2AABEE</color>
+
+    <!-- Reaction pills -->
+    <color name="tg_reaction_bg">#ff242E39</color>
+    <color name="tg_reaction_bg_selected">#ff2AABEE</color>
+    <color name="tg_reaction_border">#ff3A4754</color>
+    <color name="tg_reaction_text">#ffF5F5F5</color>
 </resources>

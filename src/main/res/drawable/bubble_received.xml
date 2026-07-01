@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="80dp"
+    android:viewportWidth="200"
+    android:viewportHeight="80">
+    <!-- Telegram-style received bubble with bottom-left tail -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M8,0 L196,0 Q200,0 200,4 L200,68 Q200,72 196,72 L192,72 L188,80 L176,72 L4,72 Q0,72 0,68 L0,4 Q0,0 4,0 Z" />
+</vector>

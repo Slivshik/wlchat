@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@color/def_primary_alpha33"
+        android:drawable="#222AABEE"
         android:state_selected="true" />
     <item
-        android:drawable="@color/primary_alpha_focus"
+        android:drawable="#112AABEE"
         android:state_focused="true" />
+    <item
+        android:drawable="@android:color/transparent" />
 </selector>

@@ -966,10 +966,12 @@ public class ConversationItem extends BaseConversationItem {
 
   private void setMessageShape(@NonNull DcMsg current) {
     int background;
+    // Use first-in-group bubble (with tail) for all messages - Telegram style
+    // The tail gives each message its distinctive look
     background =
         current.isOutgoing()
-            ? R.drawable.message_bubble_background_sent_alone
-            : R.drawable.message_bubble_background_received_alone;
+            ? R.drawable.message_bubble_background_sent_first
+            : R.drawable.message_bubble_background_received_first;
     bodyBubble.setBackgroundResource(background);
   }
 

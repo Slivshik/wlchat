@@ -68,11 +68,11 @@
         <item name="floating_mini_bg">@drawable/floating_mini_bg_light</item>
 
         <item name="fab_color">@color/def_primary_lite</item>
-        <item name="input_panel_bg_color">@color/white</item>
+        <item name="input_panel_bg_color">@color/tg_input_bg_light</item>
         <item name="close_icon_color">#A4A6A9</item>
 
         <!-- light theme -->
-        <item name="conversation_background">@color/gray10</item>
+        <item name="conversation_background">@color/tg_bg_light</item>
         <item name="conversation_transport_sms_indicator">@drawable/ic_send_sms_insecure</item>
         <item name="conversation_transport_push_indicator">@drawable/ic_send_push</item>
         <item name="conversation_transport_popup_background">@color/white</item>
@@ -93,16 +93,16 @@
         <item name="emoji_text_color">@color/black</item>
         <item name="emoji_drawer_background">@color/grey_100</item>
 
-        <!-- light theme -->
-        <item name="conversation_item_incoming_bubble_color">@color/white</item>
+        <!-- light theme - Telegram style -->
+        <item name="conversation_item_incoming_bubble_color">@color/tg_bubble_in_light</item>
         <!-- <item name="conversation_item_incoming_bubble_border_color">#33000000</item> -->
-        <item name="conversation_item_incoming_text_primary_color">@color/black</item>
-        <item name="conversation_item_incoming_text_secondary_color">@color/gray50</item>
+        <item name="conversation_item_incoming_text_primary_color">@color/tg_text_primary_light</item>
+        <item name="conversation_item_incoming_text_secondary_color">@color/tg_text_secondary_light</item>
 
-        <item name="conversation_item_outgoing_bubble_color">@color/def_outgoing_bubble</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_light</item>
         <!-- <item name="conversation_item_outgoing_bubble_border_color">#80efffde</item> -->
-        <item name="conversation_item_outgoing_text_primary_color">@color/black</item>
-        <item name="conversation_item_outgoing_text_secondary_color">@color/def_outgoing_label</item>
+        <item name="conversation_item_outgoing_text_primary_color">@color/tg_text_primary_light</item>
+        <item name="conversation_item_outgoing_text_secondary_color">@color/tg_text_secondary_light</item>
         <item name="conversation_item_background">@drawable/conversation_item_background</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated</item>
         <item name="conversation_item_update_bg_color">@color/universal_overlay</item>
@@ -185,16 +185,16 @@
 
         <item name="floating_mini_bg">@drawable/floating_mini_bg_dark</item>
 
-        <!-- dark theme -->
-        <item name="conversation_item_incoming_bubble_color">@color/black</item>
+        <!-- dark theme - Telegram style -->
+        <item name="conversation_item_incoming_bubble_color">@color/tg_bubble_in_dark</item>
         <!-- <item name="conversation_item_incoming_bubble_border_color">#80414347</item> -->
-        <item name="conversation_item_incoming_text_primary_color">@color/core_dark_05</item>
-        <item name="conversation_item_incoming_text_secondary_color">@color/core_dark_05</item>
+        <item name="conversation_item_incoming_text_primary_color">@color/tg_text_primary_dark</item>
+        <item name="conversation_item_incoming_text_secondary_color">@color/tg_text_secondary_dark</item>
 
-        <item name="conversation_item_outgoing_bubble_color">@color/black</item>
+        <item name="conversation_item_outgoing_bubble_color">@color/tg_bubble_out_dark</item>
         <!-- <item name="conversation_item_outgoing_bubble_border_color">#80364e59</item> -->
-        <item name="conversation_item_outgoing_text_primary_color">@color/core_dark_05</item>
-        <item name="conversation_item_outgoing_text_secondary_color">@color/def_outgoing_label</item>
+        <item name="conversation_item_outgoing_text_primary_color">@color/tg_text_primary_dark</item>
+        <item name="conversation_item_outgoing_text_secondary_color">@color/tg_text_secondary_dark</item>
         <item name="conversation_item_background">@drawable/conversation_item_background</item>
         <item name="conversation_item_background_animated">@drawable/conversation_item_background_animated</item>
         <item name="conversation_item_update_bg_color">@color/universal_overlay</item>
@@ -214,11 +214,11 @@
         <item name="dialog_background_color">@color/background_material_dark</item>
 
         <item name="fab_color">@color/def_primary_lite</item>
-        <item name="input_panel_bg_color">@color/gray95</item>
+        <item name="input_panel_bg_color">@color/tg_input_bg_dark</item>
         <item name="close_icon_color">@color/gray70</item>
 
         <!-- dark theme -->
-        <item name="conversation_background">@color/black</item>
+        <item name="conversation_background">@color/tg_bg_dark</item>
         <item name="conversation_transport_sms_indicator">@drawable/ic_send_sms_insecure_dark</item>
         <item name="conversation_transport_push_indicator">@drawable/ic_send_push</item>
         <item name="conversation_transport_popup_background">@color/black</item>
