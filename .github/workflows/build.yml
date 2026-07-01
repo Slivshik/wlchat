@@ -34,6 +34,16 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    - name: Fetch native libraries from official release
+      run: |
+        curl -sLO "https://github.com/deltachat/deltachat-android/releases/download/v2.53.0/deltachat-gplay-release-2.53.0.apk"
+        mkdir -p libs
+        unzip -o deltachat-gplay-release-2.53.0.apk "lib/*" -d /tmp/dc-libs
+        cp -r /tmp/dc-libs/lib/* libs/
+        rm deltachat-gplay-release-2.53.0.apk
+        echo "Native libraries extracted:"
+        find libs -name "*.so" | head -10
+
     - name: Build Debug APK
       run: |
         export ANDROID_HOME=$ANDROID_HOME

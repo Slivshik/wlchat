@@ -1,0 +1,22 @@
+# Build outputs
+build/
+*.apk
+*.ap_
+
+# Native libraries (downloaded during build)
+libs/
+
+# IDE files
+.idea/
+*.iml
+.gradle/
+local.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
+*.swp
