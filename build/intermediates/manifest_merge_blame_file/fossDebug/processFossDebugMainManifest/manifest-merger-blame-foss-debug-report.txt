@@ -1,0 +1,1417 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="chat.delta.lite.beta"
+4    android:versionCode="300007464"
+5    android:versionName="2.53.0" > <!-- force compiling libs on older sdk than supported; runtime checks are required -->
+6    <uses-sdk
+6-->/root/android-main/src/main/AndroidManifest.xml:79:5-87
+7        android:minSdkVersion="21"
+8        android:targetSdkVersion="36" />
+9
+10    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+10-->/root/android-main/src/foss/AndroidManifest.xml:6:5-7:76
+10-->/root/android-main/src/foss/AndroidManifest.xml:7:9-73
+11
+12    <uses-feature
+12-->/root/android-main/src/main/AndroidManifest.xml:6:5-8:36
+13        android:name="android.hardware.camera"
+13-->/root/android-main/src/main/AndroidManifest.xml:7:9-47
+14        android:required="false" />
+14-->/root/android-main/src/main/AndroidManifest.xml:8:9-33
+15    <uses-feature
+15-->/root/android-main/src/main/AndroidManifest.xml:9:5-11:36
+16        android:name="android.hardware.bluetooth"
+16-->/root/android-main/src/main/AndroidManifest.xml:10:9-50
+17        android:required="false" />
+17-->/root/android-main/src/main/AndroidManifest.xml:11:9-33
+18    <uses-feature
+18-->/root/android-main/src/main/AndroidManifest.xml:12:5-14:36
+19        android:name="android.hardware.location"
+19-->/root/android-main/src/main/AndroidManifest.xml:13:9-49
+20        android:required="false" />
+20-->/root/android-main/src/main/AndroidManifest.xml:14:9-33
+21    <uses-feature
+21-->/root/android-main/src/main/AndroidManifest.xml:15:5-17:36
+22        android:name="android.hardware.location.network"
+22-->/root/android-main/src/main/AndroidManifest.xml:16:9-57
+23        android:required="false" />
+23-->/root/android-main/src/main/AndroidManifest.xml:17:9-33
+24    <uses-feature
+24-->/root/android-main/src/main/AndroidManifest.xml:18:5-20:36
+25        android:name="android.hardware.location.gps"
+25-->/root/android-main/src/main/AndroidManifest.xml:19:9-53
+26        android:required="false" />
+26-->/root/android-main/src/main/AndroidManifest.xml:20:9-33
+27    <uses-feature
+27-->/root/android-main/src/main/AndroidManifest.xml:21:5-23:36
+28        android:name="android.hardware.microphone"
+28-->/root/android-main/src/main/AndroidManifest.xml:22:9-51
+29        android:required="false" />
+29-->/root/android-main/src/main/AndroidManifest.xml:23:9-33
+30    <uses-feature
+30-->/root/android-main/src/main/AndroidManifest.xml:24:5-26:36
+31        android:name="android.hardware.wifi"
+31-->/root/android-main/src/main/AndroidManifest.xml:25:9-45
+32        android:required="false" />
+32-->/root/android-main/src/main/AndroidManifest.xml:26:9-33
+33    <uses-feature
+33-->/root/android-main/src/main/AndroidManifest.xml:27:5-29:36
+34        android:name="android.hardware.portrait"
+34-->/root/android-main/src/main/AndroidManifest.xml:28:9-49
+35        android:required="false" />
+35-->/root/android-main/src/main/AndroidManifest.xml:29:9-33
+36    <uses-feature
+36-->/root/android-main/src/main/AndroidManifest.xml:30:5-32:36
+37        android:name="android.hardware.touchscreen"
+37-->/root/android-main/src/main/AndroidManifest.xml:31:9-52
+38        android:required="false" /> <!-- dangerous permissions - we need to as the user with a PermissionsRequest -->
+38-->/root/android-main/src/main/AndroidManifest.xml:32:9-33
+39    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+39-->/root/android-main/src/main/AndroidManifest.xml:35:5-76
+39-->/root/android-main/src/main/AndroidManifest.xml:35:22-73
+40    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+40-->/root/android-main/src/main/AndroidManifest.xml:36:5-75
+40-->/root/android-main/src/main/AndroidManifest.xml:36:22-72
+41    <uses-permission
+41-->/root/android-main/src/main/AndroidManifest.xml:37:5-39:38
+42        android:name="android.permission.READ_EXTERNAL_STORAGE"
+42-->/root/android-main/src/main/AndroidManifest.xml:38:9-64
+43        android:maxSdkVersion="32" />
+43-->/root/android-main/src/main/AndroidManifest.xml:39:9-35
+44    <uses-permission
+44-->/root/android-main/src/main/AndroidManifest.xml:40:5-42:38
+45        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+45-->/root/android-main/src/main/AndroidManifest.xml:41:9-65
+46        android:maxSdkVersion="29" />
+46-->/root/android-main/src/main/AndroidManifest.xml:42:9-35
+47    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+47-->/root/android-main/src/main/AndroidManifest.xml:43:5-77
+47-->/root/android-main/src/main/AndroidManifest.xml:43:22-74
+48    <uses-permission android:name="android.permission.CAMERA" />
+48-->/root/android-main/src/main/AndroidManifest.xml:44:5-65
+48-->/root/android-main/src/main/AndroidManifest.xml:44:22-62
+49    <uses-permission
+49-->/root/android-main/src/main/AndroidManifest.xml:45:5-47:38
+50        android:name="android.permission.BLUETOOTH"
+50-->/root/android-main/src/main/AndroidManifest.xml:46:9-52
+51        android:maxSdkVersion="30" />
+51-->/root/android-main/src/main/AndroidManifest.xml:47:9-35
+52    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+52-->/root/android-main/src/main/AndroidManifest.xml:48:5-76
+52-->/root/android-main/src/main/AndroidManifest.xml:48:22-73
+53    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+53-->/root/android-main/src/main/AndroidManifest.xml:49:5-81
+53-->/root/android-main/src/main/AndroidManifest.xml:49:22-78
+54    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+54-->/root/android-main/src/main/AndroidManifest.xml:50:5-79
+54-->/root/android-main/src/main/AndroidManifest.xml:50:22-76
+55    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+55-->/root/android-main/src/main/AndroidManifest.xml:51:5-71
+55-->/root/android-main/src/main/AndroidManifest.xml:51:22-68
+56    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" /> <!-- normal/instant permissions - adding them here is enough -->
+56-->/root/android-main/src/main/AndroidManifest.xml:52:5-81
+56-->/root/android-main/src/main/AndroidManifest.xml:52:22-78
+57    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+57-->/root/android-main/src/main/AndroidManifest.xml:55:5-80
+57-->/root/android-main/src/main/AndroidManifest.xml:55:22-77
+58    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+58-->/root/android-main/src/main/AndroidManifest.xml:56:5-81
+58-->/root/android-main/src/main/AndroidManifest.xml:56:22-78
+59    <uses-permission android:name="android.permission.VIBRATE" />
+59-->/root/android-main/src/main/AndroidManifest.xml:57:5-66
+59-->/root/android-main/src/main/AndroidManifest.xml:57:22-63
+60    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+60-->/root/android-main/src/main/AndroidManifest.xml:58:5-79
+60-->/root/android-main/src/main/AndroidManifest.xml:58:22-76
+61    <uses-permission android:name="android.permission.WAKE_LOCK" />
+61-->/root/android-main/src/main/AndroidManifest.xml:59:5-68
+61-->/root/android-main/src/main/AndroidManifest.xml:59:22-65
+62    <uses-permission android:name="android.permission.INTERNET" />
+62-->/root/android-main/src/main/AndroidManifest.xml:60:5-67
+62-->/root/android-main/src/main/AndroidManifest.xml:60:22-64
+63    <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
+63-->/root/android-main/src/main/AndroidManifest.xml:61:5-75
+63-->/root/android-main/src/main/AndroidManifest.xml:61:22-72
+64    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+64-->/root/android-main/src/main/AndroidManifest.xml:62:5-88
+64-->/root/android-main/src/main/AndroidManifest.xml:62:22-85
+65    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+65-->/root/android-main/src/main/AndroidManifest.xml:63:5-76
+65-->/root/android-main/src/main/AndroidManifest.xml:63:22-73
+66    <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
+66-->/root/android-main/src/main/AndroidManifest.xml:64:5-81
+66-->/root/android-main/src/main/AndroidManifest.xml:64:22-78
+67    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+67-->/root/android-main/src/main/AndroidManifest.xml:65:5-66:82
+67-->/root/android-main/src/main/AndroidManifest.xml:66:9-79
+68    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+68-->/root/android-main/src/main/AndroidManifest.xml:67:5-77
+68-->/root/android-main/src/main/AndroidManifest.xml:67:22-74
+69    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+69-->/root/android-main/src/main/AndroidManifest.xml:68:5-83
+69-->/root/android-main/src/main/AndroidManifest.xml:68:22-80
+70    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+70-->/root/android-main/src/main/AndroidManifest.xml:69:5-87
+70-->/root/android-main/src/main/AndroidManifest.xml:69:22-84
+71    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+71-->/root/android-main/src/main/AndroidManifest.xml:70:5-71:79
+71-->/root/android-main/src/main/AndroidManifest.xml:71:9-76
+72    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+72-->/root/android-main/src/main/AndroidManifest.xml:72:5-84
+72-->/root/android-main/src/main/AndroidManifest.xml:72:22-81
+73    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+73-->/root/android-main/src/main/AndroidManifest.xml:73:5-88
+73-->/root/android-main/src/main/AndroidManifest.xml:73:22-85
+74    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+74-->/root/android-main/src/main/AndroidManifest.xml:74:5-88
+74-->/root/android-main/src/main/AndroidManifest.xml:74:22-85
+75    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+75-->/root/android-main/src/main/AndroidManifest.xml:75:5-86
+75-->/root/android-main/src/main/AndroidManifest.xml:75:22-83
+76    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+76-->/root/android-main/src/main/AndroidManifest.xml:76:5-75
+76-->/root/android-main/src/main/AndroidManifest.xml:76:22-72
+77
+78    <queries>
+78-->/root/android-main/src/main/AndroidManifest.xml:590:5-597:15
+79        <intent>
+79-->/root/android-main/src/main/AndroidManifest.xml:591:9-593:18
+80            <action android:name="android.media.action.IMAGE_CAPTURE" />
+80-->/root/android-main/src/main/AndroidManifest.xml:592:13-73
+80-->/root/android-main/src/main/AndroidManifest.xml:592:21-70
+81        </intent>
+82        <intent>
+82-->/root/android-main/src/main/AndroidManifest.xml:594:9-596:18
+83            <action android:name="android.intent.action.TTS_SERVICE" />
+83-->/root/android-main/src/main/AndroidManifest.xml:595:13-72
+83-->/root/android-main/src/main/AndroidManifest.xml:595:21-69
+84        </intent>
+85    </queries>
+86
+87    <permission
+87-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:22:5-24:47
+88        android:name="chat.delta.lite.beta.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+88-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:23:9-81
+89        android:protectionLevel="signature" />
+89-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:24:9-44
+90
+91    <uses-permission android:name="chat.delta.lite.beta.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+91-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:26:5-97
+91-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:26:22-94
+92
+93    <uses-feature
+93-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:28:5-30:36
+94        android:name="android.hardware.camera.front"
+94-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:29:9-53
+95        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+95-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:30:9-33
+96    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+97    <uses-feature
+97-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:33:5-35:36
+98        android:name="android.hardware.camera.autofocus"
+98-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:34:9-57
+99        android:required="false" />
+99-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:35:9-33
+100    <uses-feature
+100-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:36:5-38:36
+101        android:name="android.hardware.camera.flash"
+101-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:37:9-53
+102        android:required="false" />
+102-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:38:9-33
+103    <uses-feature
+103-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:39:5-41:36
+104        android:name="android.hardware.screen.landscape"
+104-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:40:9-57
+105        android:required="false" />
+105-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:41:9-33
+106
+107    <application
+107-->/root/android-main/src/main/AndroidManifest.xml:81:5-588:19
+108        android:name="org.thoughtcrime.securesms.ApplicationContext"
+108-->/root/android-main/src/main/AndroidManifest.xml:82:9-43
+109        android:allowBackup="false"
+109-->/root/android-main/src/main/AndroidManifest.xml:86:9-36
+110        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+110-->[androidx.core:core:1.17.0] /root/.gradle/caches/8.13/transforms/693e962bf81149217588a6200c48bb5c/transformed/core-1.17.0/AndroidManifest.xml:28:18-86
+111        android:debuggable="true"
+112        android:extractNativeLibs="true"
+113        android:hasFragileUserData="true"
+113-->/root/android-main/src/main/AndroidManifest.xml:92:9-42
+114        android:icon="@mipmap/ic_launcher"
+114-->/root/android-main/src/main/AndroidManifest.xml:83:9-43
+115        android:label="@string/app_name"
+115-->/root/android-main/src/main/AndroidManifest.xml:84:9-41
+116        android:largeHeap="true"
+116-->/root/android-main/src/main/AndroidManifest.xml:88:9-33
+117        android:localeConfig="@xml/_generated_res_locale_config"
+118        android:requestLegacyExternalStorage="true"
+118-->/root/android-main/src/main/AndroidManifest.xml:90:9-52
+119        android:supportsRtl="true"
+119-->/root/android-main/src/main/AndroidManifest.xml:85:9-35
+120        android:theme="@style/TextSecure.LightTheme" >
+120-->/root/android-main/src/main/AndroidManifest.xml:87:9-53
+121        <service
+121-->/root/android-main/src/foss/AndroidManifest.xml:10:9-13:38
+122            android:name="org.thoughtcrime.securesms.connect.KeepAliveService"
+122-->/root/android-main/src/foss/AndroidManifest.xml:11:13-53
+123            android:enabled="true"
+123-->/root/android-main/src/foss/AndroidManifest.xml:13:13-35
+124            android:foregroundServiceType="specialUse" />
+124-->/root/android-main/src/foss/AndroidManifest.xml:12:13-55
+125        <!--
+126         android car support, see https://developer.android.com/training/auto/start/, as this potentially
+127            blocks releases on gplay due to extra-checks, we disable this during the first gplay releases
+128        -->
+129        <!--
+130 <meta-data android:name="com.google.android.gms.car.application" android:resource="@xml/automotive_app_desc"
+131            />
+132        -->
+133        <!-- Opt out of metrics collection: https://developer.android.com/develop/ui/views/layout/webapps/managing-webview#metrics -->
+134        <meta-data
+134-->/root/android-main/src/main/AndroidManifest.xml:100:9-102:36
+135            android:name="android.webkit.WebView.MetricsOptOut"
+135-->/root/android-main/src/main/AndroidManifest.xml:101:13-64
+136            android:value="true" />
+136-->/root/android-main/src/main/AndroidManifest.xml:102:13-33
+137
+138        <activity
+138-->/root/android-main/src/main/AndroidManifest.xml:104:9-149:20
+139            android:name="org.thoughtcrime.securesms.ShareActivity"
+139-->/root/android-main/src/main/AndroidManifest.xml:105:13-42
+140            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+140-->/root/android-main/src/main/AndroidManifest.xml:111:13-108
+141            android:excludeFromRecents="true"
+141-->/root/android-main/src/main/AndroidManifest.xml:107:13-46
+142            android:exported="true"
+142-->/root/android-main/src/main/AndroidManifest.xml:112:13-36
+143            android:launchMode="singleTask"
+143-->/root/android-main/src/main/AndroidManifest.xml:108:13-44
+144            android:taskAffinity=""
+144-->/root/android-main/src/main/AndroidManifest.xml:109:13-36
+145            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+145-->/root/android-main/src/main/AndroidManifest.xml:106:13-72
+146            android:windowSoftInputMode="stateHidden" >
+146-->/root/android-main/src/main/AndroidManifest.xml:110:13-54
+147            <intent-filter>
+147-->/root/android-main/src/main/AndroidManifest.xml:114:13-124:29
+148                <action android:name="android.intent.action.SEND" />
+148-->/root/android-main/src/main/AndroidManifest.xml:115:17-69
+148-->/root/android-main/src/main/AndroidManifest.xml:115:25-66
+149
+150                <category android:name="android.intent.category.DEFAULT" />
+150-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+150-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+151
+152                <data android:mimeType="audio/*" />
+152-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+152-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+153                <data android:mimeType="image/*" />
+153-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+153-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+154                <data android:mimeType="text/plain" />
+154-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+154-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+155                <data android:mimeType="video/*" />
+155-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+155-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+156                <data android:mimeType="application/*" />
+156-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+156-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+157                <data android:mimeType="text/*" />
+157-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+157-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+158                <data android:mimeType="*/*" />
+158-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+158-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+159            </intent-filter>
+160            <intent-filter>
+160-->/root/android-main/src/main/AndroidManifest.xml:126:13-132:29
+161                <data android:scheme="mailto" />
+161-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+162
+163                <action android:name="android.intent.action.SENDTO" />
+163-->/root/android-main/src/main/AndroidManifest.xml:128:17-71
+163-->/root/android-main/src/main/AndroidManifest.xml:128:25-68
+164                <action android:name="android.intent.action.VIEW" />
+164-->/root/android-main/src/main/AndroidManifest.xml:129:17-69
+164-->/root/android-main/src/main/AndroidManifest.xml:129:25-66
+165
+166                <category android:name="android.intent.category.DEFAULT" />
+166-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+166-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+167                <category android:name="android.intent.category.BROWSABLE" />
+167-->/root/android-main/src/main/AndroidManifest.xml:131:17-78
+167-->/root/android-main/src/main/AndroidManifest.xml:131:27-75
+168            </intent-filter>
+169            <intent-filter>
+169-->/root/android-main/src/main/AndroidManifest.xml:134:13-144:29
+170                <action android:name="android.intent.action.SEND_MULTIPLE" />
+170-->/root/android-main/src/main/AndroidManifest.xml:135:17-78
+170-->/root/android-main/src/main/AndroidManifest.xml:135:25-75
+171
+172                <category android:name="android.intent.category.DEFAULT" />
+172-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+172-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+173
+174                <data android:mimeType="audio/*" />
+174-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+174-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+175                <data android:mimeType="image/*" />
+175-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+175-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+176                <data android:mimeType="text/plain" />
+176-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+176-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+177                <data android:mimeType="video/*" />
+177-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+177-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+178                <data android:mimeType="application/*" />
+178-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+178-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+179                <data android:mimeType="text/*" />
+179-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+179-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+180                <data android:mimeType="*/*" />
+180-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+180-->/root/android-main/src/main/AndroidManifest.xml:117:23-49
+181            </intent-filter>
+182
+183            <meta-data
+183-->/root/android-main/src/main/AndroidManifest.xml:145:13-147:83
+184                android:name="android.service.chooser.chooser_target_service"
+184-->/root/android-main/src/main/AndroidManifest.xml:146:17-78
+185                android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
+185-->/root/android-main/src/main/AndroidManifest.xml:147:17-80
+186        </activity>
+187        <activity
+187-->/root/android-main/src/main/AndroidManifest.xml:151:9-157:39
+188            android:name="org.thoughtcrime.securesms.ConversationListActivity"
+188-->/root/android-main/src/main/AndroidManifest.xml:152:13-53
+189            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+189-->/root/android-main/src/main/AndroidManifest.xml:156:13-108
+190            android:exported="true"
+190-->/root/android-main/src/main/AndroidManifest.xml:157:13-36
+191            android:label="@string/app_name"
+191-->/root/android-main/src/main/AndroidManifest.xml:153:13-45
+192            android:launchMode="singleTask"
+192-->/root/android-main/src/main/AndroidManifest.xml:154:13-44
+193            android:theme="@style/TextSecure.Splash" />
+193-->/root/android-main/src/main/AndroidManifest.xml:155:13-53
+194
+195        <activity-alias
+195-->/root/android-main/src/main/AndroidManifest.xml:159:9-209:26
+196            android:name="org.thoughtcrime.securesms.RoutingActivity"
+196-->/root/android-main/src/main/AndroidManifest.xml:160:13-44
+197            android:exported="true"
+197-->/root/android-main/src/main/AndroidManifest.xml:162:13-36
+198            android:targetActivity="org.thoughtcrime.securesms.ConversationListActivity" >
+198-->/root/android-main/src/main/AndroidManifest.xml:161:13-63
+199            <intent-filter>
+199-->/root/android-main/src/main/AndroidManifest.xml:164:13-168:29
+200                <action android:name="android.intent.action.MAIN" />
+200-->/root/android-main/src/main/AndroidManifest.xml:165:17-69
+200-->/root/android-main/src/main/AndroidManifest.xml:165:25-66
+201
+202                <category android:name="android.intent.category.LAUNCHER" />
+202-->/root/android-main/src/main/AndroidManifest.xml:166:17-77
+202-->/root/android-main/src/main/AndroidManifest.xml:166:27-74
+203                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+203-->/root/android-main/src/main/AndroidManifest.xml:167:17-89
+203-->/root/android-main/src/main/AndroidManifest.xml:167:27-86
+204            </intent-filter>
+205            <intent-filter>
+205-->/root/android-main/src/main/AndroidManifest.xml:170:13-188:29
+206                <action android:name="android.intent.action.VIEW" />
+206-->/root/android-main/src/main/AndroidManifest.xml:129:17-69
+206-->/root/android-main/src/main/AndroidManifest.xml:129:25-66
+207
+208                <category android:name="android.intent.category.DEFAULT" />
+208-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+208-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+209                <category android:name="android.intent.category.BROWSABLE" />
+209-->/root/android-main/src/main/AndroidManifest.xml:131:17-78
+209-->/root/android-main/src/main/AndroidManifest.xml:131:27-75
+210                <!-- Android's scheme matcher is case-sensitive, so include most likely variations -->
+211                <data android:scheme="openpgp4fpr" />
+211-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+212                <data android:scheme="OPENPGP4FPR" />
+212-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+213                <data android:scheme="OpenPGP4FPR" />
+213-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+214                <data android:scheme="OpenPGP4Fpr" />
+214-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+215                <data android:scheme="OpenPGP4fpr" />
+215-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+216            </intent-filter>
+217            <intent-filter android:autoVerify="true" >
+217-->/root/android-main/src/main/AndroidManifest.xml:190:13-197:29
+217-->/root/android-main/src/main/AndroidManifest.xml:190:28-53
+218                <action android:name="android.intent.action.VIEW" />
+218-->/root/android-main/src/main/AndroidManifest.xml:129:17-69
+218-->/root/android-main/src/main/AndroidManifest.xml:129:25-66
+219
+220                <category android:name="android.intent.category.DEFAULT" />
+220-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+220-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+221                <category android:name="android.intent.category.BROWSABLE" />
+221-->/root/android-main/src/main/AndroidManifest.xml:131:17-78
+221-->/root/android-main/src/main/AndroidManifest.xml:131:27-75
+222
+223                <data
+223-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+224                    android:host="i.delta.chat"
+225                    android:scheme="https" />
+226            </intent-filter>
+227
+228            <meta-data
+228-->/root/android-main/src/main/AndroidManifest.xml:199:13-201:58
+229                android:name="com.sec.minimode.icon.portrait.normal"
+229-->/root/android-main/src/main/AndroidManifest.xml:200:17-69
+230                android:resource="@mipmap/ic_launcher" />
+230-->/root/android-main/src/main/AndroidManifest.xml:201:17-55
+231            <meta-data
+231-->/root/android-main/src/main/AndroidManifest.xml:202:13-204:58
+232                android:name="com.sec.minimode.icon.landscape.normal"
+232-->/root/android-main/src/main/AndroidManifest.xml:203:17-70
+233                android:resource="@mipmap/ic_launcher" />
+233-->/root/android-main/src/main/AndroidManifest.xml:204:17-55
+234            <meta-data
+234-->/root/android-main/src/main/AndroidManifest.xml:205:13-207:53
+235                android:name="android.app.shortcuts"
+235-->/root/android-main/src/main/AndroidManifest.xml:206:17-53
+236                android:resource="@xml/shortcuts" />
+236-->/root/android-main/src/main/AndroidManifest.xml:207:17-50
+237        </activity-alias>
+238
+239        <activity
+239-->/root/android-main/src/main/AndroidManifest.xml:211:9-220:20
+240            android:name="org.thoughtcrime.securesms.ConversationListArchiveActivity"
+240-->/root/android-main/src/main/AndroidManifest.xml:212:13-60
+241            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+241-->/root/android-main/src/main/AndroidManifest.xml:215:13-108
+242            android:label="@string/chat_archived_label"
+242-->/root/android-main/src/main/AndroidManifest.xml:213:13-56
+243            android:launchMode="singleTask"
+243-->/root/android-main/src/main/AndroidManifest.xml:214:13-44
+244            android:parentActivityName="org.thoughtcrime.securesms.ConversationListActivity" >
+244-->/root/android-main/src/main/AndroidManifest.xml:216:13-67
+245            <meta-data
+245-->/root/android-main/src/main/AndroidManifest.xml:217:13-219:87
+246                android:name="android.support.PARENT_ACTIVITY"
+246-->/root/android-main/src/main/AndroidManifest.xml:218:17-63
+247                android:value="org.thoughtcrime.securesms.ConversationListActivity" />
+247-->/root/android-main/src/main/AndroidManifest.xml:219:17-84
+248        </activity>
+249        <activity
+249-->/root/android-main/src/main/AndroidManifest.xml:222:9-227:111
+250            android:name="org.thoughtcrime.securesms.ConversationListRelayingActivity"
+250-->/root/android-main/src/main/AndroidManifest.xml:223:13-61
+251            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+251-->/root/android-main/src/main/AndroidManifest.xml:227:13-108
+252            android:label="@string/app_name"
+252-->/root/android-main/src/main/AndroidManifest.xml:224:13-45
+253            android:launchMode="singleTask"
+253-->/root/android-main/src/main/AndroidManifest.xml:225:13-44
+254            android:theme="@style/TextSecure.LightNoActionBar" />
+254-->/root/android-main/src/main/AndroidManifest.xml:226:13-63
+255        <activity
+255-->/root/android-main/src/main/AndroidManifest.xml:229:9-243:20
+256            android:name="org.thoughtcrime.securesms.ConversationActivity"
+256-->/root/android-main/src/main/AndroidManifest.xml:230:13-49
+257            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+257-->/root/android-main/src/main/AndroidManifest.xml:234:13-108
+258            android:launchMode="singleTask"
+258-->/root/android-main/src/main/AndroidManifest.xml:232:13-44
+259            android:parentActivityName="org.thoughtcrime.securesms.ConversationListActivity"
+259-->/root/android-main/src/main/AndroidManifest.xml:235:13-67
+260            android:relinquishTaskIdentity="true"
+260-->/root/android-main/src/main/AndroidManifest.xml:233:13-50
+261            android:windowSoftInputMode="stateUnchanged" >
+261-->/root/android-main/src/main/AndroidManifest.xml:231:13-57
+262
+263            <!--
+264                 Without relinquishTaskIdentity="true", we would have the following bug: - Directly open
+265                a chat via shortcut (by long-pressing on the DeltaChat icon in the launcher) - Press back twice - Reopen
+266                DeltaChat from recent apps - Expected: ConversationList shown. Actual: The chat from the beginning is
+267                shown again.
+268            -->
+269            <meta-data
+269-->/root/android-main/src/main/AndroidManifest.xml:217:13-219:87
+270                android:name="android.support.PARENT_ACTIVITY"
+270-->/root/android-main/src/main/AndroidManifest.xml:218:17-63
+271                android:value="org.thoughtcrime.securesms.ConversationListActivity" />
+271-->/root/android-main/src/main/AndroidManifest.xml:219:17-84
+272        </activity>
+273        <activity
+273-->/root/android-main/src/main/AndroidManifest.xml:245:9-247:111
+274            android:name="org.thoughtcrime.securesms.GroupCreateActivity"
+274-->/root/android-main/src/main/AndroidManifest.xml:246:13-48
+275            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize" />
+275-->/root/android-main/src/main/AndroidManifest.xml:247:13-108
+276        <activity
+276-->/root/android-main/src/main/AndroidManifest.xml:249:9-251:111
+277            android:name="org.thoughtcrime.securesms.contacts.NewContactActivity"
+277-->/root/android-main/src/main/AndroidManifest.xml:250:13-56
+278            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize" />
+278-->/root/android-main/src/main/AndroidManifest.xml:251:13-108
+279        <activity
+279-->/root/android-main/src/main/AndroidManifest.xml:253:9-258:20
+280            android:name="org.thoughtcrime.securesms.NewConversationActivity"
+280-->/root/android-main/src/main/AndroidManifest.xml:254:13-52
+281            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+281-->/root/android-main/src/main/AndroidManifest.xml:257:13-108
+282            android:theme="@style/TextSecure.LightNoActionBar"
+282-->/root/android-main/src/main/AndroidManifest.xml:255:13-63
+283            android:windowSoftInputMode="stateHidden" >
+283-->/root/android-main/src/main/AndroidManifest.xml:256:13-54
+284        </activity>
+285        <activity
+285-->/root/android-main/src/main/AndroidManifest.xml:260:9-264:111
+286            android:name="org.thoughtcrime.securesms.ContactMultiSelectionActivity"
+286-->/root/android-main/src/main/AndroidManifest.xml:261:13-58
+287            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+287-->/root/android-main/src/main/AndroidManifest.xml:264:13-108
+288            android:label="@string/contacts_title"
+288-->/root/android-main/src/main/AndroidManifest.xml:262:13-51
+289            android:windowSoftInputMode="stateHidden" />
+289-->/root/android-main/src/main/AndroidManifest.xml:263:13-54
+290        <activity
+290-->/root/android-main/src/main/AndroidManifest.xml:266:9-268:111
+291            android:name="org.thoughtcrime.securesms.ApplicationPreferencesActivity"
+291-->/root/android-main/src/main/AndroidManifest.xml:267:13-59
+292            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize" />
+292-->/root/android-main/src/main/AndroidManifest.xml:268:13-108
+293        <activity
+293-->/root/android-main/src/main/AndroidManifest.xml:270:9-274:111
+294            android:name="org.thoughtcrime.securesms.WelcomeActivity"
+294-->/root/android-main/src/main/AndroidManifest.xml:271:13-44
+295            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+295-->/root/android-main/src/main/AndroidManifest.xml:274:13-108
+296            android:launchMode="singleTop"
+296-->/root/android-main/src/main/AndroidManifest.xml:272:13-43
+297            android:theme="@style/TextSecure.LightNoActionBar" />
+297-->/root/android-main/src/main/AndroidManifest.xml:273:13-63
+298        <activity
+298-->/root/android-main/src/main/AndroidManifest.xml:276:9-281:20
+299            android:name="org.thoughtcrime.securesms.relay.EditRelayActivity"
+299-->/root/android-main/src/main/AndroidManifest.xml:277:13-52
+300            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+300-->/root/android-main/src/main/AndroidManifest.xml:280:13-108
+301            android:launchMode="singleTask"
+301-->/root/android-main/src/main/AndroidManifest.xml:278:13-44
+302            android:windowSoftInputMode="stateUnchanged" >
+302-->/root/android-main/src/main/AndroidManifest.xml:279:13-57
+303        </activity>
+304        <activity
+304-->/root/android-main/src/main/AndroidManifest.xml:283:9-286:111
+305            android:name="org.thoughtcrime.securesms.relay.RelayListActivity"
+305-->/root/android-main/src/main/AndroidManifest.xml:284:13-52
+306            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+306-->/root/android-main/src/main/AndroidManifest.xml:286:13-108
+307            android:windowSoftInputMode="stateHidden" />
+307-->/root/android-main/src/main/AndroidManifest.xml:285:13-54
+308        <activity
+308-->/root/android-main/src/main/AndroidManifest.xml:288:9-310:20
+309            android:name="org.thoughtcrime.securesms.proxy.ProxySettingsActivity"
+309-->/root/android-main/src/main/AndroidManifest.xml:289:13-56
+310            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+310-->/root/android-main/src/main/AndroidManifest.xml:293:13-108
+311            android:exported="true"
+311-->/root/android-main/src/main/AndroidManifest.xml:292:13-36
+312            android:label="@string/proxy_settings"
+312-->/root/android-main/src/main/AndroidManifest.xml:290:13-51
+313            android:windowSoftInputMode="stateHidden" >
+313-->/root/android-main/src/main/AndroidManifest.xml:291:13-54
+314            <intent-filter>
+314-->/root/android-main/src/main/AndroidManifest.xml:295:13-308:29
+315                <action android:name="android.intent.action.VIEW" />
+315-->/root/android-main/src/main/AndroidManifest.xml:129:17-69
+315-->/root/android-main/src/main/AndroidManifest.xml:129:25-66
+316
+317                <category android:name="android.intent.category.DEFAULT" />
+317-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+317-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+318                <category android:name="android.intent.category.BROWSABLE" />
+318-->/root/android-main/src/main/AndroidManifest.xml:131:17-78
+318-->/root/android-main/src/main/AndroidManifest.xml:131:27-75
+319                <!-- Android's scheme matcher is case-sensitive, so include most likely variations -->
+320                <data android:scheme="ss" />
+320-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+321                <data android:scheme="socks5" />
+321-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+322                <data android:scheme="SOCKS5" />
+322-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+323                <data android:scheme="SS" />
+323-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+324            </intent-filter>
+325        </activity>
+326        <activity
+326-->/root/android-main/src/main/AndroidManifest.xml:313:9-317:111
+327            android:name="org.thoughtcrime.securesms.LogViewActivity"
+327-->/root/android-main/src/main/AndroidManifest.xml:314:13-44
+328            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+328-->/root/android-main/src/main/AndroidManifest.xml:317:13-108
+329            android:label="@string/pref_log_header"
+329-->/root/android-main/src/main/AndroidManifest.xml:315:13-52
+330            android:windowSoftInputMode="stateHidden" />
+330-->/root/android-main/src/main/AndroidManifest.xml:316:13-54
+331        <activity
+331-->/root/android-main/src/main/AndroidManifest.xml:319:9-324:111
+332            android:name="org.thoughtcrime.securesms.MediaPreviewActivity"
+332-->/root/android-main/src/main/AndroidManifest.xml:320:13-49
+333            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+333-->/root/android-main/src/main/AndroidManifest.xml:324:13-108
+334            android:label="@string/media_preview"
+334-->/root/android-main/src/main/AndroidManifest.xml:321:13-50
+335            android:launchMode="singleTask"
+335-->/root/android-main/src/main/AndroidManifest.xml:323:13-44
+336            android:windowSoftInputMode="stateHidden" />
+336-->/root/android-main/src/main/AndroidManifest.xml:322:13-54
+337        <activity
+337-->/root/android-main/src/main/AndroidManifest.xml:326:9-329:111
+338            android:name="org.thoughtcrime.securesms.ProfileActivity"
+338-->/root/android-main/src/main/AndroidManifest.xml:327:13-44
+339            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+339-->/root/android-main/src/main/AndroidManifest.xml:329:13-108
+340            android:theme="@style/TextSecure.LightNoActionBar" />
+340-->/root/android-main/src/main/AndroidManifest.xml:328:13-63
+341        <activity
+341-->/root/android-main/src/main/AndroidManifest.xml:331:9-334:111
+342            android:name="org.thoughtcrime.securesms.AllMediaActivity"
+342-->/root/android-main/src/main/AndroidManifest.xml:332:13-45
+343            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+343-->/root/android-main/src/main/AndroidManifest.xml:334:13-108
+344            android:theme="@style/TextSecure.LightNoActionBar" />
+344-->/root/android-main/src/main/AndroidManifest.xml:333:13-63
+345        <activity
+345-->/root/android-main/src/main/AndroidManifest.xml:336:9-346:49
+346            android:name="org.thoughtcrime.securesms.DummyActivity"
+346-->/root/android-main/src/main/AndroidManifest.xml:337:13-42
+347            android:allowTaskReparenting="true"
+347-->/root/android-main/src/main/AndroidManifest.xml:340:13-48
+348            android:alwaysRetainTaskState="false"
+348-->/root/android-main/src/main/AndroidManifest.xml:343:13-50
+349            android:clearTaskOnLaunch="true"
+349-->/root/android-main/src/main/AndroidManifest.xml:345:13-45
+350            android:enabled="true"
+350-->/root/android-main/src/main/AndroidManifest.xml:339:13-35
+351            android:excludeFromRecents="true"
+351-->/root/android-main/src/main/AndroidManifest.xml:342:13-46
+352            android:finishOnTaskLaunch="true"
+352-->/root/android-main/src/main/AndroidManifest.xml:346:13-46
+353            android:noHistory="true"
+353-->/root/android-main/src/main/AndroidManifest.xml:341:13-37
+354            android:stateNotNeeded="true"
+354-->/root/android-main/src/main/AndroidManifest.xml:344:13-42
+355            android:theme="@android:style/Theme.NoDisplay" />
+355-->/root/android-main/src/main/AndroidManifest.xml:338:13-59
+356        <activity
+356-->/root/android-main/src/main/AndroidManifest.xml:348:9-351:111
+357            android:name="org.thoughtcrime.securesms.AttachContactActivity"
+357-->/root/android-main/src/main/AndroidManifest.xml:349:13-50
+358            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+358-->/root/android-main/src/main/AndroidManifest.xml:351:13-108
+359            android:theme="@style/TextSecure.LightTheme" />
+359-->/root/android-main/src/main/AndroidManifest.xml:350:13-57
+360        <activity
+360-->/root/android-main/src/main/AndroidManifest.xml:353:9-356:111
+361            android:name="org.thoughtcrime.securesms.BlockedContactsActivity"
+361-->/root/android-main/src/main/AndroidManifest.xml:354:13-52
+362            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+362-->/root/android-main/src/main/AndroidManifest.xml:356:13-108
+363            android:theme="@style/TextSecure.LightTheme" />
+363-->/root/android-main/src/main/AndroidManifest.xml:355:13-57
+364        <activity
+364-->/root/android-main/src/main/AndroidManifest.xml:358:9-362:111
+365            android:name="org.thoughtcrime.securesms.scribbles.ScribbleActivity"
+365-->/root/android-main/src/main/AndroidManifest.xml:359:13-55
+366            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+366-->/root/android-main/src/main/AndroidManifest.xml:362:13-108
+367            android:theme="@style/TextSecure.ScribbleTheme"
+367-->/root/android-main/src/main/AndroidManifest.xml:360:13-60
+368            android:windowSoftInputMode="stateHidden" />
+368-->/root/android-main/src/main/AndroidManifest.xml:361:13-54
+369        <activity
+369-->/root/android-main/src/main/AndroidManifest.xml:364:9-367:111
+370            android:name="org.thoughtcrime.securesms.scribbles.StickerSelectActivity"
+370-->/root/android-main/src/main/AndroidManifest.xml:365:13-60
+371            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+371-->/root/android-main/src/main/AndroidManifest.xml:367:13-108
+372            android:theme="@style/TextSecure.ScribbleTheme" />
+372-->/root/android-main/src/main/AndroidManifest.xml:366:13-60
+373        <activity
+373-->/root/android-main/src/main/AndroidManifest.xml:369:9-393:20
+374            android:name="org.thoughtcrime.securesms.InstantOnboardingActivity"
+374-->/root/android-main/src/main/AndroidManifest.xml:370:13-54
+375            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+375-->/root/android-main/src/main/AndroidManifest.xml:373:13-108
+376            android:exported="true"
+376-->/root/android-main/src/main/AndroidManifest.xml:374:13-36
+377            android:theme="@style/TextSecure.LightTheme"
+377-->/root/android-main/src/main/AndroidManifest.xml:371:13-57
+378            android:windowSoftInputMode="stateHidden|adjustResize" >
+378-->/root/android-main/src/main/AndroidManifest.xml:372:13-67
+379            <intent-filter>
+379-->/root/android-main/src/main/AndroidManifest.xml:375:13-392:29
+380                <action android:name="android.intent.action.VIEW" />
+380-->/root/android-main/src/main/AndroidManifest.xml:129:17-69
+380-->/root/android-main/src/main/AndroidManifest.xml:129:25-66
+381
+382                <category android:name="android.intent.category.DEFAULT" />
+382-->/root/android-main/src/main/AndroidManifest.xml:116:17-76
+382-->/root/android-main/src/main/AndroidManifest.xml:116:27-73
+383                <category android:name="android.intent.category.BROWSABLE" />
+383-->/root/android-main/src/main/AndroidManifest.xml:131:17-78
+383-->/root/android-main/src/main/AndroidManifest.xml:131:27-75
+384                <!-- Android's scheme matcher is case-sensitive, so include most likely variations -->
+385                <data android:scheme="DCACCOUNT" />
+385-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+386                <data android:scheme="dcaccount" />
+386-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+387                <data android:scheme="DCLOGIN" />
+387-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+388                <data android:scheme="dclogin" />
+388-->/root/android-main/src/main/AndroidManifest.xml:117:17-52
+389            </intent-filter>
+390        </activity>
+391        <activity
+391-->/root/android-main/src/main/AndroidManifest.xml:395:9-399:111
+392            android:name="org.thoughtcrime.securesms.CreateProfileActivity"
+392-->/root/android-main/src/main/AndroidManifest.xml:396:13-50
+393            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+393-->/root/android-main/src/main/AndroidManifest.xml:399:13-108
+394            android:theme="@style/TextSecure.LightTheme"
+394-->/root/android-main/src/main/AndroidManifest.xml:397:13-57
+395            android:windowSoftInputMode="stateHidden|adjustResize" />
+395-->/root/android-main/src/main/AndroidManifest.xml:398:13-67
+396        <activity
+396-->/root/android-main/src/main/AndroidManifest.xml:401:9-404:111
+397            android:name="org.thoughtcrime.securesms.qr.QrActivity"
+397-->/root/android-main/src/main/AndroidManifest.xml:402:13-42
+398            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+398-->/root/android-main/src/main/AndroidManifest.xml:404:13-108
+399            android:theme="@style/TextSecure.LightTheme" />
+399-->/root/android-main/src/main/AndroidManifest.xml:403:13-57
+400        <activity
+400-->/root/android-main/src/main/AndroidManifest.xml:406:9-409:111
+401            android:name="org.thoughtcrime.securesms.qr.QrShowActivity"
+401-->/root/android-main/src/main/AndroidManifest.xml:407:13-46
+402            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+402-->/root/android-main/src/main/AndroidManifest.xml:409:13-108
+403            android:theme="@style/TextSecure.LightTheme" />
+403-->/root/android-main/src/main/AndroidManifest.xml:408:13-57
+404        <activity
+404-->/root/android-main/src/main/AndroidManifest.xml:411:9-414:111
+405            android:name="org.thoughtcrime.securesms.qr.RegistrationQrActivity"
+405-->/root/android-main/src/main/AndroidManifest.xml:412:13-54
+406            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+406-->/root/android-main/src/main/AndroidManifest.xml:414:13-108
+407            android:theme="@style/TextSecure.LightTheme" />
+407-->/root/android-main/src/main/AndroidManifest.xml:413:13-57
+408        <activity
+408-->/root/android-main/src/main/AndroidManifest.xml:416:9-419:111
+409            android:name="org.thoughtcrime.securesms.qr.BackupTransferActivity"
+409-->/root/android-main/src/main/AndroidManifest.xml:417:13-54
+410            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+410-->/root/android-main/src/main/AndroidManifest.xml:419:13-108
+411            android:theme="@style/TextSecure.LightTheme" />
+411-->/root/android-main/src/main/AndroidManifest.xml:418:13-57
+412        <activity
+412-->/root/android-main/src/main/AndroidManifest.xml:421:9-424:111
+413            android:name="org.thoughtcrime.securesms.preferences.ChatBackgroundActivity"
+413-->/root/android-main/src/main/AndroidManifest.xml:422:13-63
+414            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+414-->/root/android-main/src/main/AndroidManifest.xml:424:13-108
+415            android:theme="@style/TextSecure.LightTheme" />
+415-->/root/android-main/src/main/AndroidManifest.xml:423:13-57
+416        <activity
+416-->/root/android-main/src/main/AndroidManifest.xml:426:9-430:20
+417            android:name="org.thoughtcrime.securesms.LocalHelpActivity"
+417-->/root/android-main/src/main/AndroidManifest.xml:427:13-46
+418            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+418-->/root/android-main/src/main/AndroidManifest.xml:429:13-108
+419            android:theme="@style/TextSecure.LightTheme" >
+419-->/root/android-main/src/main/AndroidManifest.xml:428:13-57
+420        </activity>
+421        <activity
+421-->/root/android-main/src/main/AndroidManifest.xml:432:9-441:20
+422            android:name="org.thoughtcrime.securesms.calls.CallActivity"
+422-->/root/android-main/src/main/AndroidManifest.xml:433:13-47
+423            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden"
+423-->/root/android-main/src/main/AndroidManifest.xml:434:13-115
+424            android:excludeFromRecents="true"
+424-->/root/android-main/src/main/AndroidManifest.xml:440:13-46
+425            android:exported="false"
+425-->/root/android-main/src/main/AndroidManifest.xml:438:13-37
+426            android:launchMode="singleTask"
+426-->/root/android-main/src/main/AndroidManifest.xml:435:13-44
+427            android:supportsPictureInPicture="true"
+427-->/root/android-main/src/main/AndroidManifest.xml:439:13-52
+428            android:taskAffinity=".calls.PipCallTask"
+428-->/root/android-main/src/main/AndroidManifest.xml:436:13-54
+429            android:theme="@style/Theme.App.NoActionBar.Fullscreen" >
+429-->/root/android-main/src/main/AndroidManifest.xml:437:13-68
+430        </activity>
+431        <activity
+431-->/root/android-main/src/main/AndroidManifest.xml:443:9-448:20
+432            android:name="org.thoughtcrime.securesms.WebxdcActivity"
+432-->/root/android-main/src/main/AndroidManifest.xml:444:13-43
+433            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize|uiMode"
+433-->/root/android-main/src/main/AndroidManifest.xml:447:13-115
+434            android:label=""
+434-->/root/android-main/src/main/AndroidManifest.xml:445:13-29
+435            android:theme="@style/TextSecure.LightTheme" >
+435-->/root/android-main/src/main/AndroidManifest.xml:446:13-57
+436        </activity>
+437        <activity
+437-->/root/android-main/src/main/AndroidManifest.xml:450:9-454:20
+438            android:name="org.thoughtcrime.securesms.WebxdcStoreActivity"
+438-->/root/android-main/src/main/AndroidManifest.xml:451:13-48
+439            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize|uiMode"
+439-->/root/android-main/src/main/AndroidManifest.xml:453:13-115
+440            android:theme="@style/TextSecure.LightTheme" >
+440-->/root/android-main/src/main/AndroidManifest.xml:452:13-57
+441        </activity>
+442        <activity
+442-->/root/android-main/src/main/AndroidManifest.xml:456:9-460:20
+443            android:name="org.thoughtcrime.securesms.FullMsgActivity"
+443-->/root/android-main/src/main/AndroidManifest.xml:457:13-44
+444            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+444-->/root/android-main/src/main/AndroidManifest.xml:459:13-108
+445            android:theme="@style/TextSecure.LightTheme" >
+445-->/root/android-main/src/main/AndroidManifest.xml:458:13-57
+446        </activity>
+447        <activity
+447-->/root/android-main/src/main/AndroidManifest.xml:462:9-466:20
+448            android:name="org.thoughtcrime.securesms.ConnectivityActivity"
+448-->/root/android-main/src/main/AndroidManifest.xml:463:13-49
+449            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+449-->/root/android-main/src/main/AndroidManifest.xml:465:13-108
+450            android:theme="@style/TextSecure.LightTheme" >
+450-->/root/android-main/src/main/AndroidManifest.xml:464:13-57
+451        </activity>
+452
+453        <service
+453-->/root/android-main/src/main/AndroidManifest.xml:468:9-470:56
+454            android:name="org.thoughtcrime.securesms.service.GenericForegroundService"
+454-->/root/android-main/src/main/AndroidManifest.xml:469:13-61
+455            android:foregroundServiceType="dataSync" />
+455-->/root/android-main/src/main/AndroidManifest.xml:470:13-53
+456        <service
+456-->/root/android-main/src/main/AndroidManifest.xml:472:9-474:56
+457            android:name="org.thoughtcrime.securesms.service.FetchForegroundService"
+457-->/root/android-main/src/main/AndroidManifest.xml:473:13-59
+458            android:foregroundServiceType="dataSync" />
+458-->/root/android-main/src/main/AndroidManifest.xml:474:13-53
+459        <service
+459-->/root/android-main/src/main/AndroidManifest.xml:476:9-479:40
+460            android:name="org.thoughtcrime.securesms.geolocation.LocationStreamingService"
+460-->/root/android-main/src/main/AndroidManifest.xml:477:13-65
+461            android:exported="false"
+461-->/root/android-main/src/main/AndroidManifest.xml:479:13-37
+462            android:foregroundServiceType="location" />
+462-->/root/android-main/src/main/AndroidManifest.xml:478:13-53
+463        <service
+463-->/root/android-main/src/main/AndroidManifest.xml:481:9-488:19
+464            android:name="org.thoughtcrime.securesms.service.AudioPlaybackService"
+464-->/root/android-main/src/main/AndroidManifest.xml:482:13-57
+465            android:exported="true"
+465-->/root/android-main/src/main/AndroidManifest.xml:484:13-36
+466            android:foregroundServiceType="mediaPlayback" >
+466-->/root/android-main/src/main/AndroidManifest.xml:483:13-58
+467            <intent-filter>
+467-->/root/android-main/src/main/AndroidManifest.xml:485:13-487:29
+468                <action android:name="androidx.media3.session.MediaSessionService" />
+468-->/root/android-main/src/main/AndroidManifest.xml:486:17-86
+468-->/root/android-main/src/main/AndroidManifest.xml:486:25-83
+469            </intent-filter>
+470        </service>
+471        <service
+471-->/root/android-main/src/main/AndroidManifest.xml:490:9-494:75
+472            android:name="org.thoughtcrime.securesms.calls.CallService"
+472-->/root/android-main/src/main/AndroidManifest.xml:491:13-46
+473            android:enabled="true"
+473-->/root/android-main/src/main/AndroidManifest.xml:492:13-35
+474            android:exported="false"
+474-->/root/android-main/src/main/AndroidManifest.xml:493:13-37
+475            android:foregroundServiceType="camera|microphone|phoneCall" />
+475-->/root/android-main/src/main/AndroidManifest.xml:494:13-72
+476
+477        <receiver
+477-->/root/android-main/src/main/AndroidManifest.xml:496:9-499:40
+478            android:name="org.thoughtcrime.securesms.calls.CallActionReceiver"
+478-->/root/android-main/src/main/AndroidManifest.xml:497:13-53
+479            android:enabled="true"
+479-->/root/android-main/src/main/AndroidManifest.xml:498:13-35
+480            android:exported="false" />
+480-->/root/android-main/src/main/AndroidManifest.xml:499:13-37
+481        <receiver
+481-->/root/android-main/src/main/AndroidManifest.xml:501:9-509:20
+482            android:name="org.thoughtcrime.securesms.notifications.MarkReadReceiver"
+482-->/root/android-main/src/main/AndroidManifest.xml:502:13-59
+483            android:enabled="true"
+483-->/root/android-main/src/main/AndroidManifest.xml:503:13-35
+484            android:exported="false" >
+484-->/root/android-main/src/main/AndroidManifest.xml:504:13-37
+485            <intent-filter>
+485-->/root/android-main/src/main/AndroidManifest.xml:505:13-508:29
+486                <action android:name="org.thoughtcrime.securesms.notifications.MARK_NOTICED" />
+486-->/root/android-main/src/main/AndroidManifest.xml:506:17-96
+486-->/root/android-main/src/main/AndroidManifest.xml:506:25-93
+487                <action android:name="org.thoughtcrime.securesms.notifications.CANCEL" />
+487-->/root/android-main/src/main/AndroidManifest.xml:507:17-90
+487-->/root/android-main/src/main/AndroidManifest.xml:507:25-87
+488            </intent-filter>
+489        </receiver>
+490        <receiver
+490-->/root/android-main/src/main/AndroidManifest.xml:511:9-518:20
+491            android:name="org.thoughtcrime.securesms.notifications.RemoteReplyReceiver"
+491-->/root/android-main/src/main/AndroidManifest.xml:512:13-62
+492            android:enabled="true"
+492-->/root/android-main/src/main/AndroidManifest.xml:513:13-35
+493            android:exported="false" >
+493-->/root/android-main/src/main/AndroidManifest.xml:514:13-37
+494            <intent-filter>
+494-->/root/android-main/src/main/AndroidManifest.xml:515:13-517:29
+495                <action android:name="org.thoughtcrime.securesms.notifications.WEAR_REPLY" />
+495-->/root/android-main/src/main/AndroidManifest.xml:516:17-94
+495-->/root/android-main/src/main/AndroidManifest.xml:516:25-91
+496            </intent-filter>
+497        </receiver>
+498
+499        <provider
+500            android:name="androidx.core.content.FileProvider"
+501            android:authorities="chat.delta.lite.beta.fileprovider"
+502            android:exported="false"
+503            android:grantUriPermissions="true" >
+504            <meta-data
+505                android:name="android.support.FILE_PROVIDER_PATHS"
+506                android:resource="@xml/file_provider_paths" />
+507
+508            <!--
+509                 tell SafeContentResolver to allow incoming share-file Intent pointing to files from
+510                this content resolver, it could be the user sharing the app's log file to a chat. See: https://github.com/deltachat/deltachat-android/pull/3052
+511                https://github.com/deltachat/deltachat-android/pull/3031
+512            -->
+513            <meta-data
+514                android:name="de.cketti.safecontentresolver.ALLOW_INTERNAL_ACCESS"
+515                android:value="true" />
+516        </provider>
+517        <provider
+518            android:name="org.thoughtcrime.securesms.connect.AttachmentsContentProvider"
+519            android:authorities="chat.delta.lite.beta.attachments"
+520            android:exported="false"
+521            android:grantUriPermissions="true" >
+522
+523            <!--
+524                 tell SafeContentResolver to allow incoming share-file Intent pointing to files from
+525                this content resolver, it could be the user sharing a file from one chat to another. See: https://github.com/deltachat/deltachat-android/pull/3031
+526            -->
+527            <meta-data
+528                android:name="de.cketti.safecontentresolver.ALLOW_INTERNAL_ACCESS"
+529                android:value="true" />
+530        </provider>
+531
+532        <receiver
+532-->/root/android-main/src/main/AndroidManifest.xml:553:9-560:20
+533            android:name="org.thoughtcrime.securesms.service.BootReceiver"
+533-->/root/android-main/src/main/AndroidManifest.xml:554:13-49
+534            android:exported="true" >
+534-->/root/android-main/src/main/AndroidManifest.xml:555:13-36
+535            <intent-filter>
+535-->/root/android-main/src/main/AndroidManifest.xml:556:13-559:29
+536                <action android:name="android.intent.action.BOOT_COMPLETED" />
+536-->/root/android-main/src/main/AndroidManifest.xml:557:17-79
+536-->/root/android-main/src/main/AndroidManifest.xml:557:25-76
+537                <action android:name="org.thoughtcrime.securesms.RESTART" />
+537-->/root/android-main/src/main/AndroidManifest.xml:558:17-77
+537-->/root/android-main/src/main/AndroidManifest.xml:558:25-74
+538            </intent-filter>
+539        </receiver>
+540        <receiver
+540-->/root/android-main/src/main/AndroidManifest.xml:562:9-568:20
+541            android:name="org.thoughtcrime.securesms.service.PanicResponderListener"
+541-->/root/android-main/src/main/AndroidManifest.xml:563:13-59
+542            android:exported="true" >
+542-->/root/android-main/src/main/AndroidManifest.xml:564:13-36
+543            <intent-filter>
+543-->/root/android-main/src/main/AndroidManifest.xml:565:13-567:29
+544                <action android:name="info.guardianproject.panic.action.TRIGGER" />
+544-->/root/android-main/src/main/AndroidManifest.xml:566:17-84
+544-->/root/android-main/src/main/AndroidManifest.xml:566:25-81
+545            </intent-filter>
+546        </receiver>
+547
+548        <uses-library
+548-->/root/android-main/src/main/AndroidManifest.xml:570:9-572:40
+549            android:name="com.sec.android.app.multiwindow"
+549-->/root/android-main/src/main/AndroidManifest.xml:571:13-59
+550            android:required="false" />
+550-->/root/android-main/src/main/AndroidManifest.xml:572:13-37
+551
+552        <meta-data
+552-->/root/android-main/src/main/AndroidManifest.xml:573:9-575:36
+553            android:name="com.sec.android.support.multiwindow"
+553-->/root/android-main/src/main/AndroidManifest.xml:574:13-63
+554            android:value="true" />
+554-->/root/android-main/src/main/AndroidManifest.xml:575:13-33
+555        <meta-data
+555-->/root/android-main/src/main/AndroidManifest.xml:576:9-578:40
+556            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+556-->/root/android-main/src/main/AndroidManifest.xml:577:13-70
+557            android:value="632.0dip" />
+557-->/root/android-main/src/main/AndroidManifest.xml:578:13-37
+558        <meta-data
+558-->/root/android-main/src/main/AndroidManifest.xml:579:9-581:40
+559            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+559-->/root/android-main/src/main/AndroidManifest.xml:580:13-70
+560            android:value="598.0dip" />
+560-->/root/android-main/src/main/AndroidManifest.xml:581:13-37
+561        <meta-data
+561-->/root/android-main/src/main/AndroidManifest.xml:582:9-584:40
+562            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+562-->/root/android-main/src/main/AndroidManifest.xml:583:13-70
+563            android:value="632.0dip" />
+563-->/root/android-main/src/main/AndroidManifest.xml:584:13-37
+564        <meta-data
+564-->/root/android-main/src/main/AndroidManifest.xml:585:9-587:40
+565            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+565-->/root/android-main/src/main/AndroidManifest.xml:586:13-70
+566            android:value="598.0dip" /> <!-- MuteStateReceiver is needed on sdk 33 and lower to echo global mute state changes -->
+566-->/root/android-main/src/main/AndroidManifest.xml:587:13-37
+567        <receiver
+567-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:33:9-39:20
+568            android:name="androidx.core.telecom.internal.MuteStateReceiver"
+568-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:34:13-76
+569            android:exported="true" >
+569-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:35:13-36
+570            <intent-filter>
+570-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:36:13-38:29
+571                <action android:name="android.media.action.MICROPHONE_MUTE_CHANGED" />
+571-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:37:17-87
+571-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:37:25-84
+572            </intent-filter>
+573        </receiver>
+574
+575        <service
+575-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:41:9-48:19
+576            android:name="androidx.core.telecom.internal.JetpackConnectionService"
+576-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:42:13-83
+577            android:exported="true"
+577-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:43:13-36
+578            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE" >
+578-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:44:13-84
+579            <intent-filter>
+579-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:45:13-47:29
+580                <action android:name="android.telecom.ConnectionService" />
+580-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:46:17-76
+580-->[androidx.core:core-telecom:1.0.1] /root/.gradle/caches/8.13/transforms/77bdd8c9f09a0a69ebaeb10a8a2f04bd/transformed/jetified-core-telecom-1.0.1/AndroidManifest.xml:46:25-73
+581            </intent-filter>
+582        </service>
+583        <service
+583-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:24:9-31:19
+584            android:name="androidx.sharetarget.ChooserTargetServiceCompat"
+584-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:25:13-75
+585            android:exported="true"
+585-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:26:13-36
+586            android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE" >
+586-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:27:13-80
+587            <intent-filter>
+587-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:28:13-30:29
+588                <action android:name="android.service.chooser.ChooserTargetService" />
+588-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:29:17-87
+588-->[androidx.sharetarget:sharetarget:1.2.0] /root/.gradle/caches/8.13/transforms/63d48c46d2738ca25037048bd1e8deaf/transformed/jetified-sharetarget-1.2.0/AndroidManifest.xml:29:25-84
+589            </intent-filter>
+590        </service>
+591
+592        <provider
+592-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:24:9-32:20
+593            android:name="androidx.startup.InitializationProvider"
+593-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:25:13-67
+594            android:authorities="chat.delta.lite.beta.androidx-startup"
+594-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:26:13-68
+595            android:exported="false" >
+595-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:27:13-37
+596            <meta-data
+596-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:29:13-31:52
+597                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+597-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:30:17-75
+598                android:value="androidx.startup" />
+598-->[androidx.emoji2:emoji2:1.5.0] /root/.gradle/caches/8.13/transforms/2020e8be3a2482d110f26e962f9e8a8f/transformed/jetified-emoji2-1.5.0/AndroidManifest.xml:31:17-49
+599            <meta-data
+599-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:34:13-36:52
+600                android:name="androidx.work.WorkManagerInitializer"
+600-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:35:17-68
+601                android:value="androidx.startup" />
+601-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:36:17-49
+602            <meta-data
+602-->[androidx.lifecycle:lifecycle-process:2.9.4] /root/.gradle/caches/8.13/transforms/c3f1273c3a90894f6540e37c99cf1583/transformed/jetified-lifecycle-process-2.9.4/AndroidManifest.xml:29:13-31:52
+603                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+603-->[androidx.lifecycle:lifecycle-process:2.9.4] /root/.gradle/caches/8.13/transforms/c3f1273c3a90894f6540e37c99cf1583/transformed/jetified-lifecycle-process-2.9.4/AndroidManifest.xml:30:17-78
+604                android:value="androidx.startup" />
+604-->[androidx.lifecycle:lifecycle-process:2.9.4] /root/.gradle/caches/8.13/transforms/c3f1273c3a90894f6540e37c99cf1583/transformed/jetified-lifecycle-process-2.9.4/AndroidManifest.xml:31:17-49
+605            <meta-data
+605-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+606                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+606-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+607                android:value="androidx.startup" />
+607-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+608        </provider>
+609
+610        <service
+610-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:39:9-45:35
+611            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+611-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:40:13-88
+612            android:directBootAware="false"
+612-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:41:13-44
+613            android:enabled="@bool/enable_system_alarm_service_default"
+613-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:42:13-72
+614            android:exported="false" />
+614-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:43:13-37
+615        <service
+615-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:46:9-52:35
+616            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+616-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:47:13-84
+617            android:directBootAware="false"
+617-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:48:13-44
+618            android:enabled="@bool/enable_system_job_service_default"
+618-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:49:13-70
+619            android:exported="true"
+619-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:50:13-36
+620            android:permission="android.permission.BIND_JOB_SERVICE" />
+620-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:51:13-69
+621        <service
+621-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:53:9-59:35
+622            android:name="androidx.work.impl.foreground.SystemForegroundService"
+622-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:54:13-81
+623            android:directBootAware="false"
+623-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:55:13-44
+624            android:enabled="@bool/enable_system_foreground_service_default"
+624-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:56:13-77
+625            android:exported="false" />
+625-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:57:13-37
+626
+627        <receiver
+627-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:61:9-66:35
+628            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+628-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:62:13-88
+629            android:directBootAware="false"
+629-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:63:13-44
+630            android:enabled="true"
+630-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:64:13-35
+631            android:exported="false" />
+631-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:65:13-37
+632        <receiver
+632-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:67:9-77:20
+633            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+633-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:68:13-106
+634            android:directBootAware="false"
+634-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:69:13-44
+635            android:enabled="false"
+635-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:70:13-36
+636            android:exported="false" >
+636-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:71:13-37
+637            <intent-filter>
+637-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:73:13-76:29
+638                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+638-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:17-87
+638-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:74:25-84
+639                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+639-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:17-90
+639-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:75:25-87
+640            </intent-filter>
+641        </receiver>
+642        <receiver
+642-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:78:9-88:20
+643            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+643-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:79:13-104
+644            android:directBootAware="false"
+644-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:80:13-44
+645            android:enabled="false"
+645-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:81:13-36
+646            android:exported="false" >
+646-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:82:13-37
+647            <intent-filter>
+647-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:84:13-87:29
+648                <action android:name="android.intent.action.BATTERY_OKAY" />
+648-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:17-77
+648-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:85:25-74
+649                <action android:name="android.intent.action.BATTERY_LOW" />
+649-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:17-76
+649-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:86:25-73
+650            </intent-filter>
+651        </receiver>
+652        <receiver
+652-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:89:9-99:20
+653            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+653-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:90:13-104
+654            android:directBootAware="false"
+654-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:91:13-44
+655            android:enabled="false"
+655-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:92:13-36
+656            android:exported="false" >
+656-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:93:13-37
+657            <intent-filter>
+657-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:95:13-98:29
+658                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+658-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:17-83
+658-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:96:25-80
+659                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+659-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:17-82
+659-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:97:25-79
+660            </intent-filter>
+661        </receiver>
+662        <receiver
+662-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:100:9-109:20
+663            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+663-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:101:13-103
+664            android:directBootAware="false"
+664-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:102:13-44
+665            android:enabled="false"
+665-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:103:13-36
+666            android:exported="false" >
+666-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:104:13-37
+667            <intent-filter>
+667-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:106:13-108:29
+668                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+668-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:17-79
+668-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:107:25-76
+669            </intent-filter>
+670        </receiver>
+671        <receiver
+671-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:110:9-121:20
+672            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+672-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:111:13-88
+673            android:directBootAware="false"
+673-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:112:13-44
+674            android:enabled="false"
+674-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:113:13-36
+675            android:exported="false" >
+675-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:114:13-37
+676            <intent-filter>
+676-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:116:13-120:29
+677                <action android:name="android.intent.action.BOOT_COMPLETED" />
+677-->/root/android-main/src/main/AndroidManifest.xml:557:17-79
+677-->/root/android-main/src/main/AndroidManifest.xml:557:25-76
+678                <action android:name="android.intent.action.TIME_SET" />
+678-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:17-73
+678-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:118:25-70
+679                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+679-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:17-81
+679-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:119:25-78
+680            </intent-filter>
+681        </receiver>
+682        <receiver
+682-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:122:9-131:20
+683            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+683-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:123:13-99
+684            android:directBootAware="false"
+684-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:124:13-44
+685            android:enabled="@bool/enable_system_alarm_service_default"
+685-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:125:13-72
+686            android:exported="false" >
+686-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:126:13-37
+687            <intent-filter>
+687-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:128:13-130:29
+688                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+688-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:17-98
+688-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:129:25-95
+689            </intent-filter>
+690        </receiver>
+691        <receiver
+691-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:132:9-142:20
+692            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+692-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:133:13-78
+693            android:directBootAware="false"
+693-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:134:13-44
+694            android:enabled="true"
+694-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:135:13-35
+695            android:exported="true"
+695-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:136:13-36
+696            android:permission="android.permission.DUMP" >
+696-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:137:13-57
+697            <intent-filter>
+697-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:139:13-141:29
+698                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+698-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:17-88
+698-->[androidx.work:work-runtime:2.9.1] /root/.gradle/caches/8.13/transforms/93915bc771ebadbf2847e4dfe2bbe435/transformed/work-runtime-2.9.1/AndroidManifest.xml:140:25-85
+699            </intent-filter>
+700        </receiver>
+701
+702        <uses-library
+702-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40
+703            android:name="androidx.window.extensions"
+703-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:26:13-54
+704            android:required="false" />
+704-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:27:13-37
+705        <uses-library
+705-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:28:9-30:40
+706            android:name="androidx.window.sidecar"
+706-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:29:13-51
+707            android:required="false" />
+707-->[androidx.window:window:1.0.0] /root/.gradle/caches/8.13/transforms/82586c62d4d3fa10b5ae354266bcc501/transformed/jetified-window-1.0.0/AndroidManifest.xml:30:13-37
+708
+709        <receiver
+709-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+710            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+710-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+711            android:directBootAware="false"
+711-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+712            android:enabled="true"
+712-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+713            android:exported="true"
+713-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+714            android:permission="android.permission.DUMP" >
+714-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+715            <intent-filter>
+715-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+716                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+716-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+716-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+717            </intent-filter>
+718            <intent-filter>
+718-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+719                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+719-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+719-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+720            </intent-filter>
+721            <intent-filter>
+721-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+722                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+722-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+722-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+723            </intent-filter>
+724            <intent-filter>
+724-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+725                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+725-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+725-->[androidx.profileinstaller:profileinstaller:1.4.0] /root/.gradle/caches/8.13/transforms/f43151d5e9cead8e585c4f546e68c89b/transformed/jetified-profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+726            </intent-filter>
+727        </receiver>
+728
+729        <activity
+729-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
+730            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+730-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
+731            android:clearTaskOnLaunch="true"
+731-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
+732            android:screenOrientation="sensorLandscape"
+732-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
+733            android:stateNotNeeded="true"
+733-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
+734            android:theme="@style/zxing_CaptureTheme"
+734-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
+735            android:windowSoftInputMode="stateAlwaysHidden" />
+735-->[com.journeyapps:zxing-android-embedded:4.3.0] /root/.gradle/caches/8.13/transforms/427e04f9a134d908365302dcbf3889ff/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
+736
+737        <service
+737-->[androidx.room:room-runtime:2.5.0] /root/.gradle/caches/8.13/transforms/4eec30c364bf462d6fc85345464bb5b6/transformed/room-runtime-2.5.0/AndroidManifest.xml:24:9-28:63
+738            android:name="androidx.room.MultiInstanceInvalidationService"
+738-->[androidx.room:room-runtime:2.5.0] /root/.gradle/caches/8.13/transforms/4eec30c364bf462d6fc85345464bb5b6/transformed/room-runtime-2.5.0/AndroidManifest.xml:25:13-74
+739            android:directBootAware="true"
+739-->[androidx.room:room-runtime:2.5.0] /root/.gradle/caches/8.13/transforms/4eec30c364bf462d6fc85345464bb5b6/transformed/room-runtime-2.5.0/AndroidManifest.xml:26:13-43
+740            android:exported="false" />
+740-->[androidx.room:room-runtime:2.5.0] /root/.gradle/caches/8.13/transforms/4eec30c364bf462d6fc85345464bb5b6/transformed/room-runtime-2.5.0/AndroidManifest.xml:27:13-37
+741    </application>
+742
+743</manifest>

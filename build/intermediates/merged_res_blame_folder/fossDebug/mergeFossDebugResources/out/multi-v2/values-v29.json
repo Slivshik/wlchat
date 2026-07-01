@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.thoughtcrime.securesms-mergeFossDebugResources-67:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "/root/android-main/src/main/res/values-v29/arrays.xml",
+                    "from": {
+                        "startLines": "3,17",
+                        "startColumns": "4,4",
+                        "startOffsets": "103,565",
+                        "endLines": "15,30",
+                        "endColumns": "19,19",
+                        "endOffsets": "559,942"
+                    },
+                    "to": {
+                        "startLines": "2,13",
+                        "startColumns": "4,4",
+                        "startOffsets": "100,543",
+                        "endLines": "12,23",
+                        "endColumns": "19,19",
+                        "endOffsets": "538,894"
+                    }
+                }
+            ]
+        }
+    ]
+}

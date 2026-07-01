@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Preference
+        android:key="preference_category_blocked"
+        android:title="@string/pref_blocked_contacts" />
+
+    <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="pref_read_receipts"
+        android:summary="@string/pref_read_receipts_explain"
+        android:title="@string/pref_read_receipts" />
+
+    <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="pref_screen_security"
+        android:summary="@string/pref_screen_security_explain"
+        android:title="@string/pref_screen_security" />
+
+    <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="pref_incognito_keyboard"
+        android:summary="@string/pref_incognito_keyboard_explain"
+        android:title="@string/pref_incognito_keyboard" />
+
+    <PreferenceCategory android:title="@string/delete_old_messages">
+        <ListPreference
+            android:key="autodel_device"
+            android:title="@string/autodel_device_title"
+            android:entries="@array/autodel_device_durations"
+            android:entryValues="@array/autodel_device_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="managed_storage_category"
+        android:title="@string/managed_storage_title"
+        android:summary="@string/managed_storage_summary">
+        <ListPreference
+            android:key="autodel_server"
+            android:title="@string/autodel_messages_title"
+            android:summary="@string/autodel_messages_summary"
+            android:entries="@array/autodel_messages_durations"
+            android:entryValues="@array/autodel_messages_values" />
+        <ListPreference
+            android:key="autodel_media"
+            android:title="@string/autodel_media_title"
+            android:summary="@string/autodel_media_summary"
+            android:entries="@array/autodel_media_durations"
+            android:entryValues="@array/autodel_media_values" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

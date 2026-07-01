@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="menu_export_image">Exporter l\'image</string>
+    <!-- the word "or" to separate blocks in the user interface that are mutually exclusive -->
+    <string name="or_separator">ou</string>
+    <string name="online">en ligne</string>
+    <string name="pink">Rose</string>
+    <string name="gray">Gris</string>
+
+    <!-- device messages for updates -->
+    <!-- when translating the sentence about the ArcaneChat channel, clarify that the channel is in English -->
+    <string name="device_welcome_message">Bienvenue sur WL CHAT\n\nPour contacter des amis :\n\nAppuyez sur
+        « QR code » sur l\'écran principal des deux appareils. Sélectionnez « Scanner le QR code » sur un appareil et
+        dirigez-le vers l\'autre\n\nSi vous n\'êtes pas dans la même pièce, vous pouvez partager votre lien d\'invitation depuis
+        « Inviter des amis » dans le menu.</string>
+
+    <string name="update_2_46ac">Quoi de neuf dans WL CHAT ?\n\nAppels audio/vidéo améliorés avec une meilleure intégration système\n\nAjout d\'un sélecteur d\'autocollants basique\n\nSélecteur de pièces jointes amélioré\n\nMeilleure synchronisation de l\'état des notifications entre appareils\n\nCorrections de bugs et traductions mises à jour</string>
+</resources>

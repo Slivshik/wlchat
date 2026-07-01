@@ -1,0 +1,54 @@
+name: Build Debug APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Accept Android SDK licenses
+      run: yes | sdkmanager --licenses || true
+
+    - name: Install Android SDK platforms and build tools
+      run: |
+        sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build Debug APK
+      run: |
+        export ANDROID_HOME=$ANDROID_HOME
+        ./gradlew assembleFossDebug --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+        
+    - name: Find APK file
+      id: find-apk
+      run: |
+        APK_PATH=$(find . -name "*.apk" -type f | head -1)
+        echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+        echo "Found APK at: $APK_PATH"
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wl-chat-debug-apk
+        path: ${{ steps.find-apk.outputs.apk_path }}
+        retention-days: 14
