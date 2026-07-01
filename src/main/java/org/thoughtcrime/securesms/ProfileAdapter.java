@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import org.thoughtcrime.securesms.forum.ForumManager;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import chat.delta.rpc.Rpc;
@@ -427,7 +428,8 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
         itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
         // Forum Topics
-        boolean isForum = org.thoughtcrime.securesms.forum.ForumManager.isForum(dcChat);
+        ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
+        boolean isForum = fm.isForum(dcChat.getId());
         String forumLabel = isForum
             ? context.getString(R.string.forum_topics) + " ✓"
             : context.getString(R.string.forum_topics);

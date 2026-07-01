@@ -201,6 +201,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   // Forum topic filter
   private int forumTopicId = -1;
   private String forumTopicName = null;
+
+  public int getForumTopicId() { return forumTopicId; }
   private int chatId;
   private final boolean isSecureText = true;
   private boolean isDefaultSms = true;

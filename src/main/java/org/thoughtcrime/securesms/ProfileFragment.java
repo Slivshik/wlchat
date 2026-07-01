@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import org.thoughtcrime.securesms.forum.ForumManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -377,7 +378,8 @@ public class ProfileFragment extends Fragment
 
   private void onForumTopics() {
     DcChat dcChat = dcContext.getChat(chatId);
-    boolean isForum = org.thoughtcrime.securesms.forum.ForumManager.isForum(dcChat);
+    ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(requireContext()));
+    boolean isForum = fm.isForum(chatId);
 
     if (!isForum) {
       // Enable forum mode
@@ -386,8 +388,7 @@ public class ProfileFragment extends Fragment
           .setMessage("Enable topics for this group? Messages will be organized into topic threads.")
           .setPositiveButton(R.string.ok, (d, w) -> {
             try {
-              org.thoughtcrime.securesms.forum.ForumManager.enableForum(dcChat);
-              adapter.setChat(dcChat);
+              fm.enableForum(chatId);
               Toast.makeText(requireContext(), "Forum enabled! Create topics from the chat menu.", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
               Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();

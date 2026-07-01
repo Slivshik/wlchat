@@ -48,13 +48,13 @@ public class ForumActivity extends PassphraseRequiredActionBarActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState, boolean ready) {
+        super.onCreate(savedInstanceState, ready);
         setContentView(R.layout.forum_activity);
 
         chatId = getIntent().getIntExtra(EXTRA_CHAT_ID, 0);
         dcContext = DcHelper.getContext(this);
-        forumManager = new ForumManager(dcContext);
+        forumManager = new ForumManager(dcContext, DcHelper.getRpc(this));
 
         setupToolbar();
         setupViews();
@@ -62,10 +62,8 @@ public class ForumActivity extends PassphraseRequiredActionBarActivity {
     }
 
     private void setupToolbar() {
-        if (getSupportActionBar() != String.valueOf(R.string.forum_topics)) {
-            getSupportActionBar().setTitle(R.string.forum_topics);
-        }
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.forum_topics);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }

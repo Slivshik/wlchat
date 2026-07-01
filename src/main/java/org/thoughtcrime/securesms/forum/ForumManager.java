@@ -1,6 +1,8 @@
 package org.thoughtcrime.securesms.forum;
 
 import android.util.Log;
+import chat.delta.rpc.Rpc;
+import chat.delta.rpc.RpcException;
 import com.b44t.messenger.DcContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Manages forum topics stored in chat description.
- *
- * Data is compact — topics are serialized as a small JSON object
- * in the chat description field. This uses minimal email bandwidth.
- *
- * Format: {"t":[{"id":1,"n":"General","e":"💬","c":"#2AABEE"}]}
- * Total overhead: ~50-100 bytes per topic
- */
 public class ForumManager {
     private static final String TAG = "ForumManager";
     private static final String KEY_TOPICS = "t";
@@ -26,26 +19,34 @@ public class ForumManager {
     private static final String KEY_COLOR = "c";
 
     private final DcContext dcContext;
+    private final Rpc rpc;
 
-    public ForumManager(DcContext dcContext) {
+    public ForumManager(DcContext dcContext, Rpc rpc) {
         this.dcContext = dcContext;
+        this.rpc = rpc;
     }
 
-    /**
-     * Check if a chat has forum topics enabled.
-     * A chat is a forum if its description contains topic JSON.
-     */
+    private String getDescription(int chatId) {
+        try {
+            return rpc.getChatDescription(dcContext.getAccountId(), chatId);
+        } catch (RpcException e) {
+            Log.w(TAG, "getChatDescription failed", e);
+            return null;
+        }
+    }
+
+    private void setDescription(int chatId, String desc) throws RpcException {
+        rpc.setChatDescription(dcContext.getAccountId(), chatId, desc);
+    }
+
     public boolean isForum(int chatId) {
-        String desc = dcContext.getChat(chatId).getDescription();
+        String desc = getDescription(chatId);
         return desc != null && desc.startsWith("{") && desc.contains(KEY_TOPICS);
     }
 
-    /**
-     * Get all topics for a chat. Returns empty list if not a forum.
-     */
     public List<ForumTopic> getTopics(int chatId) {
         List<ForumTopic> topics = new ArrayList<>();
-        String desc = dcContext.getChat(chatId).getDescription();
+        String desc = getDescription(chatId);
         if (desc == null || desc.isEmpty()) return topics;
 
         try {
@@ -58,7 +59,7 @@ public class ForumManager {
                 topics.add(new ForumTopic(
                     t.getInt(KEY_ID),
                     t.getString(KEY_NAME),
-                    t.optString(KEY_EMOJI, "💬"),
+                    t.optString(KEY_EMOJI, "\uD83D\uDCAC"),
                     t.optString(KEY_COLOR, "#2AABEE")
                 ));
             }
@@ -68,9 +69,6 @@ public class ForumManager {
         return topics;
     }
 
-    /**
-     * Save topics to chat description. Compact JSON format.
-     */
     public boolean saveTopics(int chatId, List<ForumTopic> topics) {
         try {
             JSONObject json = new JSONObject();
@@ -84,18 +82,14 @@ public class ForumManager {
                 arr.put(t);
             }
             json.put(KEY_TOPICS, arr);
-            String desc = json.toString();
-            dcContext.setChatDescription(chatId, desc);
+            setDescription(chatId, json.toString());
             return true;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e(TAG, "Failed to save forum topics", e);
             return false;
         }
     }
 
-    /**
-     * Create a new topic. Auto-assigns next ID.
-     */
     public ForumTopic createTopic(int chatId, String name, String emoji, String color) {
         List<ForumTopic> topics = getTopics(chatId);
         int nextId = 1;
@@ -108,9 +102,6 @@ public class ForumManager {
         return topic;
     }
 
-    /**
-     * Update an existing topic.
-     */
     public boolean updateTopic(int chatId, ForumTopic updated) {
         List<ForumTopic> topics = getTopics(chatId);
         for (int i = 0; i < topics.size(); i++) {
@@ -122,9 +113,6 @@ public class ForumManager {
         return false;
     }
 
-    /**
-     * Delete a topic and its messages.
-     */
     public boolean deleteTopic(int chatId, int topicId) {
         List<ForumTopic> topics = getTopics(chatId);
         for (int i = 0; i < topics.size(); i++) {
@@ -136,9 +124,6 @@ public class ForumManager {
         return false;
     }
 
-    /**
-     * Get topic by ID.
-     */
     public ForumTopic getTopic(int chatId, int topicId) {
         List<ForumTopic> topics = getTopics(chatId);
         for (ForumTopic t : topics) {
@@ -147,29 +132,19 @@ public class ForumManager {
         return null;
     }
 
-    /**
-     * Enable forum mode on a chat by creating a default "General" topic.
-     */
     public ForumTopic enableForum(int chatId) {
         if (isForum(chatId)) {
             List<ForumTopic> topics = getTopics(chatId);
             return topics.isEmpty() ? null : topics.get(0);
         }
-        return createTopic(chatId, "General", "💬", "#2AABEE");
+        return createTopic(chatId, "General", "\uD83D\uDCAC", "#2AABEE");
     }
 
-    /**
-     * Get the topic ID from a message's subject line.
-     * Returns DEFAULT_TOPIC_ID if no topic tag.
-     */
     public static int getMessageTopicId(String subject) {
         int id = ForumTopic.extractTopicId(subject);
         return id > 0 ? id : ForumTopic.DEFAULT_TOPIC_ID;
     }
 
-    /**
-     * Create a subject tag for a topic.
-     */
     public static String makeTopicSubject(int topicId) {
         return ForumTopic.TOPIC_PREFIX + topicId;
     }
