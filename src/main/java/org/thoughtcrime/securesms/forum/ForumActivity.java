@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -178,7 +177,7 @@ public class ForumActivity extends PassphraseRequiredActionBarActivity {
 
     private class TopicViewHolder extends RecyclerView.ViewHolder {
         private final View itemView;
-        private final ImageView emojiIcon;
+        private final TextView emojiIcon;
         private final TextView topicName;
         private final View colorBar;
         private final TextView messageCount;
