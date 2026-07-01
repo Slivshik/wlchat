@@ -121,11 +121,7 @@ public class DcMsg {
 
   public native boolean hasLocation();
 
-  private native int getViewType();
-
-  public int getType() {
-    return getDownloadState() == DC_DOWNLOAD_DONE ? getViewType() : DC_MSG_TEXT;
-  }
+  public native int getType();
 
   public native int getInfoType();
 
