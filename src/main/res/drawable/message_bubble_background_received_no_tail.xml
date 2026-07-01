@@ -4,5 +4,5 @@
     <!-- Telegram-style received bubble without tail (consecutive messages) -->
     <corners
         android:radius="18dp" />
-    <solid android:color="@android:color/transparent" />
+    <solid android:color="#FFFFFF" />
 </shape>
