@@ -47,6 +47,7 @@ public class ProfileAdapter extends RecyclerView.Adapter {
   public static final int ITEM_GROUP_SETTING_EPHEMERAL = 72;
   public static final int ITEM_GROUP_SETTING_CHANNEL_TYPE = 73;
   public static final int ITEM_GROUP_SETTING_BANNED = 74;
+  public static final int ITEM_GROUP_SETTING_FORUM = 76;
   public static final int ITEM_GROUP_MEMBER_ACTIONS = 75;
 
   private final @NonNull Context context;
@@ -425,6 +426,12 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
         itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
         itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
+        // Forum Topics
+        boolean isForum = org.thoughtcrime.securesms.forum.ForumManager.isForum(dcChat);
+        String forumLabel = isForum
+            ? context.getString(R.string.forum_topics) + " ✓"
+            : context.getString(R.string.forum_topics);
+        itemData.add(new ItemData(ITEM_GROUP_SETTING_FORUM, forumLabel, 0));
       }
 
       // Members Section

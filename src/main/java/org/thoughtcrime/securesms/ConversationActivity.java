@@ -197,6 +197,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private Recipient recipient;
   private Rpc rpc;
   private DcChat dcChat = new DcChat(0, 0);
+
+  // Forum topic filter
+  private int forumTopicId = -1;
+  private String forumTopicName = null;
   private int chatId;
   private final boolean isSecureText = true;
   private boolean isDefaultSms = true;
@@ -210,6 +214,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     public void run() {
       if (!isFinishing() && !isDestroyed()) {
         titleView.setTitle(glideRequests, dcChat);
+        // Show forum topic name in subtitle if active
+        if (forumTopicId > 0 && forumTopicName != null && getSupportActionBar() != null) {
+          getSupportActionBar().setSubtitle("📌 " + forumTopicName);
+        }
         onlineStatusHandler.postDelayed(this, 30000);
       }
     }
@@ -234,6 +242,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     initializeActionBar();
     initializeViews();
     initializeResources();
+
+    // Show forum topic subtitle if active
+    if (forumTopicId > 0 && forumTopicName != null && getSupportActionBar() != null) {
+      getSupportActionBar().setSubtitle("📌 " + forumTopicName);
+    }
 
     int accountId = DcHelper.getAccounts(this).getSelectedAccount().getAccountId();
     playbackViewModel = new ViewModelProvider(this).get(AudioPlaybackViewModel.class);
@@ -677,6 +690,9 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       return true;
     } else if (itemId == R.id.menu_all_media) {
       handleAllMedia();
+      return true;
+    } else if (itemId == R.id.menu_forum_topics) {
+      org.thoughtcrime.securesms.forum.ForumActivity.start(this, chatId);
       return true;
     } else if (itemId == R.id.menu_search_up) {
       handleMenuSearchNext(false);
@@ -1171,6 +1187,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     chatId = getIntent().getIntExtra(CHAT_ID_EXTRA, -1);
     if (chatId == DcChat.DC_CHAT_NO_CHAT)
       throw new IllegalStateException("can't display a conversation for no chat.");
+
+    // Forum topic filter
+    forumTopicId = getIntent().getIntExtra("forum_topic_id", -1);
+    forumTopicName = getIntent().getStringExtra("forum_topic_name");
+
     dcChat = DcHelper.getContext(context).getChat(chatId);
     attachmentTypeSelector = null;
     recipient = new Recipient(this, dcChat);
@@ -1405,6 +1426,16 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
           if (!subject.isEmpty() && msg != null) {
             msg.setSubject(subject);
+          }
+
+          // Forum topic tagging: prepend topic subject to message
+          if (forumTopicId > 0 && msg != null) {
+            String topicSubject = org.thoughtcrime.securesms.forum.ForumManager.makeTopicSubject(forumTopicId);
+            if (subject.isEmpty()) {
+              msg.setSubject(topicSubject);
+            } else {
+              msg.setSubject(topicSubject + " " + subject);
+            }
           }
 
           if (action == ACTION_SEND_OUT) {

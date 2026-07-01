@@ -55,6 +55,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/menu_forum_topics"
+        android:title="@string/forum_topics"
+        android:icon="@drawable/ic_tg_more_vert"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_ephemeral_messages"
         android:title="@string/ephemeral_messages" />
 

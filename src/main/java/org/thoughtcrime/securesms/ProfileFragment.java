@@ -194,6 +194,9 @@ public class ProfileFragment extends Fragment
       case ProfileAdapter.ITEM_GROUP_SETTING_BANNED:
         onBannedMembers();
         break;
+      case ProfileAdapter.ITEM_GROUP_SETTING_FORUM:
+        onForumTopics();
+        break;
     }
   }
 
@@ -369,6 +372,32 @@ public class ProfileFragment extends Fragment
           .show();
     } catch (RpcException e) {
       Toast.makeText(requireContext(), "Failed to load banned members: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+  }
+
+  private void onForumTopics() {
+    DcChat dcChat = dcContext.getChat(chatId);
+    boolean isForum = org.thoughtcrime.securesms.forum.ForumManager.isForum(dcChat);
+
+    if (!isForum) {
+      // Enable forum mode
+      new AlertDialog.Builder(requireContext())
+          .setTitle(R.string.enable_forum)
+          .setMessage("Enable topics for this group? Messages will be organized into topic threads.")
+          .setPositiveButton(R.string.ok, (d, w) -> {
+            try {
+              org.thoughtcrime.securesms.forum.ForumManager.enableForum(dcChat);
+              adapter.setChat(dcChat);
+              Toast.makeText(requireContext(), "Forum enabled! Create topics from the chat menu.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+              Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+          })
+          .setNegativeButton(R.string.cancel, null)
+          .show();
+    } else {
+      // Open forum topics list
+      org.thoughtcrime.securesms.forum.ForumActivity.start(requireActivity(), chatId);
     }
   }
 

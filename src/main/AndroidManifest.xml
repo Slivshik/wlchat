@@ -258,6 +258,12 @@
         </activity>
 
         <activity
+            android:name=".forum.ForumActivity"
+            android:label="@string/forum_topics"
+            android:theme="@style/TextSecure.LightNoActionBar"
+            android:configChanges="touchscreen|keyboard|keyboardHidden|orientation|screenLayout|screenSize" />
+
+        <activity
             android:name=".ContactMultiSelectionActivity"
             android:label="@string/contacts_title"
             android:windowSoftInputMode="stateHidden"

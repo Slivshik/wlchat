@@ -715,6 +715,28 @@ public class ConversationFragment extends MessageSelectorFragment {
     int[] msgs = dcContext.getChatMsgs((int) chatId, 0, 0);
     Log.i(TAG, "⏰ getChatMsgs(" + chatId + "): " + (System.currentTimeMillis() - startMs) + "ms");
 
+    // Forum topic filter: only show messages tagged with the active topic
+    int topicId = -1;
+    if (getActivity() instanceof org.thoughtcrime.securesms.ConversationActivity) {
+      topicId = ((org.thoughtcrime.securesms.ConversationActivity) getActivity()).getForumTopicId();
+    }
+    if (topicId > 0) {
+      String topicSubject = org.thoughtcrime.securesms.forum.ForumManager.makeTopicSubject(topicId);
+      java.util.List<Integer> filtered = new java.util.ArrayList<>();
+      for (int msgId : msgs) {
+        com.b44t.messenger.DcMsg msg = dcContext.getMsg(msgId);
+        if (msg != null) {
+          String subject = msg.getSubject();
+          // Show messages with matching topic subject, or messages with no topic (general)
+          if (topicSubject.equals(subject) || (subject == null || subject.isEmpty())) {
+            filtered.add(msgId);
+          }
+        }
+      }
+      msgs = new int[filtered.size()];
+      for (int i = 0; i < filtered.size(); i++) msgs[i] = filtered.get(i);
+    }
+
     adapter.changeData(msgs);
 
     if (firstLoad) {
