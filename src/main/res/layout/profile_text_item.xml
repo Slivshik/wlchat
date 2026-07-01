@@ -5,7 +5,10 @@
     android:layout_height="wrap_content"
     android:background="?attr/conversation_list_item_background"
     android:focusable="true"
-    android:padding="16dp">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
 
     <TextView
         android:id="@+id/label"
@@ -13,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="start|center_vertical"
-        android:textColor="?attr/emoji_text_color"
-        android:textSize="16sp" />
+        android:drawablePadding="8dp"
+        android:textColor="?attr/conversation_list_item_contact_color"
+        android:textSize="15sp" />
 
 </org.thoughtcrime.securesms.ProfileTextItem>

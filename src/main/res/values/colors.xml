@@ -156,15 +156,15 @@
 
     <!-- Message bubbles -->
     <color name="tg_bubble_out_light">#ffEFFFDE</color>
-    <color name="tg_bubble_out_dark">#ff2B5278</color>
+    <color name="tg_bubble_out_dark">#ff2D5F8A</color>
     <color name="tg_bubble_in_light">#ffFFFFFF</color>
-    <color name="tg_bubble_in_dark">#ff182533</color>
+    <color name="tg_bubble_in_dark">#ff1C2E3D</color>
 
     <!-- Text colors -->
     <color name="tg_text_primary_light">#ff1A1D21</color>
     <color name="tg_text_secondary_light">#ff707579</color>
-    <color name="tg_text_primary_dark">#ffF5F5F5</color>
-    <color name="tg_text_secondary_dark">#ff6C7883</color>
+    <color name="tg_text_primary_dark">#ffFFFFFF</color>
+    <color name="tg_text_secondary_dark">#ff8A98A5</color>
 
     <!-- Accent & interactive -->
     <color name="tg_accent">#ff229AF0</color>

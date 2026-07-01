@@ -24,11 +24,11 @@ public class ConversationAdaptiveActionsToolbar extends Toolbar {
   private static final int ACTION_VIEW_WIDTH_DP = 48;
   private static final int OVERFLOW_VIEW_WIDTH_DP = 36;
 
-  private static final int ID_ACTION_1 = R.id.menu_context_edit;
-  private static final int ID_ACTION_2 = R.id.menu_context_copy;
-  private static final int ID_ACTION_3 = R.id.menu_context_share;
-  private static final int ID_ACTION_4 = R.id.menu_context_forward;
-  private static final int ID_ACTION_5 = R.id.menu_context_delete_message;
+  private static final int ID_ACTION_1 = R.id.menu_context_reply;
+  private static final int ID_ACTION_2 = R.id.menu_context_forward;
+  private static final int ID_ACTION_3 = R.id.menu_context_copy;
+  private static final int ID_ACTION_4 = R.id.menu_context_edit;
+  private static final int ID_ACTION_5 = R.id.menu_context_details;
 
   private final int maxShown;
 

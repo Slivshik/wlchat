@@ -8,67 +8,75 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:clickable="true"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     android:paddingLeft="6dp"
-    android:paddingTop="6dp"
+    android:paddingTop="4dp"
     android:paddingRight="6dp"
-    android:paddingBottom="6dp"
+    android:paddingBottom="4dp"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:background="@drawable/input_panel_rounded_bg"
-    android:elevation="4dp"
-    android:outlineProvider="background">
+    android:background="@drawable/input_panel_rounded_bg">
 
     <org.thoughtcrime.securesms.components.QuoteView
         android:id="@+id/quote_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:message_type="preview"
         tools:visibility="visible" />
 
     <include
         layout="@layout/conversation_activity_attachment_editor_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quote_view" />
 
     <EditText
         android:id="@+id/subject_text"
         style="@style/ComposeEditText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:hint="@string/subject"
         android:inputType="text"
         android:maxLines="1"
         android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/attachment_editor"
         tools:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/input_field_frame_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_toggle"
+        app:layout_constraintTop_toBottomOf="@id/subject_text"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <org.thoughtcrime.securesms.components.FormattingToolbar
             android:id="@+id/formatting_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="5dp"
             android:visibility="gone"
             android:background="@drawable/formatting_toolbar_bg"
-            android:elevation="10dp"
+            android:elevation="8dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="6dp"
@@ -78,9 +86,9 @@
 
             <ImageButton
                 android:id="@+id/format_bold"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/format_button_bg"
                 android:src="@drawable/format_bold"
                 android:scaleType="centerInside"
@@ -91,9 +99,9 @@
 
             <ImageButton
                 android:id="@+id/format_italic"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/format_button_bg"
                 android:src="@drawable/format_italic"
                 android:scaleType="centerInside"
@@ -104,9 +112,9 @@
 
             <ImageButton
                 android:id="@+id/format_underline"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/format_button_bg"
                 android:src="@drawable/format_underline"
                 android:scaleType="centerInside"
@@ -117,9 +125,9 @@
 
             <ImageButton
                 android:id="@+id/format_strikethrough"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="3dp"
                 android:background="@drawable/format_button_bg"
                 android:src="@drawable/format_strikethrough"
                 android:scaleType="centerInside"
@@ -130,8 +138,8 @@
 
             <ImageButton
                 android:id="@+id/format_code"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:background="@drawable/format_button_bg"
                 android:src="@drawable/format_code"
                 android:scaleType="centerInside"
@@ -145,7 +153,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
+                android:minHeight="42dp"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="horizontal"
@@ -156,8 +164,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:minHeight="44dp"
-                android:padding="6dp"
+                android:minHeight="38dp"
+                android:padding="5dp"
                 android:background="@drawable/ripple_circle"
                 android:contentDescription="@string/menu_toggle_keyboard" />
 
@@ -168,7 +176,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:minHeight="48dp"
+            android:minHeight="42dp"
                 android:gravity="center_vertical"
                 android:background="@drawable/compose_input_surface_bg"
                 android:orientation="horizontal"
@@ -200,11 +208,11 @@
 
                     <ImageButton
                         android:id="@+id/quick_camera_toggle"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_tg_camera"
-                        android:padding="8dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_tg_camera"
+                    android:padding="7dp"
                         android:background="@drawable/ripple_circle"
                         android:contentDescription="@string/camera" />
 
@@ -234,11 +242,12 @@
 
     <org.thoughtcrime.securesms.components.AnimatingToggle
         android:id="@+id/button_toggle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginStart="4dp"
-        android:background="@drawable/ripple_send_button">
+        android:background="@drawable/ripple_send_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
             android:id="@+id/attach_button"
@@ -248,7 +257,7 @@
             android:background="@drawable/ripple_send_button"
             android:src="@drawable/ic_tg_attach"
             android:tint="@android:color/white"
-            android:padding="10dp"
+            android:padding="8dp"
             android:scaleType="centerInside"
             android:contentDescription="@string/menu_add_attachment"
             android:nextFocusLeft="@+id/embedded_text_editor" />
@@ -257,7 +266,7 @@
             android:id="@+id/send_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
+            android:padding="8dp"
             android:scaleType="centerInside"
             android:contentDescription="@string/menu_send"
             android:nextFocusLeft="@+id/embedded_text_editor"

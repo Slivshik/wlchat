@@ -5,22 +5,22 @@
     android:background="@drawable/ripple_list_item"
     android:layout_width="match_parent"
     android:focusable="true"
-    android:layout_height="84dp"
-    android:paddingLeft="14dp"
-    android:paddingRight="14dp"
-    android:paddingStart="14dp"
-    android:paddingEnd="14dp">
+    android:layout_height="72dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
 
     <org.thoughtcrime.securesms.components.AvatarView
         android:id="@+id/avatar"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:importantForAccessibility="no"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:transitionName="chat_avatar" />
 
     <LinearLayout
@@ -45,7 +45,7 @@
                 android:drawablePadding="6dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:singleLine="true"
                 android:textColor="?attr/conversation_list_item_contact_color"
@@ -55,7 +55,7 @@
                 android:id="@+id/subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="?attr/conversation_list_item_subject_color"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -140,8 +140,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="82dp"
-        android:layout_marginStart="82dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="70dp"
         android:background="#12000000" />
 
 </org.thoughtcrime.securesms.ConversationListItem>

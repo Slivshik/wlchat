@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="gcm_defaultSenderId" translatable="false">922391085500</string>
-    <string name="google_api_key" translatable="false">AIzaSyBYH8Iznh8btYX7g_udv_bu68VH30zzxho</string>
-    <string name="google_app_id" translatable="false">1:922391085500:android:6f54e2c4e49405673e2bb9</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBYH8Iznh8btYX7g_udv_bu68VH30zzxho</string>
-    <string name="google_storage_bucket" translatable="false">delta-chat-fcm.appspot.com</string>
-    <string name="project_id" translatable="false">delta-chat-fcm</string>
-</resources>

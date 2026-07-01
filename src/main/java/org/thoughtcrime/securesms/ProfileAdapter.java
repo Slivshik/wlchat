@@ -421,7 +421,7 @@ public class ProfileAdapter extends RecyclerView.Adapter {
       itemData.add(new ItemData(ITEM_DIVIDER, null, 0));
 
       // Group Settings Section
-      if (dcChat != null && dcChat.isMultiUser() && !isOutBroadcast) {
+      if (dcChat != null && dcChat.isMultiUser()) {
         itemData.add(new ItemData(ITEM_GROUP_SETTINGS_HEADER, context.getString(R.string.group_settings), 0));
         String muteLabel = dcChat.isMuted()
             ? context.getString(R.string.mute) + " (" + context.getString(R.string.on) + ")"

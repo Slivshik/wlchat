@@ -69,6 +69,12 @@
         android:id="@+id/menu_mute_notifications" />
 
     <item
+        android:id="@+id/menu_group_settings"
+        android:title="@string/group_settings"
+        android:icon="@drawable/ic_advanced_24dp"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_show_map"
         android:title="@string/tab_map"
         android:icon="@drawable/ic_map_white_24dp"

@@ -467,6 +467,9 @@ public class NotificationCenter {
   }
 
   public void notifyReaction(int accountId, int contactId, int msgId, String reaction) {
+    if (contactId == DcContact.DC_CONTACT_ID_SELF) {
+      return; // Don't notify about own reactions
+    }
     Util.runOnAnyBackgroundThread(
         () -> {
           DcContext dcContext = context.getDcAccounts().getAccount(accountId);

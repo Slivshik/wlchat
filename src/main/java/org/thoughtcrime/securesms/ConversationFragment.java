@@ -973,13 +973,18 @@ public class ConversationFragment extends MessageSelectorFragment {
         Intent intent = new Intent(getContext(), ProfileActivity.class);
         intent.putExtra(ProfileActivity.CHAT_ID_EXTRA, (int) chatId);
         startActivity(intent);
-      } else if (!TextUtils.isEmpty(messageRecord.getPOILocation())
-          && messageRecord.getType() == DcMsg.DC_MSG_TEXT
+      } else if (messageRecord.getType() == DcMsg.DC_MSG_TEXT
           && !messageRecord.hasHtml()) {
-        WebxdcActivity.openMaps(
-            getContext(),
-            getListAdapter().getChat().getId(),
-            "index.html#" + messageRecord.getPOILocation());
+        try {
+          String poiLocation = messageRecord.getPOILocation();
+          if (!TextUtils.isEmpty(poiLocation)) {
+            WebxdcActivity.openMaps(
+                getContext(),
+                getListAdapter().getChat().getId(),
+                "index.html#" + poiLocation);
+          }
+        } catch (UnsatisfiedLinkError ignored) {
+        }
       } else {
         int infoContactId = messageRecord.getInfoContactId();
         if (infoContactId != 0 && infoContactId != DC_CONTACT_ID_SELF) {

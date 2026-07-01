@@ -30,9 +30,9 @@ import org.thoughtcrime.securesms.util.ViewUtil;
 public class ReactionsConversationView extends LinearLayout {
 
   // Normally 6dp, but we have 1dp left+right margin on the pills themselves
-  private static final int OUTER_MARGIN = ViewUtil.dpToPx(5);
+  private static final int OUTER_MARGIN = ViewUtil.dpToPx(4);
   private static final int MAX_AVATARS_SHOWN = 2;
-  private static final int AVATAR_SIZE_DP = 14;
+  private static final int AVATAR_SIZE_DP = 12;
 
   private final List<Reaction> reactions = new ArrayList<>();
   private boolean isIncoming;
@@ -178,7 +178,7 @@ public class ReactionsConversationView extends LinearLayout {
     if (glideRequests != null && !contactIds.isEmpty()) {
       avatarsContainer.setVisibility(VISIBLE);
       int avatarSizePx = ViewUtil.dpToPx(AVATAR_SIZE_DP);
-      int overlapPx = ViewUtil.dpToPx(3);
+      int overlapPx = ViewUtil.dpToPx(2);
       int shown = Math.min(contactIds.size(), MAX_AVATARS_SHOWN);
 
       DcContext dcContext = DcHelper.getContext(context);

@@ -651,6 +651,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       }
     }
 
+    menu.findItem(R.id.menu_group_settings).setVisible(dcChat.isMultiUser());
+
     super.onPrepareOptionsMenu(menu);
     return true;
   }
@@ -707,6 +709,9 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       return true;
     } else if (itemId == R.id.menu_ephemeral_messages) {
       handleEphemeralMessages();
+      return true;
+    } else if (itemId == R.id.menu_group_settings) {
+      handleProfile();
       return true;
     }
 
@@ -1407,7 +1412,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
                     msg = new DcMsg(dcContext, DcMsg.DC_MSG_FILE);
                   }
                   String path = attachment.getRealPath(this);
-                  msg.setFileAndDeduplicate(path, attachment.getFileName(), null);
+                  msg.setFileAndDeduplicate(path, attachment.getFileName(), contentType);
                 }
               }
               if (msg != null) {
@@ -1449,7 +1454,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
             }
 
             if (msg != null) {
-              boolean doSend = true;
               if (recompress == DcMsg.DC_MSG_VIDEO) {
                 Util.runOnMain(
                     () -> {
@@ -1462,7 +1466,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
                               true,
                               false);
                     });
-                doSend = VideoRecoder.prepareVideo(ConversationActivity.this, currentChatId, msg);
+                boolean prepared = VideoRecoder.prepareVideo(ConversationActivity.this, currentChatId, msg);
                 Util.runOnMain(
                     () -> {
                       try {
@@ -1473,18 +1477,16 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
                     });
               }
 
-              if (doSend) {
-                if (dcContext.sendMsg(currentChatId, msg) == 0) {
-                  String lastError = dcContext.getLastError();
-                  if (!"".equals(lastError)) {
-                    Util.runOnMain(
-                        () ->
-                            Toast.makeText(ConversationActivity.this, lastError, Toast.LENGTH_LONG)
-                                .show());
-                  }
-                  future.set(currentChatId);
-                  return;
+              if (dcContext.sendMsg(currentChatId, msg) == 0) {
+                String lastError = dcContext.getLastError();
+                if (!"".equals(lastError)) {
+                  Util.runOnMain(
+                      () ->
+                          Toast.makeText(ConversationActivity.this, lastError, Toast.LENGTH_LONG)
+                              .show());
                 }
+                future.set(currentChatId);
+                return;
               }
 
               if (currentChatId == this.chatId) {
