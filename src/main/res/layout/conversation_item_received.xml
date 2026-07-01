@@ -77,7 +77,7 @@
                 android:orientation="vertical"
                 android:clipToPadding="false"
                 android:clipChildren="false"
-                android:background="@color/white"
+                android:background="?attr/conversation_item_incoming_bubble_color"
                 tools:backgroundTint="@color/core_light_10">
 
                 <LinearLayout

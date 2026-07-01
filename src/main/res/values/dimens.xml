@@ -6,21 +6,21 @@
     <dimen name="min_custom_keyboard_top_margin_portrait">170dp</dimen>
     <dimen name="min_custom_keyboard_top_margin_landscape_bubble">56dp</dimen>
     <dimen name="min_custom_keyboard_top_margin">170dp</dimen>
-    <dimen name="conversation_item_body_text_size">16sp</dimen>
+    <dimen name="conversation_item_body_text_size">15sp</dimen>
     <dimen name="transport_selection_popup_width">200sp</dimen>
     <dimen name="transport_selection_popup_xoff">2dp</dimen>
     <dimen name="transport_selection_popup_yoff">2dp</dimen>
     <dimen name="contact_photo_target_size">64dp</dimen>
     <dimen name="contact_list_normal_padding">16dp</dimen>
 
-    <dimen name="message_corner_radius">12dp</dimen>
+    <dimen name="message_corner_radius">18dp</dimen>
     <dimen name="message_bubble_corner_radius">2dp</dimen>
     <dimen name="message_bubble_shadow_distance">1.5dp</dimen>
     <dimen name="message_bubble_horizontal_padding">8dp</dimen>
     <dimen name="message_bubble_horizontal_padding_half">4dp</dimen>
     <dimen name="message_bubble_top_padding">6dp</dimen>
     <dimen name="message_bubble_collapsed_footer_padding">6dp</dimen>
-    <dimen name="message_bubble_edge_margin">32dp</dimen>
+    <dimen name="message_bubble_edge_margin">12dp</dimen>
     <dimen name="message_bubble_bottom_padding">6dp</dimen>
     <dimen name="message_bubble_showmore_padding">8dp</dimen>
     <dimen name="transparent_footer_padding">2dp</dimen>

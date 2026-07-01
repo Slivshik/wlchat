@@ -301,9 +301,9 @@ public class ConversationItem extends BaseConversationItem {
 
   private void setBubbleState(DcMsg messageRecord) {
     if (messageRecord.isOutgoing()) {
-      bodyBubble.getBackground().setColorFilter(outgoingBubbleColor, PorterDuff.Mode.MULTIPLY);
+      bodyBubble.getBackground().setColorFilter(outgoingBubbleColor, PorterDuff.Mode.SRC_IN);
     } else {
-      bodyBubble.getBackground().setColorFilter(incomingBubbleColor, PorterDuff.Mode.MULTIPLY);
+      bodyBubble.getBackground().setColorFilter(incomingBubbleColor, PorterDuff.Mode.SRC_IN);
     }
   }
 

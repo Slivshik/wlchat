@@ -15,7 +15,7 @@
     <color name="purple_primary_lite">#ff7b00c8</color>
     <color name="purple_primary_alpha33">#557b00c8</color>
     <color name="purple_accent">#9646c8</color>
-    <color name="purple_outgoing_bubble">#fffff9d9</color>
+    <color name="purple_outgoing_bubble">#EEFFDE</color>
     <color name="purple_outgoing_label">#ff7b00c8</color>
     <color name="purple_unreadcount">#7b00c8</color>
     <!-- ========== -->
@@ -25,7 +25,7 @@
     <color name="green_primary_lite">#ff009788</color>
     <color name="green_primary_alpha33">#55009788</color>
     <color name="green_accent">#00b7a5</color>
-    <color name="green_outgoing_bubble">#fffff9d9</color>
+    <color name="green_outgoing_bubble">#EEFFDE</color>
     <color name="green_outgoing_label">#ff009788</color>
     <color name="green_unreadcount">#00b7a5</color>
     <!-- ========== -->
@@ -35,7 +35,7 @@
     <color name="blue_primary_lite">#ff517da2</color>
     <color name="blue_primary_alpha33">#55517da2</color>
     <color name="blue_accent">#486d8f</color>
-    <color name="blue_outgoing_bubble">#fffff9d9</color>
+    <color name="blue_outgoing_bubble">#EEFFDE</color>
     <color name="blue_outgoing_label">#ff2f97d6</color>
     <color name="blue_unreadcount">#1ab7c8</color>
     <!-- ========== -->
@@ -45,7 +45,7 @@
     <color name="red_primary_lite">#ffb61c1c</color>
     <color name="red_primary_alpha33">#55b61c1c</color>
     <color name="red_accent">#a41a1a</color>
-    <color name="red_outgoing_bubble">#fffff9d9</color>
+    <color name="red_outgoing_bubble">#EEFFDE</color>
     <color name="red_outgoing_label">#ffce303e</color>
     <color name="red_unreadcount">#d51431</color>
     <!-- ========== -->
@@ -55,7 +55,7 @@
     <color name="pink_primary_lite">#ffc84595</color>
     <color name="pink_primary_alpha33">#55c84595</color>
     <color name="pink_accent">#a03779</color>
-    <color name="pink_outgoing_bubble">#fffff9d9</color>
+    <color name="pink_outgoing_bubble">#EEFFDE</color>
     <color name="pink_outgoing_label">#ffa03779</color>
     <color name="pink_unreadcount">#ff25b7</color>
     <!-- ========== -->
@@ -65,7 +65,7 @@
     <color name="gray_primary_lite">#4c6e7d</color>
     <color name="gray_primary_alpha33">#55415e6b</color>
     <color name="gray_accent">#3b5561</color>
-    <color name="gray_outgoing_bubble">#fffff9d9</color>
+    <color name="gray_outgoing_bubble">#EEFFDE</color>
     <color name="gray_outgoing_label">#ff415e6b</color>
     <color name="gray_unreadcount">#415e6b</color>
     <!-- ========== -->
@@ -81,7 +81,7 @@
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="gray5">#ffeeeeee</color>
-    <color name="gray10">#ffdddddd</color>
+    <color name="gray10">#ffE6EBEF</color>
     <color name="gray12">#ffe0e0e0</color>
     <color name="gray13">#ffababab</color>
     <color name="gray20">#ffcccccc</color>
@@ -89,7 +89,7 @@
     <color name="gray65">#ff595959</color>
     <color name="gray70">#ff4d4d4d</color>
     <color name="gray78">#ff383838</color>
-    <color name="gray95">#ff111111</color>
+    <color name="gray95">#ff17212B</color>
     <color name="light_green">#ffefffde</color>
     <color name="green">#ff70b15c</color>
     <color name="light_pink">#ffcdb7b5</color>
