@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_panel"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:clickable="true"
@@ -12,11 +12,11 @@
     android:layout_marginBottom="4dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+    android:padding="8dp"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:background="@drawable/input_panel_rounded_bg"
+    android:elevation="0dp"
     android:outlineProvider="background">
 
     <org.thoughtcrime.securesms.components.QuoteView
@@ -33,10 +33,7 @@
     <include
         layout="@layout/conversation_activity_attachment_editor_stub"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quote_view" />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/subject_text"
@@ -51,20 +48,12 @@
         android:inputType="text"
         android:maxLines="1"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attachment_editor"
         tools:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/input_field_frame_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_toggle"
-        app:layout_constraintTop_toBottomOf="@id/subject_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:clipChildren="false"
         android:clipToPadding="false">
 
@@ -153,13 +142,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="6dp"
-            android:paddingStart="6dp"
-            android:paddingRight="0dp"
-            android:paddingEnd="0dp"
             android:minHeight="40dp"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <org.thoughtcrime.securesms.components.emoji.EmojiToggle
                 android:id="@+id/emoji_toggle"
@@ -167,8 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:minHeight="40dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:padding="4dp"
                 android:background="@drawable/ripple_circle"
                 android:contentDescription="@string/menu_toggle_keyboard" />
 
@@ -177,10 +163,8 @@
                 android:id="@+id/embedded_text_editor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:nextFocusForward="@+id/send_button"
                 android:nextFocusRight="@+id/send_button"
                 tools:visibility="invisible"
@@ -201,10 +185,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_tg_camera"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_circle"
                     android:contentDescription="@string/camera" />
 
@@ -231,15 +212,12 @@
     </FrameLayout>
 
     <org.thoughtcrime.securesms.components.AnimatingToggle
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/button_toggle"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/send_button_bg"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/ripple_circle">
 
         <ImageButton
             android:id="@+id/attach_button"
@@ -257,10 +235,7 @@
             android:id="@+id/send_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
+            android:padding="8dp"
             android:scaleType="centerInside"
             android:contentDescription="@string/menu_send"
             android:nextFocusLeft="@+id/embedded_text_editor"

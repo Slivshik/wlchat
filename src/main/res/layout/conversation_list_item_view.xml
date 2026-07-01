@@ -5,21 +5,21 @@
     android:background="@drawable/ripple_list_item"
     android:layout_width="match_parent"
     android:focusable="true"
-    android:nextFocusRight="@+id/fab"
-    android:nextFocusLeft="@+id/container"
     android:layout_height="88dp"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <org.thoughtcrime.securesms.components.AvatarView
         android:id="@+id/avatar"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:importantForAccessibility="no"
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:transitionName="chat_avatar" />
 
@@ -41,11 +41,12 @@
                 android:id="@+id/from_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="3dp"
                 android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="17sp"
+                android:textStyle="bold"
                 android:singleLine="true"
                 android:textColor="?attr/conversation_list_item_contact_color"
                 tools:text="Jules Bonnot" />
@@ -57,8 +58,8 @@
                 android:textSize="14sp"
                 android:textColor="?attr/conversation_list_item_subject_color"
                 android:maxLines="1"
-                tools:text="Wheels arrive at 3pm flat. This is a somewhat longer message."
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                tools:text="Wheels arrive at 3pm flat. This is a somewhat longer message." />
 
         </LinearLayout>
 
@@ -79,8 +80,8 @@
                 android:drawablePadding="5dp"
                 android:textSize="12sp"
                 android:textColor="?attr/conversation_list_item_date_color"
-                tools:text="30 mins"
-                android:singleLine="true" />
+                android:singleLine="true"
+                tools:text="30 mins" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -127,6 +128,7 @@
                     android:id="@+id/unread_indicator"
                     android:layout_width="24dp"
                     android:layout_height="24dp" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -140,6 +142,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="76dp"
         android:layout_marginStart="76dp"
-        android:background="?attr/conversation_list_item_divider" />
+        android:background="#18000000" />
 
 </org.thoughtcrime.securesms.ConversationListItem>

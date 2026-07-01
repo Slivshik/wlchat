@@ -4,7 +4,4 @@
     android:shape="rectangle">
     <solid android:color="?attr/input_panel_bg_color" />
     <corners android:radius="22dp" />
-    <stroke
-        android:width="0.5dp"
-        android:color="#22000000" />
 </shape>
