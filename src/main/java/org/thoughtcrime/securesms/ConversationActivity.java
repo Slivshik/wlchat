@@ -187,7 +187,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private AudioRecorder audioRecorder;
   private FrameLayout emojiPickerContainer;
   private MediaKeyboard emojiPicker;
-  protected HidingLinearLayout quickAttachmentToggle;
   private InputPanel inputPanel;
   private @Nullable MediaController mediaController;
   private com.google.common.util.concurrent.ListenableFuture<MediaController> mediaControllerFuture;
@@ -1085,7 +1084,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     composeText = ViewUtil.findById(this, R.id.embedded_text_editor);
     emojiPickerContainer = ViewUtil.findById(this, R.id.emoji_picker_container);
     container = ViewUtil.findById(this, R.id.layout_container);
-    quickAttachmentToggle = ViewUtil.findById(this, R.id.quick_attachment_toggle);
     inputPanel = ViewUtil.findById(this, R.id.bottom_panel);
     backgroundView = ViewUtil.findById(this, R.id.conversation_background);
     messageRequestBottomView =
@@ -1514,7 +1512,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private void updateToggleButtonState() {
     if (inputPanel.isRecordingInLockedMode()) {
       buttonToggle.display(sendButton);
-      quickAttachmentToggle.hide();
       return;
     }
 
@@ -1522,10 +1519,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         && composeText.getText().length() == 0
         && !attachmentManager.isAttachmentPresent()) {
       buttonToggle.display(attachButton);
-      quickAttachmentToggle.show();
     } else {
       buttonToggle.display(sendButton);
-      quickAttachmentToggle.hide();
     }
   }
 
