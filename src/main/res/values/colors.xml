@@ -144,8 +144,8 @@
 
     <!-- TELEGRAM DESIGN SYSTEM (from official drklo/telegram source) -->
     <!-- Primary brand colors -->
-    <color name="tg_blue">#ff229AF0</color>
-    <color name="tg_blue_dark">#ff1E8AD8</color>
+    <color name="tg_blue">#ff2580A8</color>
+    <color name="tg_blue_dark">#ff1F6E92</color>
     <color name="tg_green">#ff70B15C</color>
     <color name="tg_green_bubble">#EEFFDE</color>
 
@@ -167,7 +167,7 @@
     <color name="tg_text_secondary_dark">#ff8A98A5</color>
 
     <!-- Accent & interactive -->
-    <color name="tg_accent">#ff229AF0</color>
+    <color name="tg_accent">#ff2580A8</color>
     <color name="tg_accent_green">#ff70B15C</color>
     <color name="tg_link">#ff2678B6</color>
     <color name="tg_time_light">#ffA1AAB3</color>

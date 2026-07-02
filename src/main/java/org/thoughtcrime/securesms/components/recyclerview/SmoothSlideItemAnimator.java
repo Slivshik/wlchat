@@ -55,25 +55,9 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
 
   @Override
   public boolean animateRemove(RecyclerView.ViewHolder holder) {
-    View view = holder.itemView;
-
-    // Quick slide to right without fade
-    AnimatorSet set = new AnimatorSet();
-    set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.04f)
-    );
-    set.setDuration(REMOVE_DURATION);
-    set.setInterpolator(new DecelerateInterpolator(2f));
-    set.addListener(new AnimatorListenerAdapter() {
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        view.setTranslationX(0f);
-        view.setAlpha(1f);
-        dispatchRemoveFinished(holder);
-      }
-    });
-    set.start();
-    return true;
+    // Instant removal - no animation to prevent message overlap flicker
+    dispatchRemoveFinished(holder);
+    return false;
   }
 
   @Override

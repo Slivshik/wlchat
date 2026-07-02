@@ -216,9 +216,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_gravity="end"
-                android:orientation="horizontal"
-                app:message_type="outgoing" />
+        android:layout_gravity="start"
+        android:orientation="horizontal"
+        app:message_type="outgoing" />
 
         </LinearLayout>
 

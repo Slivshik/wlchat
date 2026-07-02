@@ -199,38 +199,19 @@
                     <requestFocus />
                 </org.thoughtcrime.securesms.components.ComposeText>
 
-                <org.thoughtcrime.securesms.components.HidingLinearLayout
-                    android:id="@+id/quick_attachment_toggle"
+                <org.thoughtcrime.securesms.components.MicrophoneRecorderView
+                    android:id="@+id/recorder_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
                     android:clipChildren="false"
                     android:clipToPadding="false">
 
-                    <ImageButton
-                        android:id="@+id/quick_camera_toggle"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_tg_camera"
-                    android:padding="7dp"
-                        android:background="@drawable/ripple_circle"
-                        android:contentDescription="@string/camera" />
+                    <include layout="@layout/microphone_recorder_view" />
 
-                    <org.thoughtcrime.securesms.components.MicrophoneRecorderView
-                        android:id="@+id/recorder_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:clipChildren="false"
-                        android:clipToPadding="false">
-
-                        <include layout="@layout/microphone_recorder_view" />
-
-                    </org.thoughtcrime.securesms.components.MicrophoneRecorderView>
-
-                </org.thoughtcrime.securesms.components.HidingLinearLayout>
+                </org.thoughtcrime.securesms.components.MicrophoneRecorderView>
 
             </LinearLayout>
 

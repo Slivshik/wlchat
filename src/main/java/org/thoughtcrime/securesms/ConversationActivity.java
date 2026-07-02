@@ -652,6 +652,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
 
     menu.findItem(R.id.menu_group_settings).setVisible(dcChat.isMultiUser());
+    menu.findItem(R.id.menu_forum_topics).setVisible(dcChat.isMultiUser() && dcChat.canSend());
 
     super.onPrepareOptionsMenu(menu);
     return true;
@@ -1090,8 +1091,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     messageRequestBottomView =
         ViewUtil.findById(this, R.id.conversation_activity_message_request_bottom_bar);
 
-    ImageButton quickCameraToggle = ViewUtil.findById(this, R.id.quick_camera_toggle);
-
     if (!ViewUtil.isEdgeToEdgeSupported()) {
       // since insets will not be applied, we need to set top padding to avoid drawing behind
       // toolbar
@@ -1143,9 +1142,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     composeText.setOnEditorActionListener(sendButtonListener);
     composeText.setOnClickListener(composeKeyPressedListener);
     composeText.setOnFocusChangeListener(composeKeyPressedListener);
-
-    quickCameraToggle.setOnClickListener(
-        v -> attachmentManager.capturePhoto(ConversationActivity.this, TAKE_PHOTO));
 
     initializeBackground();
   }
