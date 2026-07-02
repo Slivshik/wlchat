@@ -247,21 +247,6 @@ public class ConversationItem extends BaseConversationItem {
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-    // Limit bubble width to ~65% of parent
-    ViewGroup parent = (ViewGroup) bodyBubble.getParent();
-    if (parent != null) {
-      int parentWidth = parent.getMeasuredWidth();
-      if (parentWidth <= 0) parentWidth = getMeasuredWidth();
-      if (parentWidth > 0 && bodyBubble.getMeasuredWidth() > 0) {
-        int maxWidth = (int) (parentWidth * 0.65);
-        if (bodyBubble.getMeasuredWidth() > maxWidth) {
-          int childWidthSpec = MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.AT_MOST);
-          bodyBubble.measure(childWidthSpec,
-              MeasureSpec.makeMeasureSpec(bodyBubble.getMeasuredHeight(), MeasureSpec.EXACTLY));
-        }
-      }
-    }
-
     if (isInEditMode()) {
       return;
     }

@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class SmoothSlideItemAnimator extends DefaultItemAnimator {
 
-  private static final int ADD_DURATION = 120;
-  private static final int REMOVE_DURATION = 80;
-  private static final int MOVE_DURATION = 120;
+  private static final int ADD_DURATION = 180;
+  private static final int REMOVE_DURATION = 140;
+  private static final int MOVE_DURATION = 180;
 
   public SmoothSlideItemAnimator() {
     setSupportsChangeAnimations(false);
@@ -31,16 +31,17 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
   public boolean animateAdd(RecyclerView.ViewHolder holder) {
     View view = holder.itemView;
 
-    // Start from slightly below, no fade
-    view.setTranslationY(24f);
-    view.setAlpha(1f);
+    // Start from slightly below with fade in
+    view.setTranslationY(30f);
+    view.setAlpha(0f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationY", 24f, 0f)
+        ObjectAnimator.ofFloat(view, "translationY", 30f, 0f),
+        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     );
     set.setDuration(ADD_DURATION);
-    set.setInterpolator(new FastOutSlowInInterpolator());
+    set.setInterpolator(new DecelerateInterpolator(1.5f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
@@ -55,9 +56,28 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
 
   @Override
   public boolean animateRemove(RecyclerView.ViewHolder holder) {
-    // Instant removal - no animation to prevent message overlap flicker
-    dispatchRemoveFinished(holder);
-    return false;
+    View view = holder.itemView;
+
+    view.setTranslationY(0f);
+    view.setAlpha(1f);
+
+    AnimatorSet set = new AnimatorSet();
+    set.playTogether(
+        ObjectAnimator.ofFloat(view, "translationY", 0f, 20f),
+        ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
+    );
+    set.setDuration(REMOVE_DURATION);
+    set.setInterpolator(new FastOutSlowInInterpolator());
+    set.addListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        view.setAlpha(1f);
+        view.setTranslationY(0f);
+        dispatchRemoveFinished(holder);
+      }
+    });
+    set.start();
+    return true;
   }
 
   @Override

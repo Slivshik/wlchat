@@ -197,20 +197,6 @@
                 android:text="@string/show_full_message"
                 android:textAllCaps="false" />
 
-            <org.thoughtcrime.securesms.components.ConversationItemFooter
-                android:id="@+id/conversation_item_footer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="4dp"
-                android:layout_gravity="end"
-                android:gravity="end"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:footer_text_color="?attr/conversation_item_outgoing_text_secondary_color" />
-
             <org.thoughtcrime.securesms.reactions.ReactionsConversationView
                 android:id="@+id/reactions_view"
                 android:layout_width="wrap_content"
@@ -219,6 +205,20 @@
         android:layout_gravity="start"
         android:orientation="horizontal"
         app:message_type="outgoing" />
+
+            <org.thoughtcrime.securesms.components.ConversationItemFooter
+                android:id="@+id/conversation_item_footer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:footer_text_color="?attr/conversation_item_outgoing_text_secondary_color" />
 
         </LinearLayout>
 
