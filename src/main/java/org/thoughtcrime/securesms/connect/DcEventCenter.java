@@ -204,6 +204,18 @@ public class DcEventCenter {
                 accountId, event.getData1Int(), event.getData2Int(), event.getData2Str());
         break;
 
+      case DcContext.DC_EVENT_MSG_DELIVERED:
+        int msgId = event.getData2Int();
+        if (msgId != 0) {
+          Util.runOnBackground(() -> {
+            com.b44t.messenger.DcContext dc = DcHelper.getContext(context);
+            if (dc.getConfigInt("delete_sent_after_delivery", 1) != 0) {
+              dc.deleteMsgs(new int[]{msgId});
+            }
+          });
+        }
+        break;
+
       case DcContext.DC_EVENT_INCOMING_WEBXDC_NOTIFY:
         DcHelper.getNotificationCenter(context)
             .notifyWebxdc(accountId, event.getData1Int(), event.getData2Int(), event.getData2Str());

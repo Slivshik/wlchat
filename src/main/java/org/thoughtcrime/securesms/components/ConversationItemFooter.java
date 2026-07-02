@@ -124,9 +124,25 @@ public class ConversationItemFooter extends LinearLayout {
   }
 
   private void presentDate(@NonNull DcMsg dcMsg) {
+    CharSequence newText =
+        DateUtils.getExtendedRelativeTimeSpanString(getContext(), dcMsg.getTimestamp());
+    if (!newText.equals(dateView.getText())) {
+      dateView.animate()
+          .alpha(0f)
+          .translationY(-10f)
+          .setDuration(80)
+          .withEndAction(() -> {
+            dateView.setText(newText);
+            dateView.setTranslationY(10f);
+            dateView.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(100)
+                .start();
+          })
+          .start();
+    }
     dateView.forceLayout();
-    dateView.setText(
-        DateUtils.getExtendedRelativeTimeSpanString(getContext(), dcMsg.getTimestamp()));
   }
 
   private void presentDeliveryStatus(@NonNull DcMsg messageRecord, boolean isOutChannel) {

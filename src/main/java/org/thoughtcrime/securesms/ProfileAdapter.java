@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.thoughtcrime.securesms.forum.ForumManager;
+import org.thoughtcrime.securesms.forum.ForumTopic;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import chat.delta.rpc.Rpc;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.contacts.ContactSelectionListItem;
@@ -364,10 +366,19 @@ public class ProfileAdapter extends RecyclerView.Adapter {
     } else if (dcContact != null) {
       itemDataStatusText = dcContact.getStatus();
     } else if (dcChat != null && dcChat.isEncrypted()) {
-      // Load group or channel description
       try {
         Rpc rpc = DcHelper.getRpc(context);
-        itemDataStatusText = rpc.getChatDescription(rpc.getSelectedAccountId(), dcChat.getId());
+        int chatId = dcChat.getId();
+        itemDataStatusText = rpc.getChatDescription(rpc.getSelectedAccountId(), chatId);
+        ForumManager fm = new ForumManager(dcContext, rpc);
+        if (fm.isForum(chatId) && itemDataStatusText != null && itemDataStatusText.startsWith("{")) {
+          List<ForumTopic> topics = fm.getTopics(chatId);
+          if (!topics.isEmpty()) {
+            itemDataStatusText = topics.size() + " " + context.getString(R.string.forum_topics);
+          } else {
+            itemDataStatusText = context.getString(R.string.forum_topics);
+          }
+        }
       } catch (RpcException e) {
         Log.e(TAG, "RPC error", e);
       }

@@ -29,6 +29,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
 
   private CheckBoxPreference readReceiptsCheckbox;
+  private CheckBoxPreference deleteSentCheckbox;
 
   private ListPreference autoDelDevice;
   private ListPreference autoDelServer;
@@ -41,6 +42,9 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
 
     readReceiptsCheckbox = (CheckBoxPreference) this.findPreference("pref_read_receipts");
     readReceiptsCheckbox.setOnPreferenceChangeListener(new ReadReceiptToggleListener());
+
+    deleteSentCheckbox = (CheckBoxPreference) this.findPreference("pref_delete_sent");
+    deleteSentCheckbox.setOnPreferenceChangeListener(new DeleteSentToggleListener());
 
     this.findPreference("preference_category_blocked")
         .setOnPreferenceClickListener(new BlockedContactsClickListener());
@@ -73,6 +77,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         .setTitle(R.string.pref_privacy);
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
+    deleteSentCheckbox.setChecked(0 != dcContext.getConfigInt("delete_sent_after_delivery", 1));
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();
@@ -239,6 +244,22 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         Toast.makeText(
                 getContext(),
                 String.format(getString(R.string.autodel_media_summary)),
+                Toast.LENGTH_SHORT)
+            .show();
+      }
+      return true;
+    }
+  }
+
+  private class DeleteSentToggleListener implements Preference.OnPreferenceChangeListener {
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+      boolean enabled = (boolean) newValue;
+      dcContext.setConfigInt("delete_sent_after_delivery", enabled ? 1 : 0);
+      if (enabled) {
+        Toast.makeText(
+                getContext(),
+                R.string.delete_sent_explain,
                 Toast.LENGTH_SHORT)
             .show();
       }
