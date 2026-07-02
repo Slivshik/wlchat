@@ -149,7 +149,6 @@ android {
         }
         gplay {
             dimension "none"
-            apply plugin: "com.google.gms.google-services"
             buildConfigField "boolean", "USE_PLAY_SERVICES", "true"
             applicationId "com.github.arcanechat"
         }
