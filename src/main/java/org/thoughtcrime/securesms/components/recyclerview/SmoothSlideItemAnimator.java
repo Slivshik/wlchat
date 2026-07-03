@@ -31,17 +31,16 @@ public class SmoothSlideItemAnimator extends DefaultItemAnimator {
   public boolean animateAdd(RecyclerView.ViewHolder holder) {
     View view = holder.itemView;
 
-    // Start from slightly below with fade in
-    view.setTranslationY(30f);
+    view.setTranslationY(20f);
     view.setAlpha(0f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationY", 30f, 0f),
+        ObjectAnimator.ofFloat(view, "translationY", 20f, 0f),
         ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     );
     set.setDuration(ADD_DURATION);
-    set.setInterpolator(new DecelerateInterpolator(1.5f));
+    set.setInterpolator(new DecelerateInterpolator(2f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {

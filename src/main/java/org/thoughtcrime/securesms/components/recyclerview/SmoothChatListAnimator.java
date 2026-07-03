@@ -34,29 +34,21 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
   public boolean animateAdd(RecyclerView.ViewHolder holder) {
     View view = holder.itemView;
 
-    // Start state: slide in from left + fade in
-    view.setTranslationY(12f);
+    view.setTranslationY(15f);
     view.setAlpha(0f);
-    view.setScaleX(0.99f);
-    view.setScaleY(0.99f);
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationY", 12f, 0f),
-        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleX", 0.99f, 1f),
-        ObjectAnimator.ofFloat(view, "scaleY", 0.99f, 1f)
+        ObjectAnimator.ofFloat(view, "translationY", 15f, 0f),
+        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
     );
     set.setDuration(ADD_DURATION);
-    set.setInterpolator(new FastOutSlowInInterpolator());
+    set.setInterpolator(new DecelerateInterpolator(2f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
-        view.setTranslationX(0f);
         view.setTranslationY(0f);
         view.setAlpha(1f);
-        view.setScaleX(1f);
-        view.setScaleY(1f);
         dispatchAddFinished(holder);
       }
     });
@@ -70,20 +62,14 @@ public class SmoothChatListAnimator extends DefaultItemAnimator {
 
     AnimatorSet set = new AnimatorSet();
     set.playTogether(
-        ObjectAnimator.ofFloat(view, "translationX", 0f, view.getWidth() * 0.05f),
-        ObjectAnimator.ofFloat(view, "alpha", 1f, 0f),
-        ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.99f),
-        ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.99f)
+        ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
     );
     set.setDuration(REMOVE_DURATION);
     set.setInterpolator(new DecelerateInterpolator(2f));
     set.addListener(new AnimatorListenerAdapter() {
       @Override
       public void onAnimationEnd(Animator animation) {
-        view.setTranslationX(0f);
         view.setAlpha(1f);
-        view.setScaleX(1f);
-        view.setScaleY(1f);
         dispatchRemoveFinished(holder);
       }
     });

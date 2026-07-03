@@ -18,6 +18,19 @@
     <string name="default_value">По умолчанию (%1$s)</string>
     <string name="custom">Свой вариант</string>
     <string name="none">Не задано</string>
+
+    <!-- Forum / Topics -->
+    <string name="forum_topics">Темы</string>
+    <string name="create_topic">Создать тему</string>
+    <string name="edit_topic">Редактировать тему</string>
+    <string name="topic_name">Название темы</string>
+    <string name="delete_topic">Удалить тему</string>
+    <string name="delete_topic_confirm">Удалить эту тему и все её сообщения?</string>
+    <string name="enable_forum">Включить темы</string>
+    <string name="forum_enabled">Темы включены для этого чата</string>
+    <string name="all_topics">Все темы</string>
+    <string name="topic_format">%1$s %2$s</string>
+
     <string name="automatic">Автоматически</string>
     <string name="strict">Строгий</string>
     <string name="open">Открыть</string>
@@ -446,6 +459,7 @@
     <string name="call_ringing">Звонок...</string>
     <string name="call_reconnecting">Переподключение...</string>
     <string name="call_ended">Звонок завершен</string>
+    <string name="call_back">Перезвонить</string>
     <string name="call_failed">Звонок не удался</string>
     <!-- deprecated, use "Audio call" instead -->
     <string name="outgoing_audio_call">Исходящий аудиозвонок</string>
@@ -935,6 +949,10 @@
     <!-- %1$s will be replaced a name. %2$s will be replaced by an emoji. %3$s will be replaced by message summary (the summary is often long and whole string gets truncated; words after %3$s will often not being visible). Eg. 'Alice reacted 👍 to "Nice photos"'. Use less than 20 characters, otherwise the string will be truncated too soon and too few information are shown. Do not try to translate "reacted to" too strict. Depending on the language, "added 👍 to" or "gave 👍 to" or just "👍 to" may be shorter and/or clearer work as well. -->
     <string name="reaction_by_other">%1$s реагирует %2$s на \"%3$s\"</string>
 
+    <!-- delete sent from server -->
+    <string name="delete_sent_title">Удалять отправленные сообщения с сервера</string>
+    <string name="delete_sent_explain">После доставки и кеширования на устройствах получателей удалять отправленные сообщения с сервера для экономии места</string>
+
     <!-- automatically delete message -->
     <string name="delete_old_messages">Удалить старые сообщения</string>
     <string name="autodel_device_title">Удалять сообщения с устройства</string>
@@ -1422,4 +1440,11 @@
     <string name="autodel_7_days">Через 7 дней</string>
     <string name="storage_warning_title">Хранилище почти заполнено</string>
     <string name="storage_warning_message">Почтовый ящик @wlrus.lol скоро заполнится. Старые сообщения и медиа будут удалены автоматически.</string>
+
+    <!-- Formatting toolbar -->
+    <string name="format_bold">Жирный</string>
+    <string name="format_italic">Курсив</string>
+    <string name="format_underline">Подчёркнутый</string>
+    <string name="format_strikethrough">Зачёркнутый</string>
+    <string name="format_code">Код</string>
 </resources>
