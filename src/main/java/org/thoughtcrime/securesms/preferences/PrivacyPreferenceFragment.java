@@ -77,7 +77,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         .setTitle(R.string.pref_privacy);
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
-    deleteSentCheckbox.setChecked(0 != dcContext.getConfigInt("delete_sent_after_delivery", 1));
+    deleteSentCheckbox.setChecked(0 != dcContext.getConfigInt("delete_sent_after_delivery", 0));
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();

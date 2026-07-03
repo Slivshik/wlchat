@@ -142,7 +142,6 @@ public class ConversationItemFooter extends LinearLayout {
           })
           .start();
     }
-    dateView.forceLayout();
   }
 
   private void presentDeliveryStatus(@NonNull DcMsg messageRecord, boolean isOutChannel) {

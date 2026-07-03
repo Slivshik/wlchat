@@ -209,7 +209,7 @@ public class DcEventCenter {
         if (msgId != 0) {
           Util.runOnBackground(() -> {
             com.b44t.messenger.DcContext dc = DcHelper.getContext(context);
-            if (dc.getConfigInt("delete_sent_after_delivery", 1) != 0) {
+            if (dc.getConfigInt("delete_sent_after_delivery", 0) != 0) {
               dc.deleteMsgs(new int[]{msgId});
             }
           });
