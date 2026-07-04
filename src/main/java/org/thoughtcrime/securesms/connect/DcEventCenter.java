@@ -1,6 +1,8 @@
 package org.thoughtcrime.securesms.connect;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -208,8 +210,9 @@ public class DcEventCenter {
         int msgId = event.getData2Int();
         if (msgId != 0) {
           Util.runOnBackground(() -> {
-            com.b44t.messenger.DcContext dc = DcHelper.getContext(context);
-            if (dc.getConfigInt("delete_sent_after_delivery", 0) != 0) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            if (prefs.getBoolean("pref_delete_sent", true)) {
+              com.b44t.messenger.DcContext dc = DcHelper.getContext(context);
               dc.deleteMsgs(new int[]{msgId});
             }
           });

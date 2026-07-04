@@ -27,7 +27,7 @@
         android:title="@string/pref_incognito_keyboard" />
 
     <org.thoughtcrime.securesms.components.SwitchPreferenceCompat
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="pref_delete_sent"
         android:title="@string/delete_sent_title"
         android:summary="@string/delete_sent_explain" />

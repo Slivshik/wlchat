@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -77,7 +78,8 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         .setTitle(R.string.pref_privacy);
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
-    deleteSentCheckbox.setChecked(0 != dcContext.getConfigInt("delete_sent_after_delivery", 0));
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+    deleteSentCheckbox.setChecked(prefs.getBoolean("pref_delete_sent", true));
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();
@@ -255,7 +257,6 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
       boolean enabled = (boolean) newValue;
-      dcContext.setConfigInt("delete_sent_after_delivery", enabled ? 1 : 0);
       if (enabled) {
         Toast.makeText(
                 getContext(),
