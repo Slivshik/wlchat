@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- common strings without special context -->
-    <string name="app_name">Delta Chat</string>
+    <string name="app_name">WL Chat</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="clear_search">Очистить поиск</string>
@@ -342,7 +342,7 @@
     <string name="share_invite_link_explain">Кто угодно, у кого есть эта ссылка, сможет просмотреть ваш профиль и начать с вами беседу. Делитесь ею только с теми людьми, которым вы доверяете.</string>
     <string name="invite_friends">Пригласить друзей</string>
     <!-- %1$s is replaced by the user's invitation link ("https://i.delta.chat/...") -->
-    <string name="invite_friends_text">Свяжитесь со мной через Delta Chat:\n%1$s</string>
+    <string name="invite_friends_text">Свяжитесь со мной через WL Chat:\n%1$s</string>
     <string name="menu_copy_selection_to_clipboard">Копировать выделенное</string>
     <string name="menu_copy_link_to_clipboard">Копировать ссылку</string>
     <string name="menu_copy_text_to_clipboard">Копировать текст</string>
@@ -654,13 +654,13 @@
     <string name="multidevice_this_creates_a_qr_code">Это позволяет создать QR-код, который можно отсканировать на втором устройстве, чтобы скопировать профиль.\n\nУбедитесь, что посторонние лица или камеры не могут видеть следующий экран.</string>
     <string name="multidevice_install_dc_on_other_device">Установите Delta Chat на другом устройстве (https://get.delta.chat)</string>
     <!-- "I Already Have a Profile / Add as Second Device” should be the same text as defined by the keys onboarding_alternative_logins and multidevice_receiver_title -->
-    <string name="multidevice_tap_scan_on_other_device">Запустите Delta Chat, нажмите \"У меня уже есть профиль / Добавить как второе устройство\" и отсканируйте показанный здесь код</string>
+    <string name="multidevice_tap_scan_on_other_device">Запустите WL Chat, нажмите \"У меня уже есть профиль / Добавить как второе устройство\" и отсканируйте показанный здесь код</string>
     <!-- Shown inside a "QR code card" with very limited space; please formulate the text as short as possible therefore. The placeholder will be replaced by the profile name eg. "Scan to set up second device for Alice" -->
     <string name="multidevice_qr_subtitle">Отсканируйте, чтобы настроить второе устройство для %1$s</string>
     <string name="multidevice_receiver_title">Добавить как второе устройство</string>
-    <string name="multidevice_open_settings_on_other_device">На первом устройстве запустите Delta Chat, перейдите в \"Настройки / Добавить второе устройство\" и отсканируйте показанный там код</string>
+    <string name="multidevice_open_settings_on_other_device">На первом устройстве запустите WL Chat, перейдите в \"Настройки / Добавить второе устройство\" и отсканируйте показанный там код</string>
     <string name="multidevice_receiver_scanning_ask">Скопировать профиль с другого устройства на это устройство?</string>
-    <string name="multidevice_receiver_needs_update">Профиль, который вы хотите импортировать, создан в более новой версии Delta Chat.\n\nЧтобы продолжить настройку второго устройства, пожалуйста, обновите это устройство до последней версии Delta Chat.</string>
+    <string name="multidevice_receiver_needs_update">Профиль, который вы хотите импортировать, создан в более новой версии WL Chat.\n\nЧтобы продолжить настройку второго устройства, пожалуйста, обновите это устройство до последней версии WL Chat.</string>
     <string name="multidevice_abort">Прервать настройку второго устройства?</string>
     <string name="multidevice_abort_will_invalidate_copied_qr">Это сделает недействительным QR-код, скопированный в буфер обмена.</string>
     <string name="multidevice_transfer_done_devicemsg">ℹ️ Профиль перенесен на ваше второе устройство.</string>
@@ -1144,7 +1144,7 @@
 
     <!-- location streaming -->
     <string name="location_streaming_notification_text">Вы делитесь своим местоположением</string>
-    <string name="location_rationale">Чтобы поделиться своим местоположением в реальном времени с участниками чата, разрешите Delta Chat использовать данные о вашем местоположении.\n\nДля обеспечения бесперебойной работы функции передачи геопозиции данные используются даже тогда, когда приложение закрыто или не активно.</string>
+    <string name="location_rationale">Чтобы поделиться своим местоположением в реальном времени с участниками чата, разрешите WL Chat использовать данные о вашем местоположении.\n\nДля обеспечения бесперебойной работы функции передачи геопозиции данные используются даже тогда, когда приложение закрыто или не активно.</string>
 
     <!-- permissions -->
     <string name="perm_required_title">Требуется разрешение</string>
@@ -1154,7 +1154,7 @@
     <string name="perm_explain_access_to_mic_denied">Чтобы отправлять аудиосообщения, откройте настройки приложения, выберите \"Разрешения\" или \"Конфиденциальность и безопасность\" и включите доступ к \"Микрофону\".</string>
     <string name="perm_explain_access_to_storage_denied">Чтобы получать или отправлять файлы, откройте настройки приложения, выберите \"Разрешения\" и включите доступ к \"Хранилищу\".</string>
     <string name="perm_explain_access_to_location_denied">Чтобы прикрепить местоположение, откройте настройки приложения, выберите \"Разрешения\" и включите доступ к \"Местоположению\".</string>
-    <string name="perm_explain_access_to_notifications_denied">Для получения уведомлений, перейдите в \"Настройки системы / Приложения / Delta Chat\" и включите доступ к \"Уведомлениям\".</string>
+    <string name="perm_explain_access_to_notifications_denied">Для получения уведомлений, перейдите в \"Настройки системы / Приложения / WL Chat\" и включите доступ к \"Уведомлениям\".</string>
 
     <!-- ImageEditorHud -->
     <string name="ImageEditorHud_draw_anywhere_to_blur">Нарисуйте где угодно, чтобы размыть</string>
@@ -1268,7 +1268,7 @@
     <!-- use the same translation for "Shortcuts" as the system is using, often the term "Shortcut" stays untranslated; check eg. how the "Shortcuts" system app is called in your locale -->
     <string name="shortcuts_widget_title">Ярлыки</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
-    <string name="shortcuts_widget_description">Используйте \"Добавить в виджет\" Delta Chat, чтобы добавить элементы</string>
+    <string name="shortcuts_widget_description">Используйте \"Добавить в виджет\" WL Chat, чтобы добавить элементы</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
     <string name="remove_from_widget">Удалить из виджета</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->

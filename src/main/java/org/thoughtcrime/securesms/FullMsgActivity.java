@@ -145,7 +145,7 @@ public class FullMsgActivity extends WebViewActivity {
   protected void onPause() {
     super.onPause();
     if (isFinishing()) {
-      overridePendingTransition(R.anim.fade_scale_in, R.anim.slide_to_right);
+      overridePendingTransition(R.anim.fade_in_reveal, R.anim.slide_to_right);
     }
   }
 

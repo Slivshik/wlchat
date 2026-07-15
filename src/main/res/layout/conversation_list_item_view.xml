@@ -5,7 +5,7 @@
     android:background="@drawable/ripple_list_item"
     android:layout_width="match_parent"
     android:focusable="true"
-    android:layout_height="76dp"
+    android:layout_height="72dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:paddingStart="12dp"
@@ -13,8 +13,8 @@
 
     <org.thoughtcrime.securesms.components.AvatarView
         android:id="@+id/avatar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -140,8 +140,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="80dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="70dp"
         android:background="#12000000" />
 
 </org.thoughtcrime.securesms.ConversationListItem>

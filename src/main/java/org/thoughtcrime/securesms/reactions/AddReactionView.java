@@ -1,9 +1,13 @@
 package org.thoughtcrime.securesms.reactions;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
@@ -106,11 +110,44 @@ public class AddReactionView extends LinearLayout {
     int y = Math.max((int) parentView.getY() - offset, offset / 2);
     ViewUtil.setTopMargin(this, y);
 
+    setPivotX(msgToReactTo.isOutgoing() ? getWidth() : 0f);
+    setPivotY(getHeight());
+    animate().cancel();
+    setScaleX(0.4f);
+    setScaleY(0.4f);
+    setAlpha(0f);
     setVisibility(View.VISIBLE);
+    animate()
+        .scaleX(1f)
+        .scaleY(1f)
+        .alpha(1f)
+        .setDuration(220)
+        .setInterpolator(new OvershootInterpolator(1.2f))
+        .start();
   }
 
   public void hide() {
-    setVisibility(View.GONE);
+    if (getVisibility() != View.VISIBLE) {
+      return;
+    }
+    animate().cancel();
+    animate()
+        .scaleX(0.4f)
+        .scaleY(0.4f)
+        .alpha(0f)
+        .setDuration(140)
+        .setInterpolator(new FastOutSlowInInterpolator())
+        .setListener(
+            new AnimatorListenerAdapter() {
+              @Override
+              public void onAnimationEnd(Animator animation) {
+                setVisibility(View.GONE);
+                setScaleX(1f);
+                setScaleY(1f);
+                setAlpha(1f);
+              }
+            })
+        .start();
   }
 
   public void move(int dy) {

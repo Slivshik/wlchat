@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- common strings without special context -->
-    <string name="app_name">Arcane Chat</string>
+    <string name="app_name">WL Chat</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="clear_search">Clear Search</string>
@@ -320,7 +320,7 @@
     <string name="share_invite_link_explain">Anyone with this link can view your profile and start a chat with you. Only share it with people you trust.</string>
     <string name="invite_friends">Invite Friends</string>
     <!-- %1$s is replaced by the user's invitation link ("https://i.delta.chat/...") -->
-    <string name="invite_friends_text">Contact me on Delta Chat:\n%1$s</string>
+    <string name="invite_friends_text">Contact me on WL Chat:\n%1$s</string>
     <string name="menu_copy_selection_to_clipboard">Copy Selection</string>
     <string name="menu_copy_link_to_clipboard">Copy Link</string>
     <string name="menu_copy_text_to_clipboard">Copy Text</string>
@@ -618,13 +618,13 @@
     <string name="multidevice_this_creates_a_qr_code">This creates a QR code that the second device can scan to copy the profile.\n\nMake sure no unwanted observer or camera can see the following screen.</string>
     <string name="multidevice_install_dc_on_other_device">Install Delta Chat on your other device (https://get.delta.chat)</string>
     <!-- "I Already Have a Profile / Add as Second Device” should be the same text as defined by the keys onboarding_alternative_logins and multidevice_receiver_title -->
-    <string name="multidevice_tap_scan_on_other_device">Start Delta Chat, tap “I Already Have a Profile / Add as Second Device” and scan the code shown here</string>
+    <string name="multidevice_tap_scan_on_other_device">Start WL Chat, tap “I Already Have a Profile / Add as Second Device” and scan the code shown here</string>
     <!-- Shown inside a "QR code card" with very limited space; please formulate the text as short as possible therefore. The placeholder will be replaced by the profile name eg. "Scan to set up second device for Alice" -->
     <string name="multidevice_qr_subtitle">Scan to set up second device for %1$s</string>
     <string name="multidevice_receiver_title">Add as Second Device</string>
-    <string name="multidevice_open_settings_on_other_device">On the first device, start Delta Chat, go to “Settings / Add Second Device“ and scan the code shown there</string>
+    <string name="multidevice_open_settings_on_other_device">On the first device, start WL Chat, go to “Settings / Add Second Device“ and scan the code shown there</string>
     <string name="multidevice_receiver_scanning_ask">Copy the profile from the other device to this device?</string>
-    <string name="multidevice_receiver_needs_update">The profile you want to import is from a newer Delta Chat version.\n\nTo continue setting up second device, please update this device to the latest version of Delta Chat.</string>
+    <string name="multidevice_receiver_needs_update">The profile you want to import is from a newer WL Chat version.\n\nTo continue setting up second device, please update this device to the latest version of WL Chat.</string>
     <string name="multidevice_abort">Abort setting up second device?</string>
     <string name="multidevice_abort_will_invalidate_copied_qr">This will invalidate the QR code copied to clipboard.</string>
     <string name="multidevice_transfer_done_devicemsg">ℹ️ Profile transferred to your second device.</string>
@@ -1123,7 +1123,7 @@
 
     <!-- location streaming -->
     <string name="location_streaming_notification_text">You are sharing your location</string>
-    <string name="location_rationale">To share your live location with chat members, allow Delta Chat to use your location data.\n\nTo make live location work gaplessly, location data is used even when the app is closed or not in use.</string>
+    <string name="location_rationale">To share your live location with chat members, allow WL Chat to use your location data.\n\nTo make live location work gaplessly, location data is used even when the app is closed or not in use.</string>
 
     <!-- permissions -->
     <string name="perm_required_title">Permission required</string>
@@ -1133,7 +1133,7 @@
     <string name="perm_explain_access_to_mic_denied">To send audio messages, go to system or app settings, select "Permissions" or "Privacy &amp; Security", and enable \"Microphone\".</string>
     <string name="perm_explain_access_to_storage_denied">To receive or send files, go to the app settings, select \"Permissions\", and enable \"Storage\".</string>
     <string name="perm_explain_access_to_location_denied">To attach a location, go to the app settings, select \"Permissions\", and enable \"Location\".</string>
-    <string name="perm_explain_access_to_notifications_denied">To receive notifications, go to \"System Settings / Apps / Delta Chat\" and enable \"Notifications\".</string>
+    <string name="perm_explain_access_to_notifications_denied">To receive notifications, go to \"System Settings / Apps / WL Chat\" and enable \"Notifications\".</string>
 
     <!-- ImageEditorHud -->
     <string name="ImageEditorHud_draw_anywhere_to_blur">Draw anywhere to blur</string>
@@ -1309,7 +1309,7 @@
     <!-- use the same translation for "Shortcuts" as the system is using, often the term "Shortcut" stays untranslated; check eg. how the "Shortcuts" system app is called in your locale -->
     <string name="shortcuts_widget_title">Shortcuts</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
-    <string name="shortcuts_widget_description">Use Delta Chat\'s \"Add to Widget\" to add items</string>
+    <string name="shortcuts_widget_description">Use WL Chat\'s \"Add to Widget\" to add items</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
     <string name="remove_from_widget">Remove from Widget</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->

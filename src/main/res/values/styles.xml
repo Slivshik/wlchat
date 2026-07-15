@@ -6,6 +6,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButton</item>
+        <item name="android:windowBackground">@drawable/dialog_background_rounded_light</item>
     </style>
 
     <style
@@ -14,6 +15,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButton</item>
+        <item name="android:windowBackground">@drawable/dialog_background_rounded_dark</item>
     </style>
 
     <style

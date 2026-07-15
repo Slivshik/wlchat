@@ -429,7 +429,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
 
     DcHelper.getNotificationCenter(this).clearVisibleChat();
-    if (isFinishing()) overridePendingTransition(R.anim.fade_scale_in, R.anim.slide_to_right);
+    if (isFinishing()) overridePendingTransition(R.anim.fade_in_reveal, R.anim.slide_to_right);
     inputPanel.onPause();
   }
 

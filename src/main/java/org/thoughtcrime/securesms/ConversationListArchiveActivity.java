@@ -63,7 +63,7 @@ public class ConversationListArchiveActivity extends PassphraseRequiredActionBar
   @Override
   protected void onPause() {
     super.onPause();
-    if (isFinishing()) overridePendingTransition(R.anim.fade_scale_in, R.anim.slide_to_right);
+    if (isFinishing()) overridePendingTransition(R.anim.fade_in_reveal, R.anim.slide_to_right);
   }
 
   @Override
