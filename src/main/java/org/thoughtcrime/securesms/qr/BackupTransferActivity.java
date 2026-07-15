@@ -223,6 +223,7 @@ public class BackupTransferActivity extends BaseActionBarActivity {
       startActivity(new Intent(getApplicationContext(), ConversationListActivity.class));
       startActivity(new Intent(this, ApplicationPreferencesActivity.class));
       overridePendingTransition(0, 0);
+      skipDefaultExitTransition();
     }
     finish();
   }
