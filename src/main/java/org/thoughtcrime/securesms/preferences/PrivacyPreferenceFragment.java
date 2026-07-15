@@ -17,6 +17,7 @@ import androidx.preference.PreferenceCategory;
 import com.b44t.messenger.DcContext;
 import org.thoughtcrime.securesms.ApplicationPreferencesActivity;
 import org.thoughtcrime.securesms.BlockedContactsActivity;
+import org.thoughtcrime.securesms.BuildConfig;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.util.Prefs;
@@ -27,8 +28,13 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String PREF_AUTODEL_SERVER = "autodel_server";
   private static final String PREF_AUTODEL_MEDIA = "autodel_media";
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
+  // "at once" sentinel for the "delete_server_after" core config (0 = never, 1 = at once,
+  // >1 = seconds). Only ever deletes the server-side copy - the local copy on this device
+  // is never touched by this config.
+  private static final int DELETE_SERVER_AFTER_AT_ONCE = 1;
 
   private CheckBoxPreference readReceiptsCheckbox;
+  private CheckBoxPreference deleteSentCheckbox;
 
   private ListPreference autoDelDevice;
   private ListPreference autoDelServer;
@@ -41,6 +47,12 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
 
     readReceiptsCheckbox = (CheckBoxPreference) this.findPreference("pref_read_receipts");
     readReceiptsCheckbox.setOnPreferenceChangeListener(new ReadReceiptToggleListener());
+
+    deleteSentCheckbox = (CheckBoxPreference) this.findPreference("pref_delete_sent");
+    deleteSentCheckbox.setOnPreferenceChangeListener(new DeleteSentToggleListener());
+    // this is a WL Chat-specific feature; other builds of this codebase (Arcane Chat etc.)
+    // keep using the plain, protocol-standard delete-server-after behavior instead.
+    deleteSentCheckbox.setVisible(isWlChatBuild());
 
     this.findPreference("preference_category_blocked")
         .setOnPreferenceClickListener(new BlockedContactsClickListener());
@@ -73,6 +85,8 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         .setTitle(R.string.pref_privacy);
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
+    deleteSentCheckbox.setChecked(
+        dcContext.getConfigInt("delete_server_after") == DELETE_SERVER_AFTER_AT_ONCE);
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();
@@ -101,6 +115,10 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private void initManagedStorageVisibility() {
     boolean isManagedProvider = isManagedProviderAccount();
     managedStorageCategory.setVisible(isManagedProvider);
+  }
+
+  private static boolean isWlChatBuild() {
+    return BuildConfig.APPLICATION_ID.startsWith("chat.wl.");
   }
 
   private boolean isManagedProviderAccount() {
@@ -242,6 +260,20 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
                 Toast.LENGTH_SHORT)
             .show();
       }
+      return true;
+    }
+  }
+
+  private class DeleteSentToggleListener implements Preference.OnPreferenceChangeListener {
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+      boolean enabled = (boolean) newValue;
+      // "delete_server_after" is the same core config the "Managed storage" section below
+      // uses - it only ever removes the IMAP copy, the message stays in this device's local
+      // database. Refresh that section too so the two stay in sync if both are visible.
+      dcContext.setConfigInt(
+          "delete_server_after", enabled ? DELETE_SERVER_AFTER_AT_ONCE : 0);
+      initAutodelServerFromCore();
       return true;
     }
   }

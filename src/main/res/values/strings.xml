@@ -916,6 +916,8 @@
     <string name="reaction_by_other">%1$s reacted %2$s to \"%3$s\"</string>
 
     <!-- automatically delete message -->
+    <string name="delete_sent_title">Delete Sent Messages from Server</string>
+    <string name="delete_sent_explain">Once delivered, remove sent messages from the server to save space. Messages stay available on this device.</string>
     <string name="delete_old_messages">Delete Old Messages</string>
     <string name="autodel_device_title">Delete Messages from Device</string>
     <!-- deprecated -->
