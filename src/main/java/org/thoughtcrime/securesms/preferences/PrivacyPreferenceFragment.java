@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -271,8 +272,15 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
       // "delete_server_after" is the same core config the "Managed storage" section below
       // uses - it only ever removes the IMAP copy, the message stays in this device's local
       // database. Refresh that section too so the two stay in sync if both are visible.
-      dcContext.setConfigInt(
-          "delete_server_after", enabled ? DELETE_SERVER_AFTER_AT_ONCE : 0);
+      try {
+        dcContext.setConfigInt(
+            "delete_server_after", enabled ? DELETE_SERVER_AFTER_AT_ONCE : 0);
+      } catch (Exception e) {
+        Log.e(TAG, "failed to set delete_server_after", e);
+      }
+      // Belt-and-suspenders: make sure the switch reflects `enabled` even if something above
+      // throws, instead of silently refusing to move.
+      deleteSentCheckbox.setChecked(enabled);
       initAutodelServerFromCore();
       return true;
     }
