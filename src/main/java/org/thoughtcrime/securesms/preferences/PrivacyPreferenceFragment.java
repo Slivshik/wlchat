@@ -29,10 +29,13 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String PREF_AUTODEL_SERVER = "autodel_server";
   private static final String PREF_AUTODEL_MEDIA = "autodel_media";
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
-  // "at once" sentinel for the "delete_server_after" core config (0 = never, 1 = at once,
-  // >1 = seconds). Only ever deletes the server-side copy - the local copy on this device
+  // "delete_server_after" core config, in seconds (0 = never). The "1 = at once" sentinel
+  // documented for this config does not stick on this core build (confirmed: toggling it on,
+  // leaving and reopening this screen shows it reverted to off), so use the shortest interval
+  // that's already proven to persist here - the same value "autodel_device" offers as its
+  // "1 hour" option. Only ever deletes the server-side copy - the local copy on this device
   // is never touched by this config.
-  private static final int DELETE_SERVER_AFTER_AT_ONCE = 1;
+  private static final int DELETE_SERVER_AFTER_SOON = 3600;
 
   private CheckBoxPreference readReceiptsCheckbox;
   private CheckBoxPreference deleteSentCheckbox;
@@ -87,7 +90,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
     deleteSentCheckbox.setChecked(
-        dcContext.getConfigInt("delete_server_after") == DELETE_SERVER_AFTER_AT_ONCE);
+        dcContext.getConfigInt("delete_server_after") == DELETE_SERVER_AFTER_SOON);
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();
@@ -274,7 +277,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
       // database. Refresh that section too so the two stay in sync if both are visible.
       try {
         dcContext.setConfigInt(
-            "delete_server_after", enabled ? DELETE_SERVER_AFTER_AT_ONCE : 0);
+            "delete_server_after", enabled ? DELETE_SERVER_AFTER_SOON : 0);
       } catch (Exception e) {
         Log.e(TAG, "failed to set delete_server_after", e);
       }

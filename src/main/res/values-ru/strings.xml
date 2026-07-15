@@ -952,7 +952,7 @@
 
     <!-- automatically delete message -->
     <string name="delete_sent_title">Удалять отправленные сообщения с сервера</string>
-    <string name="delete_sent_explain">После доставки удалять отправленные сообщения с сервера для экономии места. На этом устройстве сообщения останутся.</string>
+    <string name="delete_sent_explain">После доставки удалять отправленные сообщения с сервера в течение часа для экономии места. На этом устройстве сообщения останутся.</string>
     <string name="delete_old_messages">Удалить старые сообщения</string>
     <string name="autodel_device_title">Удалять сообщения с устройства</string>
     <!-- deprecated -->
