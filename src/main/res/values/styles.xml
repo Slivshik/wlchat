@@ -7,6 +7,7 @@
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButton</item>
         <item name="android:windowBackground">@drawable/dialog_background_rounded_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.App.DialogSlideFade</item>
     </style>
 
     <style
@@ -16,6 +17,12 @@
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/AlertDialogButton</item>
         <item name="android:windowBackground">@drawable/dialog_background_rounded_dark</item>
+        <item name="android:windowAnimationStyle">@style/Animation.App.DialogSlideFade</item>
+    </style>
+
+    <style name="Animation.App.DialogSlideFade" parent="android:Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_fade_out</item>
     </style>
 
     <style

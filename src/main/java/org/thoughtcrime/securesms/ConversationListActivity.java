@@ -504,12 +504,17 @@ public class ConversationListActivity extends PassphraseRequiredActionBarActivit
                 searchFragment = SearchFragment.newInstance();
                 getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_fade_in_top, R.anim.slide_fade_out_top)
                     .add(R.id.fragment_container, searchFragment, null)
                     .commit();
               }
               searchFragment.updateSearchQuery(trimmed);
             } else if (searchFragment != null) {
-              getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
+              getSupportFragmentManager()
+                  .beginTransaction()
+                  .setCustomAnimations(R.anim.slide_fade_in_top, R.anim.slide_fade_out_top)
+                  .remove(searchFragment)
+                  .commit();
               searchFragment = null;
             }
           }
@@ -517,7 +522,11 @@ public class ConversationListActivity extends PassphraseRequiredActionBarActivit
           @Override
           public void onSearchClosed() {
             if (searchFragment != null) {
-              getSupportFragmentManager().beginTransaction().remove(searchFragment).commit();
+              getSupportFragmentManager()
+                  .beginTransaction()
+                  .setCustomAnimations(R.anim.slide_fade_in_top, R.anim.slide_fade_out_top)
+                  .remove(searchFragment)
+                  .commit();
               searchFragment = null;
             }
           }
