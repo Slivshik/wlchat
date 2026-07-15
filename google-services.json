@@ -99,6 +99,44 @@
                     "other_platform_oauth_client": []
                 }
             }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:922391085500:android:ced7837c465b3a783e2bb9",
+                "android_client_info": {
+                    "package_name": "chat.wl.lite"
+                }
+            },
+            "oauth_client": [],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBYH8Iznh8btYX7g_udv_bu68VH30zzxho"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": []
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:922391085500:android:0fd8e8e05bcbb7b23e2bb9",
+                "android_client_info": {
+                    "package_name": "chat.wl.lite.beta"
+                }
+            },
+            "oauth_client": [],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBYH8Iznh8btYX7g_udv_bu68VH30zzxho"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": []
+                }
+            }
         }
   ],
   "configuration_version": "1"

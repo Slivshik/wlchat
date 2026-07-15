@@ -37,7 +37,7 @@ android {
         versionCode 30000746
         versionName "2.53.0"
 
-        applicationId "chat.arcane.lite"
+        applicationId "chat.wl.lite"
         multiDexEnabled true
 
         minSdkVersion 21
