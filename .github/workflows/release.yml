@@ -73,11 +73,16 @@ jobs:
         export ANDROID_HOME=$ANDROID_HOME
         if [ -f "keystore/release.keystore" ]; then
           echo "Signing with the persistent release keystore."
+          # build.gradle evaluates every signingConfigs block during configuration, not just the
+          # one the invoked task actually uses, and releaseFdroid/releaseApk share the same
+          # `project.hasProperty("DC_RELEASE_STORE_FILE")` gate as release - so all of their
+          # referenced properties need to exist too, even though only "release" is used here.
           ./gradlew assembleFossRelease --no-daemon --no-build-cache \
             -Dorg.gradle.jvmargs="-Xmx4g" \
             -PDC_RELEASE_STORE_FILE="$GITHUB_WORKSPACE/keystore/release.keystore" \
             -PDC_RELEASE_STORE_PASSWORD="$RELEASE_STORE_PASSWORD" \
             -PDC_RELEASE_KEY_ALIAS_FDROID="$RELEASE_KEY_ALIAS" \
+            -PDC_RELEASE_KEY_ALIAS_GPLAY="$RELEASE_KEY_ALIAS" \
             -PDC_RELEASE_KEY_PASSWORD="$RELEASE_KEY_PASSWORD"
         else
           echo "::warning::No RELEASE_KEYSTORE_BASE64 secret set - signing with the debug keystore. Every build will have a different signature until the persistent keystore secrets are added."
