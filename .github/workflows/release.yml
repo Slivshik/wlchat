@@ -43,6 +43,7 @@ jobs:
 
     - name: Generate debug keystore for release signing (fallback if no release keystore secret is set)
       run: |
+        mkdir -p ~/.android
         if [ ! -f ~/.android/debug.keystore ]; then
           keytool -genkey -v -keystore ~/.android/debug.keystore \
             -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
