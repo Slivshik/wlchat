@@ -29,13 +29,15 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String PREF_AUTODEL_SERVER = "autodel_server";
   private static final String PREF_AUTODEL_MEDIA = "autodel_media";
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
-  // "delete_server_after" core config, in seconds (0 = never). The "1 = at once" sentinel
-  // documented for this config does not stick on this core build (confirmed: toggling it on,
-  // leaving and reopening this screen shows it reverted to off), so use the shortest interval
-  // that's already proven to persist here - the same value "autodel_device" offers as its
-  // "1 hour" option. Only ever deletes the server-side copy - the local copy on this device
-  // is never touched by this config.
-  private static final int DELETE_SERVER_AFTER_SOON = 3600;
+  // "delete_server_after" core config, in seconds (0 = never). Confirmed by testing: neither
+  // 1 ("at once") nor 3600 (1 hour) stick for this config - toggling on, leaving and reopening
+  // this screen shows it reverted to off - while "delete_device_after" (a purely local,
+  // non-server config) persists fine with arbitrary values. That points at server/provider-side
+  // rejection of short intervals for THIS config specifically, not a bug in how it's set here.
+  // Use 1296000 (15 days) - the same value already shipped and presumably working via the
+  // "Managed storage" section below for the same core config. Only ever deletes the
+  // server-side copy - the local copy on this device is never touched by this config.
+  private static final int DELETE_SERVER_AFTER_SOON = 1296000;
 
   private CheckBoxPreference readReceiptsCheckbox;
   private CheckBoxPreference deleteSentCheckbox;
