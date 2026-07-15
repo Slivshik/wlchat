@@ -69,6 +69,7 @@ import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.database.Address;
 import org.thoughtcrime.securesms.mms.GlideApp;
 import org.thoughtcrime.securesms.reactions.AddReactionView;
+import org.thoughtcrime.securesms.reactions.MessageQuickActionsView;
 import org.thoughtcrime.securesms.reactions.ReactionsDetailsFragment;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.relay.EditRelayActivity;
@@ -102,6 +103,8 @@ public class ConversationFragment extends MessageSelectorFragment {
   private View floatingLocationButton;
   private View bottomDivider;
   private AddReactionView addReactionView;
+  private MessageQuickActionsView messageQuickActionsView;
+  private Integer quickActionsMessageId;
   private TextView noMessageTextView;
   private Timer reloadTimer;
 
@@ -145,6 +148,7 @@ public class ConversationFragment extends MessageSelectorFragment {
     scrollToBottomButton = ViewUtil.findById(view, R.id.scroll_to_bottom_button);
     floatingLocationButton = ViewUtil.findById(view, R.id.floating_location_button);
     addReactionView = ViewUtil.findById(view, R.id.add_reaction_view);
+    messageQuickActionsView = ViewUtil.findById(view, R.id.message_quick_actions_view);
     noMessageTextView = ViewUtil.findById(view, R.id.no_messages_text_view);
     bottomDivider = ViewUtil.findById(view, R.id.bottom_divider);
 
@@ -316,6 +320,8 @@ public class ConversationFragment extends MessageSelectorFragment {
 
   public void hideAddReactionView() {
     addReactionView.hide();
+    messageQuickActionsView.hide();
+    quickActionsMessageId = null;
   }
 
   private void initializeResources() {
@@ -868,6 +874,7 @@ public class ConversationFragment extends MessageSelectorFragment {
       markseenDebouncer.publish(() -> manageMessageSeenState());
 
       ConversationFragment.this.addReactionView.move(dy);
+      ConversationFragment.this.messageQuickActionsView.move(dy);
     }
 
     @Override
@@ -1010,20 +1017,81 @@ public class ConversationFragment extends MessageSelectorFragment {
 
     @Override
     public void onItemLongClick(DcMsg messageRecord, View view) {
-      if (actionMode == null) {
-        ((ConversationAdapter) list.getAdapter()).toggleSelection(messageRecord);
-        list.getAdapter().notifyDataSetChanged();
-
-        actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-        addReactionView.show(
-            messageRecord,
-            view,
-            () -> {
-              if (actionMode != null) {
-                actionMode.finish();
-              }
-            });
+      if (actionMode != null) {
+        return;
       }
+
+      if (quickActionsMessageId != null && quickActionsMessageId != messageRecord.getId()) {
+        ((ConversationAdapter) list.getAdapter()).clearSelection();
+        list.getAdapter().notifyDataSetChanged();
+      }
+      quickActionsMessageId = messageRecord.getId();
+
+      ((ConversationAdapter) list.getAdapter()).toggleSelection(messageRecord);
+      list.getAdapter().notifyDataSetChanged();
+
+      addReactionView.show(
+          messageRecord,
+          view,
+          () -> {
+            if (actionMode != null) {
+              actionMode.finish();
+            } else {
+              hideAddReactionView();
+              ((ConversationAdapter) list.getAdapter()).clearSelection();
+              list.getAdapter().notifyDataSetChanged();
+            }
+          });
+
+      int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
+      int quickActionsTopY = (int) view.getY() - reactionBarOffset + addReactionView.getHeight();
+      messageQuickActionsView.show(
+          messageRecord,
+          view,
+          quickActionsTopY,
+          new MessageQuickActionsView.Listener() {
+            @Override
+            public void onReply() {
+              handleReplyMessage(getSelectedMessageRecord(getListAdapter().getSelectedItems()));
+              finishQuickSelection();
+            }
+
+            @Override
+            public void onForward() {
+              handleForwardMessage(getListAdapter().getSelectedItems());
+              finishQuickSelection();
+            }
+
+            @Override
+            public void onCopy() {
+              handleCopyMessage(getListAdapter().getSelectedItems());
+              finishQuickSelection();
+            }
+
+            @Override
+            public void onDelete() {
+              AudioPlaybackViewModel playbackViewModel =
+                  new ViewModelProvider(requireActivity()).get(AudioPlaybackViewModel.class);
+              handleDeleteMessages(
+                  (int) chatId,
+                  getListAdapter().getSelectedItems(),
+                  playbackViewModel::stopByIds,
+                  playbackViewModel::stopByIds);
+              finishQuickSelection();
+            }
+
+            @Override
+            public void onMore() {
+              actionMode =
+                  ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+            }
+          });
+    }
+
+    private void finishQuickSelection() {
+      hideAddReactionView();
+      ((ConversationAdapter) list.getAdapter()).clearSelection();
+      list.getAdapter().notifyDataSetChanged();
     }
 
     private void jumpToOriginal(DcMsg original) {

@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- common strings without special context -->
     <string name="app_name">WL Chat</string>
+    <string name="message_more_actions">Ещё</string>
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="clear_search">Очистить поиск</string>
