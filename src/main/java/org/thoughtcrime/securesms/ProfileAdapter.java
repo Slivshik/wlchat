@@ -31,6 +31,7 @@ import org.thoughtcrime.securesms.contacts.ContactSelectionListItem;
 import org.thoughtcrime.securesms.mms.GlideRequests;
 import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
 import org.thoughtcrime.securesms.util.Util;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 
 public class ProfileAdapter extends RecyclerView.Adapter {
   private static final String TAG = "ProfileAdapter";
@@ -209,6 +210,9 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         dcContact = dcContext.getContact(contactId);
         name = dcContact.getDisplayName();
         addr = dcContact.getAddr();
+        if (WlChatMarker.isWlChatUser(dcContact)) {
+          name = context.getString(R.string.member_name_with_wl_chat_badge, name);
+        }
       }
 
       contactItem.unbind(glideRequests);
@@ -373,11 +377,15 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         itemDataStatusText = rpc.getChatDescription(rpc.getSelectedAccountId(), chatId);
         ForumManager fm = new ForumManager(dcContext, rpc);
         if (fm.isForum(chatId) && itemDataStatusText != null && itemDataStatusText.startsWith("{")) {
-          List<ForumTopic> topics = fm.getTopics(chatId);
-          if (!topics.isEmpty()) {
-            itemDataStatusText = topics.size() + " " + context.getString(R.string.forum_topics);
+          if (fm.isUnsupportedVersion(chatId)) {
+            itemDataStatusText = context.getString(R.string.new_content_update_app);
           } else {
-            itemDataStatusText = context.getString(R.string.forum_topics);
+            List<ForumTopic> topics = fm.getTopics(chatId);
+            if (!topics.isEmpty()) {
+              itemDataStatusText = topics.size() + " " + context.getString(R.string.forum_topics);
+            } else {
+              itemDataStatusText = context.getString(R.string.forum_topics);
+            }
           }
         }
       } catch (RpcException e) {

@@ -191,6 +191,16 @@
     <string name="image">Image</string>
     <!-- Used in summaries as "Draft: Reply", similar as "Draft: Image". Use a noun here, not a verb (not: "to reply") -->
     <string name="reply_noun">Reply</string>
+    <!-- Action shown in the text-selection toolbar (after selecting a snippet of a message's text) that replies to the message quoting only the selected excerpt -->
+    <string name="quote_selection">Quote</string>
+    <!-- Small badge shown next to a contact's name when they are detected to be using WL Chat themselves. Keep it very short, it's rendered inline at reduced size. -->
+    <string name="wl_chat_user_badge">WL</string>
+    <!-- A member's display name with the WL Chat badge appended, e.g. "Alice · WL" -->
+    <string name="member_name_with_wl_chat_badge">%1$s · WL</string>
+    <!-- Shown under a contact's name in the "add member" list for a forum, when that contact isn't detected as a WL Chat user and so can't be added -->
+    <string name="forum_requires_wl_chat_user">Only WL Chat users can join forums</string>
+    <!-- Shown in place of content this build doesn't know how to read (e.g. forum data written by a newer WL Chat version) -->
+    <string name="new_content_update_app">New content. Update WL Chat</string>
     <string name="gif">GIF</string>
     <!-- "Stickers" as known from other messengers; in some languages, the English "Sticker" is fine. -->
     <string name="sticker">Sticker</string>

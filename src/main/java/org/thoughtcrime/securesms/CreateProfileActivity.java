@@ -38,6 +38,7 @@ import org.thoughtcrime.securesms.profiles.AvatarHelper;
 import org.thoughtcrime.securesms.scribbles.ScribbleActivity;
 import org.thoughtcrime.securesms.util.Prefs;
 import org.thoughtcrime.securesms.util.ViewUtil;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 
 @SuppressLint("StaticFieldLeak")
 public class CreateProfileActivity extends BaseActionBarActivity {
@@ -262,6 +263,7 @@ public class CreateProfileActivity extends BaseActionBarActivity {
   private void setStatusText() {
     String newStatus = statusView.getText().toString().trim();
     DcHelper.set(this, DcHelper.CONFIG_SELF_STATUS, newStatus);
+    WlChatMarker.ensureSelfMarker(DcHelper.getContext(this));
   }
 
   private class AvatarSelectedListener implements AvatarSelector.AttachmentClickedListener {

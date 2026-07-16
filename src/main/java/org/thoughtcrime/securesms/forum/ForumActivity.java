@@ -39,6 +39,8 @@ public class ForumActivity extends PassphraseRequiredActionBarActivity {
     private RecyclerView recyclerView;
     private TopicAdapter adapter;
     private List<ForumTopic> topics = new ArrayList<>();
+    private View unsupportedContentView;
+    private View addTopicButton;
 
     public static void start(Context context, int chatId) {
         Intent intent = new Intent(context, ForumActivity.class);
@@ -73,15 +75,25 @@ public class ForumActivity extends PassphraseRequiredActionBarActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TopicAdapter();
         recyclerView.setAdapter(adapter);
+        unsupportedContentView = findViewById(R.id.forum_unsupported_content);
 
         // Add topic button
-        View addTopicBtn = findViewById(R.id.forum_add_topic);
-        if (addTopicBtn != null) {
-            addTopicBtn.setOnClickListener(v -> showCreateTopicDialog());
+        addTopicButton = findViewById(R.id.forum_add_topic);
+        if (addTopicButton != null) {
+            addTopicButton.setOnClickListener(v -> showCreateTopicDialog());
         }
     }
 
     private void loadTopics() {
+        if (forumManager.isUnsupportedVersion(chatId)) {
+            // This chat's forum data was written by a newer WL Chat version in a format this
+            // build can't parse - show a placeholder instead of silently dropping/overwriting it.
+            recyclerView.setVisibility(View.GONE);
+            if (unsupportedContentView != null) unsupportedContentView.setVisibility(View.VISIBLE);
+            if (addTopicButton != null) addTopicButton.setVisibility(View.GONE);
+            return;
+        }
+
         topics.clear();
         if (forumManager.isForum(chatId)) {
             topics.addAll(forumManager.getTopics(chatId));

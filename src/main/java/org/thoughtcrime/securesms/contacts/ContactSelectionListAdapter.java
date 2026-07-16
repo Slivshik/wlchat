@@ -35,6 +35,7 @@ import org.thoughtcrime.securesms.connect.DcContactsLoader;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.mms.GlideRequests;
 import org.thoughtcrime.securesms.util.LRUCache;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 
 /**
  * List adapter to display all contacts and their related information
@@ -54,6 +55,7 @@ public class ContactSelectionListAdapter
   private @NonNull int[] dcContactList = new int[0];
   private final boolean multiSelect;
   private final boolean longPressSelect;
+  private boolean requireWlChat = false;
   private final LayoutInflater li;
   private final ItemClickListener clickListener;
   private final GlideRequests glideRequests;
@@ -320,7 +322,17 @@ public class ContactSelectionListAdapter
       viewHolder.setSelected(selected);
       enabled = !(dcContact.getId() == DcContact.DC_CONTACT_ID_SELF && itemMultiSelect);
     }
-    viewHolder.bind(glideRequests, id, dcContact, name, addr, null, itemMultiSelect, enabled);
+
+    String label = null;
+    if (dcContact != null
+        && dcContact.getId() != DcContact.DC_CONTACT_ID_SELF
+        && requireWlChat
+        && !WlChatMarker.isWlChatUser(dcContact)) {
+      enabled = false;
+      label = context.getString(R.string.forum_requires_wl_chat_user);
+    }
+
+    viewHolder.bind(glideRequests, id, dcContact, name, addr, label, itemMultiSelect, enabled);
     viewHolder.setChecked(selectedContacts.contains(id));
   }
 
@@ -331,6 +343,14 @@ public class ContactSelectionListAdapter
 
   public Set<Integer> getSelectedContacts() {
     return selectedContacts;
+  }
+
+  /** When set, contacts not detected as WL Chat users are shown disabled (used when adding
+   * members to a forum, which - as a client-side-only WL Chat concept - can only meaningfully
+   * enforce membership between WL Chat clients). */
+  public void setRequireWlChat(boolean requireWlChat) {
+    this.requireWlChat = requireWlChat;
+    notifyDataSetChanged();
   }
 
   public SparseIntArray getActionModeSelection() {

@@ -270,6 +270,7 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
       intent.putExtra(ContactSelectionListFragment.SELECT_UNENCRYPTED_EXTRA, unencrypted);
       ArrayList<Integer> preselectedContacts = new ArrayList<>(getAdapter().getContacts());
       intent.putExtra(ContactSelectionListFragment.PRESELECTED_CONTACTS, preselectedContacts);
+      intent.putExtra(ContactSelectionListFragment.REQUIRE_WL_CHAT_EXTRA, forum);
       startActivityForResult(intent, PICK_CONTACT);
     }
   }

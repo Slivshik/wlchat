@@ -38,5 +38,7 @@ public interface BindableConversationItem extends Unbindable {
     void onReactionClicked(DcMsg messageRecord);
 
     void onStickerClicked(DcMsg messageRecord);
+
+    void onQuotePartClicked(DcMsg messageRecord, CharSequence excerpt);
   }
 }

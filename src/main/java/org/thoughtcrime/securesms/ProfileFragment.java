@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.List;
 import org.thoughtcrime.securesms.connect.DcEventCenter;
 import org.thoughtcrime.securesms.connect.DcHelper;
+import org.thoughtcrime.securesms.forum.ForumManager;
 import org.thoughtcrime.securesms.mms.GlideApp;
 import org.thoughtcrime.securesms.qr.QrShowActivity;
 import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
@@ -502,6 +503,9 @@ public class ProfileFragment extends Fragment
       preselectedContacts.add(memberId);
     }
     intent.putExtra(ContactSelectionListFragment.PRESELECTED_CONTACTS, preselectedContacts);
+    ForumManager forumManager = new ForumManager(dcContext, DcHelper.getRpc(requireContext()));
+    intent.putExtra(
+        ContactSelectionListFragment.REQUIRE_WL_CHAT_EXTRA, forumManager.isForum(chatId));
     pickContactLauncher.launch(intent);
   }
 

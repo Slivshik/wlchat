@@ -969,6 +969,11 @@ public class ConversationFragment extends MessageSelectorFragment {
   public interface ConversationFragmentListener {
     void handleReplyMessage(DcMsg messageRecord);
 
+    /** Same as {@link #handleReplyMessage(DcMsg)}, but the quote preview/composed text shows
+     * only the given excerpt instead of the full message (the reply still links to the full
+     * original message - Delta Chat's quote mechanism has no concept of quoting a substring). */
+    void handleQuotePartMessage(DcMsg messageRecord, CharSequence excerpt);
+
     void handleEditMessage(DcMsg messageRecord);
 
     /** Called when the checkbox multi-select mode starts/ends, so the compose input bar can be
@@ -1257,6 +1262,18 @@ public class ConversationFragment extends MessageSelectorFragment {
               })
           .setNegativeButton(R.string.cancel, null)
           .show();
+    }
+
+    @Override
+    public void onQuotePartClicked(DcMsg messageRecord, CharSequence excerpt) {
+      if (actionMode != null) {
+        actionMode.finish();
+      }
+      if (getActivity() != null) {
+        //noinspection ConstantConditions
+        ((AppCompatActivity) getActivity()).getSupportActionBar().collapseActionView();
+      }
+      listener.handleQuotePartMessage(messageRecord, excerpt);
     }
   }
 

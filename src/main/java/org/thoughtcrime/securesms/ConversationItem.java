@@ -24,11 +24,17 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,6 +45,7 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import chat.delta.rpc.RpcException;
 import chat.delta.rpc.types.CallInfo;
@@ -83,6 +90,7 @@ import org.thoughtcrime.securesms.util.MarkdownUtil;
 import org.thoughtcrime.securesms.util.MediaUtil;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 import org.thoughtcrime.securesms.util.views.Stub;
 
 /**
@@ -441,9 +449,67 @@ public class ConversationItem extends BaseConversationItem {
     return dcMsg.getType() == DcMsg.DC_MSG_FILE;
   }
 
+  // While exactly one message is checked in the multi-select action mode, arm real text
+  // selection on its body so a follow-up long-press on part of the text (a second, separate
+  // gesture from the one that entered multi-select) starts native selection instead of
+  // toggling the checkbox - lets the user quote just the selected excerpt via the "Quote"
+  // item added to the selection's floating toolbar below.
+  private final ActionMode.Callback quoteSelectionActionModeCallback =
+      new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+          menu.add(Menu.NONE, R.id.menu_quote_selection, 1, R.string.quote_selection);
+          return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+          return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+          if (item.getItemId() == R.id.menu_quote_selection) {
+            int start = bodyText.getSelectionStart();
+            int end = bodyText.getSelectionEnd();
+            CharSequence body = bodyText.getText();
+            if (eventListener != null
+                && start >= 0
+                && end > start
+                && end <= body.length()) {
+              eventListener.onQuotePartClicked(messageRecord, body.subSequence(start, end));
+            }
+            mode.finish();
+            return true;
+          }
+          return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {}
+      };
+
+  private void setTextQuoteSelectable(boolean selectable) {
+    if (selectable) {
+      bodyText.setCustomSelectionActionModeCallback(quoteSelectionActionModeCallback);
+      bodyText.setTextIsSelectable(true);
+    } else {
+      // setTextIsSelectable(true) replaces the TextView's movement method with
+      // ArrowKeyMovementMethod internally - restore the link/copy-span movement method every
+      // time selection is turned back off, otherwise a recycled row that was once armed for
+      // quote-selection would permanently lose clickable-link handling.
+      bodyText.setTextIsSelectable(false);
+      bodyText.setCustomSelectionActionModeCallback(null);
+      bodyText.setClickable(false);
+      bodyText.setFocusable(false);
+      bodyText.setMovementMethod(LongClickMovementMethod.getInstance(getContext()));
+    }
+  }
+
   private void setBodyText(DcMsg messageRecord) {
-    bodyText.setClickable(false);
-    bodyText.setFocusable(false);
+    boolean allowQuoteSelection =
+        selectionModeActive && batchSelected.size() == 1 && batchSelected.contains(messageRecord);
+    setTextQuoteSelectable(false);
 
     // Remove any link actions registered for the previous message binding
     for (int id : linkActionIds) {
@@ -466,6 +532,7 @@ public class ConversationItem extends BaseConversationItem {
       }
       bodyText.setText(spannable);
       bodyText.setVisibility(View.VISIBLE);
+      setTextQuoteSelectable(allowQuoteSelection);
 
       // Register a TalkBack "Actions" entry for each link in the message
       Spanned spanned = (Spanned) spannable;
@@ -955,15 +1022,37 @@ public class ConversationItem extends BaseConversationItem {
     if (messageRecord.isForwarded()) {
       if (showSender && dcContact != null) {
         this.groupSender.setText(
-            context.getString(R.string.forwarded_by, messageRecord.getSenderName(dcContact)));
+            withWlChatBadge(
+                context.getString(R.string.forwarded_by, messageRecord.getSenderName(dcContact)),
+                dcContact));
       } else {
         this.groupSender.setText(context.getString(R.string.forwarded_message));
       }
       this.groupSender.setTextColor(context.getResources().getColor(R.color.unknown_sender));
     } else if (showSender && dcContact != null) {
-      this.groupSender.setText(messageRecord.getSenderName(dcContact));
+      this.groupSender.setText(withWlChatBadge(messageRecord.getSenderName(dcContact), dcContact));
       this.groupSender.setTextColor(Util.rgbToArgbColor(dcContact.getColor()));
     }
+  }
+
+  private CharSequence withWlChatBadge(String name, DcContact contact) {
+    if (!WlChatMarker.isWlChatUser(contact)) {
+      return name;
+    }
+    SpannableStringBuilder builder = new SpannableStringBuilder(name).append(" ");
+    int badgeStart = builder.length();
+    builder.append(context.getString(R.string.wl_chat_user_badge));
+    builder.setSpan(
+        new RelativeSizeSpan(0.75f),
+        badgeStart,
+        builder.length(),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    builder.setSpan(
+        new ForegroundColorSpan(ContextCompat.getColor(context, R.color.wl_chat_badge)),
+        badgeStart,
+        builder.length(),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    return builder;
   }
 
   private void setAuthor(@NonNull DcMsg current, boolean showSender) {

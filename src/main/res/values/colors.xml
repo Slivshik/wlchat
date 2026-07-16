@@ -217,4 +217,7 @@
     <color name="tg_reaction_bg_selected">#ff2AABEE</color>
     <color name="tg_reaction_border">#ff3A4754</color>
     <color name="tg_reaction_text">#ffF5F5F5</color>
+
+    <!-- Badge shown next to the name of contacts detected as using WL Chat themselves -->
+    <color name="wl_chat_badge">#ff2AABEE</color>
 </resources>

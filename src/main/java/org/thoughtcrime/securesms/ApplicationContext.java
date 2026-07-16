@@ -46,6 +46,7 @@ import org.thoughtcrime.securesms.notifications.InChatSounds;
 import org.thoughtcrime.securesms.notifications.NotificationCenter;
 import org.thoughtcrime.securesms.util.AndroidSignalProtocolLogger;
 import org.thoughtcrime.securesms.util.DeleteServerAfterEnforcer;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 import org.thoughtcrime.securesms.util.DynamicTheme;
 import org.thoughtcrime.securesms.util.MediaCleanupManager;
 import org.thoughtcrime.securesms.util.Prefs;
@@ -262,6 +263,10 @@ public class ApplicationContext extends MultiDexApplication {
                 // device with a different value can silently revert it after it was set here -
                 // reassert whatever was last explicitly chosen on this device, every app start.
                 DeleteServerAfterEnforcer.enforce(this, ac);
+
+                // Keep the invisible "this is a WL Chat client" marker present in the self
+                // status, in case it was stripped by a sync from a non-WL-Chat device.
+                WlChatMarker.ensureSelfMarker(ac);
               }
               if (allAccounts.length == 0) {
                 try {

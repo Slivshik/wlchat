@@ -211,6 +211,11 @@
     <string name="image">Изображение</string>
     <!-- Used in summaries as "Draft: Reply", similar as "Draft: Image". Use a noun here, not a verb (not: "to reply") -->
     <string name="reply_noun">Ответ</string>
+    <string name="quote_selection">Цитировать</string>
+    <string name="wl_chat_user_badge">WL</string>
+    <string name="member_name_with_wl_chat_badge">%1$s · WL</string>
+    <string name="forum_requires_wl_chat_user">Вступить в форум могут только пользователи WL Chat</string>
+    <string name="new_content_update_app">Новый контент. Обновите WL Chat</string>
     <string name="gif">GIF</string>
     <!-- "Stickers" as known from other messengers; in some languages, the English "Sticker" is fine. -->
     <string name="sticker">Стикер</string>

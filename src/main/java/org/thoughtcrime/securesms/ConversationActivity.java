@@ -1905,6 +1905,25 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   }
 
   @Override
+  public void handleQuotePartMessage(DcMsg msg, CharSequence excerpt) {
+    if (isEditing) composeText.setText("");
+    isEditing = false;
+
+    Recipient author =
+        new Recipient(this, DcHelper.getContext(context).getContact(msg.getFromId()));
+
+    SlideDeck slideDeck = new SlideDeck();
+    if (msg.hasFile()) {
+      slideDeck.addSlide(MediaUtil.getSlideForMsg(this, msg));
+    }
+
+    inputPanel.setQuote(
+        GlideApp.with(this), msg, msg.getTimestamp(), author, excerpt, slideDeck, false);
+
+    inputPanel.clickOnComposeInput();
+  }
+
+  @Override
   public void handleEditMessage(DcMsg msg) {
     isEditing = true;
     Recipient author =
