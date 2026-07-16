@@ -114,6 +114,10 @@ public class ConversationItem extends BaseConversationItem {
   private ViewGroup container;
   private Button msgActionButton;
   private Button showFullButton;
+  private View selectionCheckbox;
+  private View selectionCheckboxUnchecked;
+  private View selectionCheckboxChecked;
+  private View selectionCheckboxTick;
 
   private @NonNull Stub<ConversationItemThumbnail> mediaThumbnailStub;
   private @NonNull Stub<AudioView> audioViewStub;
@@ -167,6 +171,10 @@ public class ConversationItem extends BaseConversationItem {
     this.jumptoView = findViewById(R.id.jumpto_icon);
     this.msgActionButton = findViewById(R.id.msg_action_button);
     this.showFullButton = findViewById(R.id.show_full_button);
+    this.selectionCheckbox = findViewById(R.id.selection_checkbox);
+    this.selectionCheckboxUnchecked = findViewById(R.id.selection_checkbox_unchecked_bg);
+    this.selectionCheckboxChecked = findViewById(R.id.selection_checkbox_checked_bg);
+    this.selectionCheckboxTick = findViewById(R.id.selection_checkbox_tick);
 
     setOnClickListener(new ClickListener(null));
 
@@ -184,9 +192,10 @@ public class ConversationItem extends BaseConversationItem {
       @NonNull Set<DcMsg> batchSelected,
       @NonNull Recipient recipients,
       boolean pulseHighlight,
+      boolean selectionModeActive,
       @Nullable AudioPlaybackViewModel playbackViewModel,
       AudioView.OnActionListener audioPlayPauseListener) {
-    bindPartial(messageRecord, dcChat, batchSelected, pulseHighlight, recipients);
+    bindPartial(messageRecord, dcChat, batchSelected, pulseHighlight, selectionModeActive, recipients);
     this.glideRequests = glideRequests;
     this.showSender =
         ((dcChat.isMultiUser() || dcChat.isSelfTalk()) && !messageRecord.isOutgoing())
@@ -220,6 +229,7 @@ public class ConversationItem extends BaseConversationItem {
     setReactions(messageRecord);
     setFooter(messageRecord);
     setQuote(messageRecord);
+    setSelectionCheckbox(selectionModeActive, batchSelected.contains(messageRecord));
     if (Util.isTouchExplorationEnabled(context)) {
       setContentDescription();
     }
@@ -873,6 +883,16 @@ public class ConversationItem extends BaseConversationItem {
     ConversationItemFooter activeFooter = getActiveFooter(current);
     activeFooter.setVisibility(VISIBLE);
     activeFooter.setMessageRecord(current);
+  }
+
+  private void setSelectionCheckbox(boolean selectionModeActive, boolean checked) {
+    if (selectionCheckbox == null) return;
+    selectionCheckbox.setVisibility(selectionModeActive ? View.VISIBLE : View.GONE);
+    if (selectionModeActive) {
+      selectionCheckboxUnchecked.setVisibility(checked ? View.GONE : View.VISIBLE);
+      selectionCheckboxChecked.setVisibility(checked ? View.VISIBLE : View.GONE);
+      selectionCheckboxTick.setVisibility(checked ? View.VISIBLE : View.GONE);
+    }
   }
 
   private void setReactions(@NonNull DcMsg current) {

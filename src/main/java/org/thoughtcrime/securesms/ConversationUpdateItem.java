@@ -59,9 +59,10 @@ public class ConversationUpdateItem extends BaseConversationItem {
       @NonNull Set<DcMsg> batchSelected,
       @NonNull Recipient conversationRecipient,
       boolean pulseUpdate,
+      boolean selectionModeActive,
       @Nullable AudioPlaybackViewModel playbackViewModel,
       AudioView.OnActionListener audioPlayPauseListener) {
-    bindPartial(messageRecord, dcChat, batchSelected, pulseUpdate, conversationRecipient);
+    bindPartial(messageRecord, dcChat, batchSelected, pulseUpdate, selectionModeActive, conversationRecipient);
     setGenericInfoRecord(messageRecord);
   }
 

@@ -105,7 +105,9 @@ public class ConversationFragment extends MessageSelectorFragment {
   private AddReactionView addReactionView;
   private MessageQuickActionsView messageQuickActionsView;
   private View messagePopupScrim;
-  private Integer quickActionsMessageId;
+  private View selectionPillBar;
+  private TextView selectionPillReply;
+  private TextView selectionPillForward;
   private TextView noMessageTextView;
   private Timer reloadTimer;
 
@@ -151,7 +153,20 @@ public class ConversationFragment extends MessageSelectorFragment {
     addReactionView = ViewUtil.findById(view, R.id.add_reaction_view);
     messageQuickActionsView = ViewUtil.findById(view, R.id.message_quick_actions_view);
     messagePopupScrim = ViewUtil.findById(view, R.id.message_popup_scrim);
-    messagePopupScrim.setOnClickListener(v -> dismissMessagePopups());
+    messagePopupScrim.setOnClickListener(v -> hideAddReactionView());
+    selectionPillBar = ViewUtil.findById(view, R.id.selection_pill_bar);
+    selectionPillReply = ViewUtil.findById(view, R.id.selection_pill_reply);
+    selectionPillForward = ViewUtil.findById(view, R.id.selection_pill_forward);
+    selectionPillReply.setOnClickListener(
+        v -> {
+          handleReplyMessage(getSelectedMessageRecord(getListAdapter().getSelectedItems()));
+          if (actionMode != null) actionMode.finish();
+        });
+    selectionPillForward.setOnClickListener(
+        v -> {
+          handleForwardMessage(getListAdapter().getSelectedItems());
+          if (actionMode != null) actionMode.finish();
+        });
     noMessageTextView = ViewUtil.findById(view, R.id.no_messages_text_view);
     bottomDivider = ViewUtil.findById(view, R.id.bottom_divider);
 
@@ -325,19 +340,18 @@ public class ConversationFragment extends MessageSelectorFragment {
     addReactionView.hide();
     messageQuickActionsView.hide();
     messagePopupScrim.setVisibility(View.GONE);
-    quickActionsMessageId = null;
   }
 
-  /** Dismisses the reaction bar / quick-actions popup and clears the pending selection, e.g. when
-   * the user taps outside them instead of picking an action. No-op while a full multi-select
-   * ActionMode is active (back/menu handle dismissal there instead). */
-  private void dismissMessagePopups() {
-    if (actionMode != null) {
+  /** Shows/hides the bottom "Reply"/"Forward" pill bar depending on whether a multi-select
+   * ActionMode is active and how many messages are currently selected. */
+  private void updateSelectionPillBar() {
+    if (actionMode == null) {
+      selectionPillBar.setVisibility(View.GONE);
       return;
     }
-    hideAddReactionView();
-    ((ConversationAdapter) list.getAdapter()).clearSelection();
-    list.getAdapter().notifyDataSetChanged();
+    int count = getListAdapter().getSelectedItems().size();
+    selectionPillBar.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+    selectionPillReply.setVisibility(count == 1 ? View.VISIBLE : View.GONE);
   }
 
   private void initializeResources() {
@@ -979,6 +993,7 @@ public class ConversationFragment extends MessageSelectorFragment {
           actionMode.setTitleOptionalHint(
               false); // the title represents important information, also indicating implicitly,
           // more items can be selected
+          updateSelectionPillBar();
         }
       } else if (DozeReminder.isDozeReminderMsg(getContext(), messageRecord)) {
         DozeReminder.dozeReminderTapped(getContext());
@@ -1037,25 +1052,17 @@ public class ConversationFragment extends MessageSelectorFragment {
         return;
       }
 
-      if (quickActionsMessageId != null && quickActionsMessageId != messageRecord.getId()) {
-        ((ConversationAdapter) list.getAdapter()).clearSelection();
-        list.getAdapter().notifyDataSetChanged();
-      }
-      quickActionsMessageId = messageRecord.getId();
+      ConversationAdapter adapter = (ConversationAdapter) list.getAdapter();
+      adapter.toggleSelection(messageRecord);
+      adapter.setSelectionModeActive(true);
+      adapter.notifyDataSetChanged();
 
-      ((ConversationAdapter) list.getAdapter()).toggleSelection(messageRecord);
-      list.getAdapter().notifyDataSetChanged();
+      // Start the full checkbox multi-select mode right away (matching Telegram), the small
+      // floating popup below is shown on top of it for the most common single-message actions.
+      actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+      updateSelectionPillBar();
 
-      addReactionView.show(
-          messageRecord,
-          view,
-          () -> {
-            if (actionMode != null) {
-              actionMode.finish();
-            } else {
-              dismissMessagePopups();
-            }
-          });
+      addReactionView.show(messageRecord, view, () -> { if (actionMode != null) actionMode.finish(); });
       messagePopupScrim.setVisibility(View.VISIBLE);
 
       int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
@@ -1068,19 +1075,19 @@ public class ConversationFragment extends MessageSelectorFragment {
             @Override
             public void onReply() {
               handleReplyMessage(getSelectedMessageRecord(getListAdapter().getSelectedItems()));
-              finishQuickSelection();
+              if (actionMode != null) actionMode.finish();
             }
 
             @Override
             public void onForward() {
               handleForwardMessage(getListAdapter().getSelectedItems());
-              finishQuickSelection();
+              if (actionMode != null) actionMode.finish();
             }
 
             @Override
             public void onCopy() {
               handleCopyMessage(getListAdapter().getSelectedItems());
-              finishQuickSelection();
+              if (actionMode != null) actionMode.finish();
             }
 
             @Override
@@ -1092,25 +1099,9 @@ public class ConversationFragment extends MessageSelectorFragment {
                   getListAdapter().getSelectedItems(),
                   playbackViewModel::stopByIds,
                   playbackViewModel::stopByIds);
-              finishQuickSelection();
-            }
-
-            @Override
-            public void onMore() {
-              // the scrim only exists to dismiss the lightweight quick-actions popup by tapping
-              // outside it; once the full ActionMode takes over, taps must reach the list again
-              // so additional messages can be selected.
-              messagePopupScrim.setVisibility(View.GONE);
-              actionMode =
-                  ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+              if (actionMode != null) actionMode.finish();
             }
           });
-    }
-
-    private void finishQuickSelection() {
-      hideAddReactionView();
-      ((ConversationAdapter) list.getAdapter()).clearSelection();
-      list.getAdapter().notifyDataSetChanged();
     }
 
     private void jumpToOriginal(DcMsg original) {
@@ -1202,6 +1193,8 @@ public class ConversationFragment extends MessageSelectorFragment {
       setCorrectMenuVisibility(menu);
       ConversationAdaptiveActionsToolbar.adjustMenuActions(
           menu, 10, requireActivity().getWindow().getDecorView().getMeasuredWidth());
+      ((ConversationAdapter) list.getAdapter()).setSelectionModeActive(true);
+      updateSelectionPillBar();
       return true;
     }
 
@@ -1213,9 +1206,11 @@ public class ConversationFragment extends MessageSelectorFragment {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
       ((ConversationAdapter) list.getAdapter()).clearSelection();
+      ((ConversationAdapter) list.getAdapter()).setSelectionModeActive(false);
       list.getAdapter().notifyDataSetChanged();
 
       actionMode = null;
+      selectionPillBar.setVisibility(View.GONE);
       hideAddReactionView();
     }
 

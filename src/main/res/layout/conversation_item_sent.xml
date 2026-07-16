@@ -223,6 +223,43 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/selection_checkbox"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignTop="@id/body_bubble"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:elevation="2dp"
+            tools:visibility="visible">
+
+            <View
+                android:id="@+id/selection_checkbox_unchecked_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/selection_checkbox_unchecked" />
+
+            <ImageView
+                android:id="@+id/selection_checkbox_checked_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:importantForAccessibility="no"
+                android:src="@drawable/circle_check_bg" />
+
+            <ImageView
+                android:id="@+id/selection_checkbox_tick"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:importantForAccessibility="no"
+                android:tint="@color/white"
+                android:src="@drawable/ic_check" />
+
+        </FrameLayout>
+
         <View
             android:visibility="gone"
             android:id="@+id/indicators_parent"

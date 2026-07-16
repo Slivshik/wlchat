@@ -34,6 +34,7 @@ public abstract class BaseConversationItem extends LinearLayout
   protected Recipient conversationRecipient;
 
   protected @NonNull Set<DcMsg> batchSelected = new HashSet<>();
+  protected boolean selectionModeActive;
 
   protected final PassthroughClickListener passthroughClickListener =
       new PassthroughClickListener();
@@ -50,10 +51,12 @@ public abstract class BaseConversationItem extends LinearLayout
       @NonNull DcChat dcChat,
       @NonNull Set<DcMsg> batchSelected,
       boolean pulseHighlight,
+      boolean selectionModeActive,
       @NonNull Recipient conversationRecipient) {
     this.messageRecord = messageRecord;
     this.dcChat = dcChat;
     this.batchSelected = batchSelected;
+    this.selectionModeActive = selectionModeActive;
     this.conversationRecipient = conversationRecipient;
     setInteractionState(messageRecord, pulseHighlight);
   }

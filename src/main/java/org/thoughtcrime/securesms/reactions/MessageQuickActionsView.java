@@ -14,8 +14,8 @@ import org.thoughtcrime.securesms.util.ViewUtil;
 
 /**
  * Small floating card with the most common per-message actions (reply/forward/copy/delete),
- * shown right below the reaction bar on long-press. Anything not covered here stays reachable
- * through "More", which falls back to the existing full action-mode menu.
+ * shown right below the reaction bar on long-press, alongside the full multi-select action mode
+ * (checkboxes + top action bar), which is started at the same time.
  */
 public class MessageQuickActionsView extends LinearLayout {
 
@@ -23,7 +23,6 @@ public class MessageQuickActionsView extends LinearLayout {
   private View forwardRow;
   private View copyRow;
   private View deleteRow;
-  private View moreRow;
   private boolean initialized;
 
   public MessageQuickActionsView(Context context) {
@@ -41,7 +40,6 @@ public class MessageQuickActionsView extends LinearLayout {
     forwardRow = findViewById(R.id.qa_forward);
     copyRow = findViewById(R.id.qa_copy);
     deleteRow = findViewById(R.id.qa_delete);
-    moreRow = findViewById(R.id.qa_more);
   }
 
   public void show(DcMsg message, View anchorForXPosition, int topY, Listener listener) {
@@ -65,11 +63,6 @@ public class MessageQuickActionsView extends LinearLayout {
     deleteRow.setOnClickListener(
         v -> {
           listener.onDelete();
-          hide();
-        });
-    moreRow.setOnClickListener(
-        v -> {
-          listener.onMore();
           hide();
         });
 
@@ -153,7 +146,5 @@ public class MessageQuickActionsView extends LinearLayout {
     void onCopy();
 
     void onDelete();
-
-    void onMore();
   }
 }
