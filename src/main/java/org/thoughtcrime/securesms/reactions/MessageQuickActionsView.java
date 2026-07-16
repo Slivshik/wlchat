@@ -71,10 +71,13 @@ public class MessageQuickActionsView extends LinearLayout {
       x += anchorForXPosition.getWidth() - getWidth();
     }
 
+    // keep a small gap from the screen edge instead of letting the card touch it.
+    int edgeMargin = (int) (getResources().getDisplayMetrics().density * 10);
+
     View parent = (View) getParent();
     if (parent != null) {
-      int maxLeft = Math.max(0, parent.getWidth() - getWidth());
-      x = Math.min(Math.max(x, 0), maxLeft);
+      int maxLeft = Math.max(edgeMargin, parent.getWidth() - getWidth() - edgeMargin);
+      x = Math.min(Math.max(x, edgeMargin), maxLeft);
 
       int maxTop = Math.max(0, parent.getHeight() - getHeight());
       if (topY > maxTop) {
@@ -84,7 +87,7 @@ public class MessageQuickActionsView extends LinearLayout {
       }
       topY = Math.min(Math.max(topY, 0), maxTop);
     } else {
-      x = Math.max(x, 0);
+      x = Math.max(x, edgeMargin);
     }
 
     ViewUtil.setLeftMargin(this, x);

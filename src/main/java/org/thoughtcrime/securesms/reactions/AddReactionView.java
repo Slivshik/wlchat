@@ -108,14 +108,17 @@ public class AddReactionView extends LinearLayout {
 
     int y = Math.max((int) parentView.getY() - offset, offset / 2);
 
+    // keep a small gap from the screen edge instead of letting the bar touch it.
+    int edgeMargin = (int) (getResources().getDisplayMetrics().density * 10);
+
     View parent = (View) getParent();
     if (parent != null) {
-      int maxLeft = Math.max(0, parent.getWidth() - getWidth());
-      x = Math.min(Math.max(x, 0), maxLeft);
+      int maxLeft = Math.max(edgeMargin, parent.getWidth() - getWidth() - edgeMargin);
+      x = Math.min(Math.max(x, edgeMargin), maxLeft);
       int maxTop = Math.max(0, parent.getHeight() - getHeight());
       y = Math.min(Math.max(y, 0), maxTop);
     } else {
-      x = Math.max(x, 0);
+      x = Math.max(x, edgeMargin);
     }
 
     ViewUtil.setLeftMargin(this, x);

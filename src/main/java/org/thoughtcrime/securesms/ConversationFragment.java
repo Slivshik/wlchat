@@ -116,6 +116,7 @@ public class ConversationFragment extends MessageSelectorFragment {
   private Rpc rpc;
   private boolean pendingAddBottomInsets;
   private boolean pendingRemoveBottomInsets;
+  private int lastKnownKeyboardHeight;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -336,22 +337,81 @@ public class ConversationFragment extends MessageSelectorFragment {
     }
   }
 
+  /** The RecyclerView shrinking/growing under the keyboard is a resize, not a scroll, so it never
+   * runs through the RecyclerView.OnScrollListener that normally keeps these popups anchored to
+   * their message - call this from the activity's keyboard show/hide callbacks instead. */
+  public void onKeyboardHeightChanged(int newKeyboardHeight) {
+    int dy = newKeyboardHeight - lastKnownKeyboardHeight;
+    lastKnownKeyboardHeight = newKeyboardHeight;
+    if (dy != 0) {
+      addReactionView.move(dy);
+      messageQuickActionsView.move(dy);
+    }
+  }
+
   public void hideAddReactionView() {
     addReactionView.hide();
     messageQuickActionsView.hide();
     messagePopupScrim.setVisibility(View.GONE);
   }
 
+  /** Shows the small floating reply/forward/copy/delete popup for a single message, triggered by
+   * a plain tap. Acts directly on {@code messageRecord} - unlike the long-press multi-select
+   * mode, this never touches the adapter's selection state. */
+  private void showQuickActionsPopup(DcMsg messageRecord, View view) {
+    addReactionView.show(messageRecord, view, this::hideAddReactionView);
+    messagePopupScrim.setVisibility(View.VISIBLE);
+
+    int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
+    int quickActionsTopY = (int) view.getY() - reactionBarOffset + addReactionView.getHeight();
+    messageQuickActionsView.show(
+        messageRecord,
+        view,
+        quickActionsTopY,
+        new MessageQuickActionsView.Listener() {
+          @Override
+          public void onReply() {
+            handleReplyMessage(messageRecord);
+          }
+
+          @Override
+          public void onForward() {
+            handleForwardMessage(Collections.singleton(messageRecord));
+          }
+
+          @Override
+          public void onCopy() {
+            handleCopyMessage(Collections.singleton(messageRecord));
+          }
+
+          @Override
+          public void onDelete() {
+            AudioPlaybackViewModel playbackViewModel =
+                new ViewModelProvider(requireActivity()).get(AudioPlaybackViewModel.class);
+            handleDeleteMessages(
+                (int) chatId,
+                Collections.singleton(messageRecord),
+                playbackViewModel::stopByIds,
+                playbackViewModel::stopByIds);
+          }
+        });
+  }
+
   /** Shows/hides the bottom "Reply"/"Forward" pill bar depending on whether a multi-select
    * ActionMode is active and how many messages are currently selected. */
   private void updateSelectionPillBar() {
-    if (actionMode == null) {
-      selectionPillBar.setVisibility(View.GONE);
-      return;
+    boolean shouldShow = actionMode != null && getListAdapter().getSelectedItems().size() > 0;
+    if (shouldShow) {
+      ViewUtil.animateIn(
+          selectionPillBar, AnimationUtils.loadAnimation(getContext(), R.anim.slide_fade_in_bottom));
+      selectionPillReply.setVisibility(
+          getListAdapter().getSelectedItems().size() == 1 ? View.VISIBLE : View.GONE);
+    } else {
+      ViewUtil.animateOut(
+          selectionPillBar,
+          AnimationUtils.loadAnimation(getContext(), R.anim.slide_fade_out_bottom),
+          View.GONE);
     }
-    int count = getListAdapter().getSelectedItems().size();
-    selectionPillBar.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
-    selectionPillReply.setVisibility(count == 1 ? View.VISIBLE : View.GONE);
   }
 
   private void initializeResources() {
@@ -861,6 +921,10 @@ public class ConversationFragment extends MessageSelectorFragment {
     void handleReplyMessage(DcMsg messageRecord);
 
     void handleEditMessage(DcMsg messageRecord);
+
+    /** Called when the checkbox multi-select mode starts/ends, so the compose input bar can be
+     * hidden and replaced by the fragment's own Reply/Forward pill bar (and restored after). */
+    void onSelectionModeChanged(boolean active);
   }
 
   private class ConversationScrollListener extends OnScrollListener {
@@ -976,15 +1040,15 @@ public class ConversationFragment extends MessageSelectorFragment {
   private class ConversationFragmentItemClickListener implements ItemClickListener {
 
     @Override
-    public void onItemClick(DcMsg messageRecord) {
+    public void onItemClick(DcMsg messageRecord, View view) {
       if (actionMode != null) {
-        ((ConversationAdapter) list.getAdapter()).toggleSelection(messageRecord);
-        list.getAdapter().notifyDataSetChanged();
+        ConversationAdapter adapter = (ConversationAdapter) list.getAdapter();
+        adapter.toggleSelection(messageRecord);
+        adapter.notifyItemChanged(list.getChildAdapterPosition(view));
 
         if (getListAdapter().getSelectedItems().size() == 0) {
           actionMode.finish();
         } else {
-          hideAddReactionView();
           Menu menu = actionMode.getMenu();
           setCorrectMenuVisibility(menu);
           ConversationAdaptiveActionsToolbar.adjustMenuActions(
@@ -1013,15 +1077,20 @@ public class ConversationFragment extends MessageSelectorFragment {
         startActivity(intent);
       } else if (messageRecord.getType() == DcMsg.DC_MSG_TEXT
           && !messageRecord.hasHtml()) {
+        String poiLocation = null;
         try {
-          String poiLocation = messageRecord.getPOILocation();
-          if (!TextUtils.isEmpty(poiLocation)) {
-            WebxdcActivity.openMaps(
-                getContext(),
-                getListAdapter().getChat().getId(),
-                "index.html#" + poiLocation);
-          }
+          poiLocation = messageRecord.getPOILocation();
         } catch (UnsatisfiedLinkError ignored) {
+        }
+        if (!TextUtils.isEmpty(poiLocation)) {
+          WebxdcActivity.openMaps(
+              getContext(),
+              getListAdapter().getChat().getId(),
+              "index.html#" + poiLocation);
+        } else if (!messageRecord.isInfo()) {
+          // a regular text message with nothing more specific to do on tap - show the small
+          // reply/forward/copy/delete popup (long-press is reserved for checkbox multi-select)
+          showQuickActionsPopup(messageRecord, view);
         }
       } else {
         int infoContactId = messageRecord.getInfoContactId();
@@ -1029,8 +1098,6 @@ public class ConversationFragment extends MessageSelectorFragment {
           Intent intent = new Intent(getContext(), ProfileActivity.class);
           intent.putExtra(ProfileActivity.CONTACT_ID_EXTRA, infoContactId);
           startActivity(intent);
-        } else if (messageRecord.isOutgoing() && !messageRecord.isInfo()) {
-          showMessageInfo(messageRecord);
         } else {
           String self_mail = DcHelper.getContext(getContext()).getConfig("configured_mail_user");
           if (self_mail != null
@@ -1041,6 +1108,8 @@ public class ConversationFragment extends MessageSelectorFragment {
             Intent intent = new Intent(getActivity(), EditRelayActivity.class);
             intent.putExtra(EditRelayActivity.EXTRA_ADDR, self_mail);
             startActivity(intent);
+          } else if (!messageRecord.isInfo()) {
+            showQuickActionsPopup(messageRecord, view);
           }
         }
       }
@@ -1052,56 +1121,18 @@ public class ConversationFragment extends MessageSelectorFragment {
         return;
       }
 
+      // Long-press enters the full checkbox multi-select mode right away (matching Telegram).
+      // The small per-message reply/forward/copy/delete popup is reserved for a plain tap
+      // instead - showing both at once for the same gesture was confusing.
       ConversationAdapter adapter = (ConversationAdapter) list.getAdapter();
       adapter.toggleSelection(messageRecord);
       adapter.setSelectionModeActive(true);
+      // every visible row's checkbox is appearing for the first time here, so all of them (not
+      // just this one) need to be rebound - later taps that just flip one checkbox use the
+      // cheaper notifyItemChanged instead, see onItemClick above.
       adapter.notifyDataSetChanged();
 
-      // Start the full checkbox multi-select mode right away (matching Telegram), the small
-      // floating popup below is shown on top of it for the most common single-message actions.
       actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-      updateSelectionPillBar();
-
-      addReactionView.show(messageRecord, view, () -> { if (actionMode != null) actionMode.finish(); });
-      messagePopupScrim.setVisibility(View.VISIBLE);
-
-      int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
-      int quickActionsTopY = (int) view.getY() - reactionBarOffset + addReactionView.getHeight();
-      messageQuickActionsView.show(
-          messageRecord,
-          view,
-          quickActionsTopY,
-          new MessageQuickActionsView.Listener() {
-            @Override
-            public void onReply() {
-              handleReplyMessage(getSelectedMessageRecord(getListAdapter().getSelectedItems()));
-              if (actionMode != null) actionMode.finish();
-            }
-
-            @Override
-            public void onForward() {
-              handleForwardMessage(getListAdapter().getSelectedItems());
-              if (actionMode != null) actionMode.finish();
-            }
-
-            @Override
-            public void onCopy() {
-              handleCopyMessage(getListAdapter().getSelectedItems());
-              if (actionMode != null) actionMode.finish();
-            }
-
-            @Override
-            public void onDelete() {
-              AudioPlaybackViewModel playbackViewModel =
-                  new ViewModelProvider(requireActivity()).get(AudioPlaybackViewModel.class);
-              handleDeleteMessages(
-                  (int) chatId,
-                  getListAdapter().getSelectedItems(),
-                  playbackViewModel::stopByIds,
-                  playbackViewModel::stopByIds);
-              if (actionMode != null) actionMode.finish();
-            }
-          });
     }
 
     private void jumpToOriginal(DcMsg original) {
@@ -1195,6 +1226,7 @@ public class ConversationFragment extends MessageSelectorFragment {
           menu, 10, requireActivity().getWindow().getDecorView().getMeasuredWidth());
       ((ConversationAdapter) list.getAdapter()).setSelectionModeActive(true);
       updateSelectionPillBar();
+      listener.onSelectionModeChanged(true);
       return true;
     }
 
@@ -1210,8 +1242,9 @@ public class ConversationFragment extends MessageSelectorFragment {
       list.getAdapter().notifyDataSetChanged();
 
       actionMode = null;
-      selectionPillBar.setVisibility(View.GONE);
+      updateSelectionPillBar();
       hideAddReactionView();
+      listener.onSelectionModeChanged(false);
     }
 
     @Override
@@ -1313,51 +1346,4 @@ public class ConversationFragment extends MessageSelectorFragment {
     }*/
   }
 
-  private void showMessageInfo(@NonNull DcMsg messageRecord) {
-    if (getContext() == null) return;
-
-    StringBuilder info = new StringBuilder();
-    info.append(getString(R.string.message_info));
-    info.append("\n\n");
-
-    long timestamp = messageRecord.getTimestamp();
-    if (timestamp > 0) {
-      info.append(getString(R.string.message_info_sent_at,
-          org.thoughtcrime.securesms.util.DateUtils.getExtendedTimeSpanString(getContext(), timestamp)));
-      info.append("\n");
-    }
-
-    try {
-      chat.delta.rpc.Rpc rpc = DcHelper.getRpc(getContext());
-      int accId = DcHelper.getContext(getContext()).getAccountId();
-      chat.delta.rpc.types.Message msg = rpc.getMessage(accId, messageRecord.getId());
-      if (msg != null) {
-        if (msg.state != null) {
-          String stateStr;
-          switch (msg.state) {
-            case 1: stateStr = "Pending"; break;
-            case 2: stateStr = "Delivered"; break;
-            case 3: stateStr = "Read"; break;
-            case 4: stateStr = "Failed"; break;
-            case 5: stateStr = "OutPreparation"; break;
-            default: stateStr = "Unknown"; break;
-          }
-          info.append("Status: ").append(stateStr).append("\n");
-        }
-        if (msg.receivedTimestamp != null && msg.receivedTimestamp > 0) {
-          info.append(getString(R.string.message_info_received_at,
-              org.thoughtcrime.securesms.util.DateUtils.getExtendedTimeSpanString(getContext(), msg.receivedTimestamp)));
-          info.append("\n");
-        }
-      }
-    } catch (Exception e) {
-      // RPC call may fail, that's ok
-    }
-
-    new android.app.AlertDialog.Builder(getContext())
-        .setTitle(R.string.message_info)
-        .setMessage(info.toString())
-        .setPositiveButton(R.string.ok, null)
-        .show();
-  }
 }
