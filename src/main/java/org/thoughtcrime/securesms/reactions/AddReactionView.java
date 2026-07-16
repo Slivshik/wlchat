@@ -65,7 +65,12 @@ public class AddReactionView extends LinearLayout {
     }
   }
 
-  public void show(DcMsg msgToReactTo, View parentView, AddReactionListener listener) {
+  /** @param topY final vertical position, already decided by the caller. AddReactionView and
+   * MessageQuickActionsView are shown stacked together and the caller is the only one who knows
+   * about both of them, so it - not this view - decides whether the stack fits below the message
+   * or needs to flip above it; this view only clamps topY to its own screen bounds as a safety
+   * net. */
+  public void show(DcMsg msgToReactTo, View parentView, int topY, AddReactionListener listener) {
     init(); // init delayed as needed
 
     if (msgToReactTo.isInfo() || !dcContext.getChat(msgToReactTo.getChatId()).canSend()) {
@@ -106,7 +111,7 @@ public class AddReactionView extends LinearLayout {
       x += offset;
     }
 
-    int y = Math.max((int) parentView.getY() - offset, offset / 2);
+    int y = topY;
 
     // keep a small gap from the screen edge instead of letting the bar touch it.
     int edgeMargin = (int) (getResources().getDisplayMetrics().density * 10);

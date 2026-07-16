@@ -42,6 +42,10 @@ public class MessageQuickActionsView extends LinearLayout {
     deleteRow = findViewById(R.id.qa_delete);
   }
 
+  /** @param topY final vertical position, already decided by the caller together with
+   * AddReactionView's - this view only clamps it to its own screen bounds as a safety net,
+   * it does not decide on its own whether to flip above the message (the caller already
+   * accounted for both views' combined height when it does that). */
   public void show(DcMsg message, View anchorForXPosition, int topY, Listener listener) {
     init();
 
@@ -80,11 +84,6 @@ public class MessageQuickActionsView extends LinearLayout {
       x = Math.min(Math.max(x, edgeMargin), maxLeft);
 
       int maxTop = Math.max(0, parent.getHeight() - getHeight());
-      if (topY > maxTop) {
-        // no room below the message (e.g. it's near the bottom of the visible list) -
-        // show the menu above the message instead of letting it spill past the screen.
-        topY = (int) anchorForXPosition.getY() - getHeight();
-      }
       topY = Math.min(Math.max(topY, 0), maxTop);
     } else {
       x = Math.max(x, edgeMargin);

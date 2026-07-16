@@ -104,7 +104,7 @@ public class ConversationFragment extends MessageSelectorFragment {
   private View bottomDivider;
   private AddReactionView addReactionView;
   private MessageQuickActionsView messageQuickActionsView;
-  private Integer openQuickActionsMessageId;
+  private View messagePopupScrim;
   private View selectionPillBar;
   private TextView selectionPillReply;
   private TextView selectionPillForward;
@@ -153,6 +153,8 @@ public class ConversationFragment extends MessageSelectorFragment {
     floatingLocationButton = ViewUtil.findById(view, R.id.floating_location_button);
     addReactionView = ViewUtil.findById(view, R.id.add_reaction_view);
     messageQuickActionsView = ViewUtil.findById(view, R.id.message_quick_actions_view);
+    messagePopupScrim = ViewUtil.findById(view, R.id.message_popup_scrim);
+    messagePopupScrim.setOnClickListener(v -> hideAddReactionView());
     selectionPillBar = ViewUtil.findById(view, R.id.selection_pill_bar);
     selectionPillReply = ViewUtil.findById(view, R.id.selection_pill_reply);
     selectionPillForward = ViewUtil.findById(view, R.id.selection_pill_forward);
@@ -350,34 +352,37 @@ public class ConversationFragment extends MessageSelectorFragment {
   public void hideAddReactionView() {
     addReactionView.hide();
     messageQuickActionsView.hide();
-    openQuickActionsMessageId = null;
+    messagePopupScrim.setVisibility(View.GONE);
   }
 
   /** Shows the small floating reply/forward/copy/delete popup for a single message, triggered by
    * a plain tap. Acts directly on {@code messageRecord} - unlike the long-press multi-select
-   * mode, this never touches the adapter's selection state. Tapping the same message again
-   * closes it; tapping a different message switches the popup to that one. */
+   * mode, this never touches the adapter's selection state. A full-screen scrim behind the popup
+   * dismisses it on any outside tap - without it, a tap meant to land on empty space around a
+   * different message would instead be read as tapping that message and switch the popup there. */
   private void showQuickActionsPopup(DcMsg messageRecord, View view) {
-    if (openQuickActionsMessageId != null && openQuickActionsMessageId == messageRecord.getId()) {
-      hideAddReactionView();
-      return;
-    }
-    openQuickActionsMessageId = messageRecord.getId();
+    messagePopupScrim.setVisibility(View.VISIBLE);
 
-    // Both views are anchored off the same reaction-bar offset, but AddReactionView clamps its
-    // own Y against the screen edges internally - mirror that same clamp here so the quick
-    // actions card always starts exactly where the reaction bar actually ends up, instead of
-    // where it *would* be without clamping (which made them overlap near the top of the list).
-    int offset = (int) (addReactionView.getHeight() * 0.666);
+    // The reaction bar and the quick-actions card are shown stacked (reaction bar on top, card
+    // right below it), so whether the stack fits below the message or needs to flip above it has
+    // to be decided once here, for both of them together - each view previously had its own
+    // fallback for "not enough room below", and the two disagreed on where "above" was, which is
+    // what made them overlap.
+    int reactionHeight = addReactionView.getHeight();
+    int quickActionsHeight = messageQuickActionsView.getHeight();
+    int offset = (int) (reactionHeight * 0.666);
+
     int reactionTopY = Math.max((int) view.getY() - offset, offset / 2);
-    View parent = (View) addReactionView.getParent();
-    if (parent != null) {
-      int maxTop = Math.max(0, parent.getHeight() - addReactionView.getHeight());
-      reactionTopY = Math.min(reactionTopY, maxTop);
-    }
-    int quickActionsTopY = reactionTopY + addReactionView.getHeight();
+    int quickActionsTopY = reactionTopY + reactionHeight;
 
-    addReactionView.show(messageRecord, view, this::hideAddReactionView);
+    View parent = (View) addReactionView.getParent();
+    if (parent != null && quickActionsTopY + quickActionsHeight > parent.getHeight()) {
+      // doesn't fit below - anchor the whole stack so it ends just above the message instead.
+      quickActionsTopY = (int) view.getY() - quickActionsHeight;
+      reactionTopY = quickActionsTopY - reactionHeight;
+    }
+
+    addReactionView.show(messageRecord, view, reactionTopY, this::hideAddReactionView);
     messageQuickActionsView.show(
         messageRecord,
         view,
@@ -421,10 +426,12 @@ public class ConversationFragment extends MessageSelectorFragment {
       selectionPillReply.setVisibility(
           getListAdapter().getSelectedItems().size() == 1 ? View.VISIBLE : View.GONE);
     } else {
+      // INVISIBLE, not GONE: a GONE view skips layout entirely and can lose its measured size,
+      // which made the slide animation glitch (0-height jump) the next time it was shown.
       ViewUtil.animateOut(
           selectionPillBar,
           AnimationUtils.loadAnimation(getContext(), R.anim.slide_fade_out_bottom),
-          View.GONE);
+          View.INVISIBLE);
     }
   }
 
