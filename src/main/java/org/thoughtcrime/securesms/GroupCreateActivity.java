@@ -333,6 +333,16 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
     if (groupChatId == 0) {
       return;
     }
+    DcChat editedChat = dcContext.getChat(groupChatId);
+    boolean isPlainGroup =
+        !editedChat.isInBroadcast() && !editedChat.isOutBroadcast() && !editedChat.isMailingList();
+    if (isPlainGroup && !editedChat.isOwnedBySelf(dcContext)) {
+      // defense in depth: the entry points into this edit screen already check this, but Delta
+      // Chat's protocol has no server-side enforcement of it at all, so double-check here too.
+      Toast.makeText(this, R.string.only_group_owner_can_edit, Toast.LENGTH_SHORT).show();
+      finish();
+      return;
+    }
     dcContext.setChatName(groupChatId, groupName);
 
     Rpc rpc = DcHelper.getRpc(this);

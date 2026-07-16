@@ -1229,6 +1229,7 @@
     <string name="ban_member">Ban Member</string>
     <string name="unban_member">Unban Member</string>
     <string name="remove_member">Remove from Group</string>
+    <string name="only_group_owner_can_edit">Only the group\'s creator can do this</string>
     <string name="promote_to_admin">Promote to Admin</string>
     <string name="demote_from_admin">Demote from Admin</string>
     <string name="member_banned">This member is banned from the group</string>

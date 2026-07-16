@@ -1348,6 +1348,7 @@
     <string name="ban_member">Заблокировать участника</string>
     <string name="unban_member">Разблокировать участника</string>
     <string name="remove_member">Удалить из группы</string>
+    <string name="only_group_owner_can_edit">Это может делать только создатель группы</string>
     <string name="promote_to_admin">Повысить до администратора</string>
     <string name="demote_from_admin">Понизить с администратора</string>
     <string name="member_banned">Этот участник заблокирован в группе</string>

@@ -431,23 +431,30 @@ public class ProfileAdapter extends RecyclerView.Adapter {
     if (memberList != null && !isInBroadcast && !isMailingList) {
       itemData.add(new ItemData(ITEM_DIVIDER, null, 0));
 
-      // Group Settings Section (admin-only: require canSend)
+      // Group Settings Section. Muting is a personal per-device notification preference, so
+      // every member who can send sees it. Delta Chat's protocol has no admin/owner concept, so
+      // the group-wide settings below it (ephemeral timer, channel type, banned members, forum
+      // topics) are gated to whoever created the group client-side only - see
+      // DcChat.isOwnedBySelf().
       if (dcChat != null && dcChat.isMultiUser() && dcChat.canSend()) {
         itemData.add(new ItemData(ITEM_GROUP_SETTINGS_HEADER, context.getString(R.string.group_settings), 0));
         String muteLabel = dcChat.isMuted()
             ? context.getString(R.string.mute) + " (" + context.getString(R.string.on) + ")"
             : context.getString(R.string.mute);
         itemData.add(new ItemData(ITEM_GROUP_SETTING_MUTE, muteLabel, 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
-        // Forum topics can only be managed here if the chat was created as a forum to begin
-        // with (see GroupCreateActivity) - existing regular groups can no longer be converted,
-        // so the entry is hidden entirely instead of offering a one-way "enable" action.
-        ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
-        if (fm.isForum(dcChat.getId())) {
-          itemData.add(
-              new ItemData(ITEM_GROUP_SETTING_FORUM, context.getString(R.string.forum_topics), 0));
+
+        if (dcChat.isOwnedBySelf(dcContext)) {
+          itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
+          itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
+          itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
+          // Forum topics can only be managed here if the chat was created as a forum to begin
+          // with (see GroupCreateActivity) - existing regular groups can no longer be converted,
+          // so the entry is hidden entirely instead of offering a one-way "enable" action.
+          ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
+          if (fm.isForum(dcChat.getId())) {
+            itemData.add(
+                new ItemData(ITEM_GROUP_SETTING_FORUM, context.getString(R.string.forum_topics), 0));
+          }
         }
       }
 

@@ -391,7 +391,10 @@ public class ProfileFragment extends Fragment
       }
 
       DcChat dcChat = dcContext.getChat(chatId);
-      if (!dcChat.canSend()) {
+      // Removing/banning members is limited to whoever created the group (client-side-only
+      // concept, Delta Chat's protocol has no admin/owner role - see DcChat.isOwnedBySelf()).
+      if (!dcChat.isOwnedBySelf(dcContext)) {
+        Toast.makeText(requireContext(), R.string.only_group_owner_can_edit, Toast.LENGTH_SHORT).show();
         return;
       }
 
