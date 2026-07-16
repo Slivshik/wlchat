@@ -105,9 +105,20 @@ public class AddReactionView extends LinearLayout {
     } else {
       x += offset;
     }
-    ViewUtil.setLeftMargin(this, Math.max(x, 0));
 
     int y = Math.max((int) parentView.getY() - offset, offset / 2);
+
+    View parent = (View) getParent();
+    if (parent != null) {
+      int maxLeft = Math.max(0, parent.getWidth() - getWidth());
+      x = Math.min(Math.max(x, 0), maxLeft);
+      int maxTop = Math.max(0, parent.getHeight() - getHeight());
+      y = Math.min(Math.max(y, 0), maxTop);
+    } else {
+      x = Math.max(x, 0);
+    }
+
+    ViewUtil.setLeftMargin(this, x);
     ViewUtil.setTopMargin(this, y);
 
     setPivotX(msgToReactTo.isOutgoing() ? getWidth() : 0f);

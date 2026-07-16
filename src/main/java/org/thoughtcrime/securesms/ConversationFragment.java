@@ -104,6 +104,7 @@ public class ConversationFragment extends MessageSelectorFragment {
   private View bottomDivider;
   private AddReactionView addReactionView;
   private MessageQuickActionsView messageQuickActionsView;
+  private View messagePopupScrim;
   private Integer quickActionsMessageId;
   private TextView noMessageTextView;
   private Timer reloadTimer;
@@ -149,6 +150,8 @@ public class ConversationFragment extends MessageSelectorFragment {
     floatingLocationButton = ViewUtil.findById(view, R.id.floating_location_button);
     addReactionView = ViewUtil.findById(view, R.id.add_reaction_view);
     messageQuickActionsView = ViewUtil.findById(view, R.id.message_quick_actions_view);
+    messagePopupScrim = ViewUtil.findById(view, R.id.message_popup_scrim);
+    messagePopupScrim.setOnClickListener(v -> dismissMessagePopups());
     noMessageTextView = ViewUtil.findById(view, R.id.no_messages_text_view);
     bottomDivider = ViewUtil.findById(view, R.id.bottom_divider);
 
@@ -321,7 +324,20 @@ public class ConversationFragment extends MessageSelectorFragment {
   public void hideAddReactionView() {
     addReactionView.hide();
     messageQuickActionsView.hide();
+    messagePopupScrim.setVisibility(View.GONE);
     quickActionsMessageId = null;
+  }
+
+  /** Dismisses the reaction bar / quick-actions popup and clears the pending selection, e.g. when
+   * the user taps outside them instead of picking an action. No-op while a full multi-select
+   * ActionMode is active (back/menu handle dismissal there instead). */
+  private void dismissMessagePopups() {
+    if (actionMode != null) {
+      return;
+    }
+    hideAddReactionView();
+    ((ConversationAdapter) list.getAdapter()).clearSelection();
+    list.getAdapter().notifyDataSetChanged();
   }
 
   private void initializeResources() {
@@ -1037,11 +1053,10 @@ public class ConversationFragment extends MessageSelectorFragment {
             if (actionMode != null) {
               actionMode.finish();
             } else {
-              hideAddReactionView();
-              ((ConversationAdapter) list.getAdapter()).clearSelection();
-              list.getAdapter().notifyDataSetChanged();
+              dismissMessagePopups();
             }
           });
+      messagePopupScrim.setVisibility(View.VISIBLE);
 
       int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
       int quickActionsTopY = (int) view.getY() - reactionBarOffset + addReactionView.getHeight();
@@ -1082,6 +1097,10 @@ public class ConversationFragment extends MessageSelectorFragment {
 
             @Override
             public void onMore() {
+              // the scrim only exists to dismiss the lightweight quick-actions popup by tapping
+              // outside it; once the full ActionMode takes over, taps must reach the list again
+              // so additional messages can be selected.
+              messagePopupScrim.setVisibility(View.GONE);
               actionMode =
                   ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
             }

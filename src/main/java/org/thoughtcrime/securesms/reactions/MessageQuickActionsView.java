@@ -77,7 +77,24 @@ public class MessageQuickActionsView extends LinearLayout {
     if (message.isOutgoing()) {
       x += anchorForXPosition.getWidth() - getWidth();
     }
-    ViewUtil.setLeftMargin(this, Math.max(x, 0));
+
+    View parent = (View) getParent();
+    if (parent != null) {
+      int maxLeft = Math.max(0, parent.getWidth() - getWidth());
+      x = Math.min(Math.max(x, 0), maxLeft);
+
+      int maxTop = Math.max(0, parent.getHeight() - getHeight());
+      if (topY > maxTop) {
+        // no room below the message (e.g. it's near the bottom of the visible list) -
+        // show the menu above the message instead of letting it spill past the screen.
+        topY = (int) anchorForXPosition.getY() - getHeight();
+      }
+      topY = Math.min(Math.max(topY, 0), maxTop);
+    } else {
+      x = Math.max(x, 0);
+    }
+
+    ViewUtil.setLeftMargin(this, x);
     ViewUtil.setTopMargin(this, topY);
 
     setPivotX(message.isOutgoing() ? getWidth() : 0f);

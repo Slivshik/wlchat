@@ -30,7 +30,7 @@
         <item name="colorPrimary">@color/tg_bg_dark</item>
         <item name="colorPrimaryDark">@color/tg_bg_dark</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -352,7 +352,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -424,7 +424,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -497,7 +497,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -569,7 +569,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -641,7 +641,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
@@ -713,7 +713,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="colorPrimary">@color/gray95</item>
 
-        <item name="profile_toolbar_background">@color/black</item>
+        <item name="profile_toolbar_background">@color/tg_bg_dark</item>
         <item name="profile_toolbar_foreground">@color/white</item>
         <item name="profile_document_foreground">@color/white</item>
     </style>
