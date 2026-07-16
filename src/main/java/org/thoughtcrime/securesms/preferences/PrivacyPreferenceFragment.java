@@ -21,6 +21,7 @@ import org.thoughtcrime.securesms.BlockedContactsActivity;
 import org.thoughtcrime.securesms.BuildConfig;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.connect.DcHelper;
+import org.thoughtcrime.securesms.util.DeleteServerAfterEnforcer;
 import org.thoughtcrime.securesms.util.Prefs;
 import org.thoughtcrime.securesms.util.Util;
 
@@ -95,6 +96,10 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
     ((ApplicationPreferencesActivity) getActivity())
         .getSupportActionBar()
         .setTitle(R.string.pref_privacy);
+
+    // delete_server_after can drift away from what was chosen here if another of this account's
+    // devices syncs a different value in the meantime - pull it back before reading it below.
+    DeleteServerAfterEnforcer.enforce(requireContext(), dcContext);
 
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
     deleteSentCheckbox.setChecked(
@@ -244,6 +249,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
       int timeout = Util.objectToInt(newValue);
       updateListSummary(preference, newValue);
       dcContext.setConfigInt(coreKey, timeout);
+      DeleteServerAfterEnforcer.setDesired(requireContext(), timeout);
 
       if (timeout > 0) {
         Toast.makeText(
@@ -284,8 +290,9 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
       // uses - it only ever removes the IMAP copy, the message stays in this device's local
       // database. Refresh that section too so the two stay in sync if both are visible.
       try {
-        dcContext.setConfigInt(
-            "delete_server_after", enabled ? DELETE_SERVER_AFTER_SOON : 0);
+        int desired = enabled ? DELETE_SERVER_AFTER_SOON : 0;
+        dcContext.setConfigInt("delete_server_after", desired);
+        DeleteServerAfterEnforcer.setDesired(requireContext(), desired);
       } catch (Exception e) {
         Log.e(TAG, "failed to set delete_server_after", e);
       }

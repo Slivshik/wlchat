@@ -45,6 +45,7 @@ import org.thoughtcrime.securesms.notifications.FcmReceiveService;
 import org.thoughtcrime.securesms.notifications.InChatSounds;
 import org.thoughtcrime.securesms.notifications.NotificationCenter;
 import org.thoughtcrime.securesms.util.AndroidSignalProtocolLogger;
+import org.thoughtcrime.securesms.util.DeleteServerAfterEnforcer;
 import org.thoughtcrime.securesms.util.DynamicTheme;
 import org.thoughtcrime.securesms.util.MediaCleanupManager;
 import org.thoughtcrime.securesms.util.Prefs;
@@ -256,6 +257,11 @@ public class ApplicationContext extends MultiDexApplication {
                 // 2025-12-16: The setting was removed.
                 // Revert it to the default if it was changed in the past.
                 ac.setConfigInt("webxdc_realtime_enabled", 1);
+
+                // delete_server_after is synced across this account's own devices, so another
+                // device with a different value can silently revert it after it was set here -
+                // reassert whatever was last explicitly chosen on this device, every app start.
+                DeleteServerAfterEnforcer.enforce(this, ac);
               }
               if (allAccounts.length == 0) {
                 try {
