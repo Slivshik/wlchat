@@ -264,28 +264,35 @@
                     android:text="@string/show_full_message"
                     android:textAllCaps="false" />
 
-            <org.thoughtcrime.securesms.reactions.ReactionsConversationView
-                android:id="@+id/reactions_view"
+            <LinearLayout
+                android:id="@+id/reactions_footer_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_gravity="start"
-                android:orientation="horizontal"
-                app:message_type="incoming" />
-
-            <org.thoughtcrime.securesms.components.ConversationItemFooter
-                android:id="@+id/conversation_item_footer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="4dp"
                 android:layout_gravity="end"
-                android:gravity="end"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:footer_text_color="?conversation_item_incoming_text_secondary_color" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <org.thoughtcrime.securesms.reactions.ReactionsConversationView
+                    android:id="@+id/reactions_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:message_type="incoming" />
+
+                <org.thoughtcrime.securesms.components.ConversationItemFooter
+                    android:id="@+id/conversation_item_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="end"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    app:footer_text_color="?conversation_item_incoming_text_secondary_color" />
+
+            </LinearLayout>
 
             </LinearLayout>
 

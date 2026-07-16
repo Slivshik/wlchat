@@ -28,9 +28,11 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.DimenRes;
@@ -103,6 +105,7 @@ public class ConversationItem extends BaseConversationItem {
 
   protected ViewGroup bodyBubble;
   protected ReactionsConversationView reactionsView;
+  private View reactionsFooterRow;
   protected View replyView;
   protected View jumptoView;
   @Nullable private QuoteView quoteView;
@@ -153,6 +156,7 @@ public class ConversationItem extends BaseConversationItem {
     this.bodyText = findViewById(R.id.conversation_item_body);
     this.footer = findViewById(R.id.conversation_item_footer);
     this.reactionsView = findViewById(R.id.reactions_view);
+    this.reactionsFooterRow = findViewById(R.id.reactions_footer_row);
     this.groupSender = findViewById(R.id.group_message_sender);
     this.contactPhoto = findViewById(R.id.contact_photo);
     this.contactPhotoHolder = findViewById(R.id.contact_photo_container);
@@ -914,6 +918,16 @@ public class ConversationItem extends BaseConversationItem {
     } catch (RpcException e) {
       reactionsView.clear();
     }
+
+    // With reactions, the row hugs the bubble's start side so the footer sits right next to them
+    // on the same line, instead of getting pushed to its own line below (which only added height
+    // without the bubble getting any wider to make room, looking like a tall, cramped stack).
+    // Without reactions, the row is just the footer alone and keeps its normal end-aligned spot.
+    boolean hasReactions = reactionsView.getChildCount() > 0;
+    LinearLayout.LayoutParams rowParams =
+        (LinearLayout.LayoutParams) reactionsFooterRow.getLayoutParams();
+    rowParams.gravity = hasReactions ? Gravity.START : Gravity.END;
+    reactionsFooterRow.setLayoutParams(rowParams);
   }
 
   private ConversationItemFooter getActiveFooter(@NonNull DcMsg messageRecord) {
