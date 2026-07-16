@@ -1343,6 +1343,8 @@
     <string name="channel_type">Тип канала</string>
     <string name="channel_type_public">Публичный — кто угодно может присоединиться</string>
     <string name="channel_type_private">Приватный — только по приглашению</string>
+    <string name="channel_now_private_explain">Канал теперь приватный. Старая ссылка-приглашение/QR-код больше не работают — переключите обратно на публичный, чтобы поделиться новой.</string>
+    <string name="channel_now_public_explain">Канал снова публичный. Ссылка-приглашение/QR-код снова работают.</string>
     <string name="channel_type_password">С паролем</string>
     <string name="banned_members">Заблокированные участники</string>
     <string name="ban_member">Заблокировать участника</string>

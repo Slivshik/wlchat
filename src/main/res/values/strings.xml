@@ -1224,6 +1224,8 @@
     <string name="channel_type">Channel Type</string>
     <string name="channel_type_public">Public - Anyone can join</string>
     <string name="channel_type_private">Private - Invite only</string>
+    <string name="channel_now_private_explain">Channel is now private. The old invite link/QR code no longer works - switch back to public to share a fresh one.</string>
+    <string name="channel_now_public_explain">Channel is now public. The invite link/QR code works again.</string>
     <string name="channel_type_password">Password Protected</string>
     <string name="banned_members">Banned Members</string>
     <string name="ban_member">Ban Member</string>

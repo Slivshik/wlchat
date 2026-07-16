@@ -29,6 +29,7 @@ import java.util.Set;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.contacts.ContactSelectionListItem;
 import org.thoughtcrime.securesms.mms.GlideRequests;
+import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
 import org.thoughtcrime.securesms.util.Util;
 
 public class ProfileAdapter extends RecyclerView.Adapter {
@@ -445,7 +446,15 @@ public class ProfileAdapter extends RecyclerView.Adapter {
 
         if (dcChat.isOwnedBySelf(dcContext)) {
           itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
-          itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
+          // Public/private only makes sense for a channel you own - a regular group's join
+          // link is always a self-service instant-join, there's no "channel type" to switch.
+          if (isOutBroadcast) {
+            String channelTypeLabel =
+                ChannelPrivacyPrefs.isPrivate(context, dcChat.getId())
+                    ? context.getString(R.string.channel_type) + ": " + context.getString(R.string.channel_type_private)
+                    : context.getString(R.string.channel_type) + ": " + context.getString(R.string.channel_type_public);
+            itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, channelTypeLabel, 0));
+          }
           itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
           // Forum topics can only be managed here if the chat was created as a forum to begin
           // with (see GroupCreateActivity) - existing regular groups can no longer be converted,
@@ -464,7 +473,12 @@ public class ProfileAdapter extends RecyclerView.Adapter {
           if (!isOutBroadcast) {
             itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_ADD_MEMBER, 0));
           }
-          itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_QR_INVITE, 0));
+          // A private channel's join link is withdrawn (see onChannelType()/ProfileFragment),
+          // so there's nothing valid to invite with until it's switched back to public.
+          boolean hideInvite = isOutBroadcast && ChannelPrivacyPrefs.isPrivate(context, dcChat.getId());
+          if (!hideInvite) {
+            itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_QR_INVITE, 0));
+          }
         }
       }
       for (int value : memberList) {

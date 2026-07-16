@@ -32,6 +32,7 @@ import org.thoughtcrime.securesms.connect.DcEventCenter;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.mms.GlideApp;
 import org.thoughtcrime.securesms.qr.QrShowActivity;
+import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
 import chat.delta.rpc.Rpc;
@@ -307,30 +308,39 @@ public class ProfileFragment extends Fragment
   }
 
   private void onChannelType() {
-    DcChat dcChat = dcContext.getChat(chatId);
-    int chatType = dcChat.getType();
-
-    String[] options;
-    if (chatType == DcChat.DC_CHAT_TYPE_OUT_BROADCAST || chatType == DcChat.DC_CHAT_TYPE_IN_BROADCAST) {
-      options = new String[]{
-          getString(R.string.channel_type_public),
-          getString(R.string.channel_type_private)
-      };
-    } else {
-      options = new String[]{
-          getString(R.string.channel_type_private),
-          getString(R.string.channel_type_public)
-      };
-    }
+    // Only reachable for a channel this account owns (see ProfileAdapter) - subscribers to
+    // someone else's channel have no say in this, and it doesn't apply to regular groups.
+    boolean isPrivate = ChannelPrivacyPrefs.isPrivate(requireContext(), chatId);
+    String[] options = {
+        getString(R.string.channel_type_public),
+        getString(R.string.channel_type_private)
+    };
 
     new AlertDialog.Builder(requireContext())
         .setTitle(R.string.channel_type)
-        .setItems(options, (dialog, which) -> {
-          if (which == 0) {
-            Toast.makeText(requireContext(), "Current channel type is already active", Toast.LENGTH_SHORT).show();
+        .setSingleChoiceItems(options, isPrivate ? 1 : 0, (dialog, which) -> {
+          boolean makePrivate = which == 1;
+          dialog.dismiss();
+          if (makePrivate == isPrivate) return;
+
+          if (makePrivate) {
+            try {
+              // Delta Chat has no join-request/approval concept - a valid join link always lets
+              // anyone who has it join instantly - so "private" withdraws the current link
+              // instead, the same action as the explicit "Withdraw QR code" flow elsewhere.
+              // Old/already-shared copies of the link stop working; a fresh one is minted
+              // automatically next time it's shown, if switched back to public later.
+              dcContext.setConfigFromQr(dcContext.getSecurejoinQr(chatId));
+            } catch (Exception e) {
+              Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+              return;
+            }
+            Toast.makeText(requireContext(), R.string.channel_now_private_explain, Toast.LENGTH_LONG).show();
           } else {
-            Toast.makeText(requireContext(), "Channel type can be changed by recreating the group", Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext(), R.string.channel_now_public_explain, Toast.LENGTH_SHORT).show();
           }
+          ChannelPrivacyPrefs.setPrivate(requireContext(), chatId, makePrivate);
+          update();
         })
         .setNegativeButton(R.string.cancel, null)
         .show();
