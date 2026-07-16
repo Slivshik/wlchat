@@ -53,6 +53,7 @@ public class DcContactsLoader extends AsyncLoader<DcContactsLoader.Ret> {
     if (query == null && addCreateGroupLinks) {
       additional_items = Util.appendInt(additional_items, DcContact.DC_CONTACT_ID_NEW_GROUP);
       additional_items = Util.appendInt(additional_items, DcContact.DC_CONTACT_ID_NEW_BROADCAST);
+      additional_items = Util.appendInt(additional_items, DcContact.DC_CONTACT_ID_NEW_FORUM);
 
       if (dcContext.getConfigInt(DcHelper.CONFIG_FORCE_ENCRYPTION) == 0) {
         additional_items =

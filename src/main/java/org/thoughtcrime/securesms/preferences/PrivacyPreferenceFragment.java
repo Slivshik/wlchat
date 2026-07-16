@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -18,8 +18,10 @@ import androidx.preference.PreferenceCategory;
 import com.b44t.messenger.DcContext;
 import org.thoughtcrime.securesms.ApplicationPreferencesActivity;
 import org.thoughtcrime.securesms.BlockedContactsActivity;
+import org.thoughtcrime.securesms.BuildConfig;
 import org.thoughtcrime.securesms.R;
 import org.thoughtcrime.securesms.connect.DcHelper;
+import org.thoughtcrime.securesms.util.DeleteServerAfterEnforcer;
 import org.thoughtcrime.securesms.util.Prefs;
 import org.thoughtcrime.securesms.util.Util;
 
@@ -28,6 +30,21 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String PREF_AUTODEL_SERVER = "autodel_server";
   private static final String PREF_AUTODEL_MEDIA = "autodel_media";
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
+  // "delete_server_after" core config, in seconds (0 = never). Only ever deletes the server-side
+  // copy - the local copy on this device is never touched by this config.
+  //
+  // Requested value is 86400 (1 day). Earlier testing found that neither 1 ("at once") nor 3600
+  // (1 hour) stuck for this config - toggling on, leaving and reopening this screen showed it
+  // reverted to off - while "delete_device_after" (a purely local, non-server config) persists
+  // fine with arbitrary values, and 1296000 (15 days) is known to work via the "Managed storage"
+  // section below (same core config, different UI). That pattern points at a floor enforced by
+  // the wlrus.lol provider itself somewhere between 1 hour and 15 days, not a bug in how this is
+  // set - the app has no way to inspect or change server-side retention policy. If 86400 also
+  // silently reverts after testing, use the "Managed storage" section's 1/3/15/30-day options
+  // (visible for @wlrus.lol accounts) to narrow down the actual floor without a code change -
+  // whatever's selected there is read back from the real config on every resume, so a revert
+  // will show up immediately by reopening the screen.
+  private static final int DELETE_SERVER_AFTER_SOON = 86400;
 
   private CheckBoxPreference readReceiptsCheckbox;
   private CheckBoxPreference deleteSentCheckbox;
@@ -46,6 +63,9 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
 
     deleteSentCheckbox = (CheckBoxPreference) this.findPreference("pref_delete_sent");
     deleteSentCheckbox.setOnPreferenceChangeListener(new DeleteSentToggleListener());
+    // this is a WL Chat-specific feature; other builds of this codebase (Arcane Chat etc.)
+    // keep using the plain, protocol-standard delete-server-after behavior instead.
+    deleteSentCheckbox.setVisible(isWlChatBuild());
 
     this.findPreference("preference_category_blocked")
         .setOnPreferenceClickListener(new BlockedContactsClickListener());
@@ -77,9 +97,13 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
         .getSupportActionBar()
         .setTitle(R.string.pref_privacy);
 
+    // delete_server_after can drift away from what was chosen here if another of this account's
+    // devices syncs a different value in the meantime - pull it back before reading it below.
+    DeleteServerAfterEnforcer.enforce(requireContext(), dcContext);
+
     readReceiptsCheckbox.setChecked(0 != dcContext.getConfigInt("mdns_enabled"));
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-    deleteSentCheckbox.setChecked(prefs.getBoolean("pref_delete_sent", true));
+    deleteSentCheckbox.setChecked(
+        dcContext.getConfigInt("delete_server_after") == DELETE_SERVER_AFTER_SOON);
     initAutodelFromCore();
     initManagedStorageVisibility();
     initAutodelServerFromCore();
@@ -108,6 +132,10 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private void initManagedStorageVisibility() {
     boolean isManagedProvider = isManagedProviderAccount();
     managedStorageCategory.setVisible(isManagedProvider);
+  }
+
+  private static boolean isWlChatBuild() {
+    return BuildConfig.APPLICATION_ID.startsWith("chat.wl.");
   }
 
   private boolean isManagedProviderAccount() {
@@ -221,6 +249,7 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
       int timeout = Util.objectToInt(newValue);
       updateListSummary(preference, newValue);
       dcContext.setConfigInt(coreKey, timeout);
+      DeleteServerAfterEnforcer.setDesired(requireContext(), timeout);
 
       if (timeout > 0) {
         Toast.makeText(
@@ -257,13 +286,20 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
       boolean enabled = (boolean) newValue;
-      if (enabled) {
-        Toast.makeText(
-                getContext(),
-                R.string.delete_sent_explain,
-                Toast.LENGTH_SHORT)
-            .show();
+      // "delete_server_after" is the same core config the "Managed storage" section below
+      // uses - it only ever removes the IMAP copy, the message stays in this device's local
+      // database. Refresh that section too so the two stay in sync if both are visible.
+      try {
+        int desired = enabled ? DELETE_SERVER_AFTER_SOON : 0;
+        dcContext.setConfigInt("delete_server_after", desired);
+        DeleteServerAfterEnforcer.setDesired(requireContext(), desired);
+      } catch (Exception e) {
+        Log.e(TAG, "failed to set delete_server_after", e);
       }
+      // Belt-and-suspenders: make sure the switch reflects `enabled` even if something above
+      // throws, instead of silently refusing to move.
+      deleteSentCheckbox.setChecked(enabled);
+      initAutodelServerFromCore();
       return true;
     }
   }

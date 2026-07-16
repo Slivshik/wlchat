@@ -18,6 +18,7 @@ public interface BindableConversationItem extends Unbindable {
       @NonNull Set<DcMsg> batchSelected,
       @NonNull Recipient recipients,
       boolean pulseHighlight,
+      boolean selectionModeActive,
       @Nullable AudioPlaybackViewModel playbackViewModel,
       AudioView.OnActionListener audioPlayPauseListener);
 
@@ -37,5 +38,7 @@ public interface BindableConversationItem extends Unbindable {
     void onReactionClicked(DcMsg messageRecord);
 
     void onStickerClicked(DcMsg messageRecord);
+
+    void onQuotePartClicked(DcMsg messageRecord, CharSequence excerpt);
   }
 }

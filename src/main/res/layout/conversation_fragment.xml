@@ -71,6 +71,64 @@
         android:contentDescription="@string/menu_scroll_to_bottom"
         android:src="@drawable/ic_search_down" />
 
+    <LinearLayout
+        android:id="@+id/selection_pill_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:background="@drawable/input_panel_rounded_bg"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/selection_pill_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/selection_pill_background"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/notify_reply_button" />
+
+        <TextView
+            android:id="@+id/selection_pill_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selection_pill_background"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/menu_forward" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/message_popup_scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@null" />
+
     <org.thoughtcrime.securesms.reactions.AddReactionView
         android:id="@+id/add_reaction_view"
         android:visibility="invisible"
@@ -122,5 +180,112 @@
             android:layout_height="wrap_content"
             style="@style/AddReaction" />
     </org.thoughtcrime.securesms.reactions.AddReactionView>
+
+    <org.thoughtcrime.securesms.reactions.MessageQuickActionsView
+        android:id="@+id/message_quick_actions_view"
+        android:visibility="invisible"
+        android:orientation="vertical"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:background="@drawable/message_actions_menu_bg">
+
+        <LinearLayout
+            android:id="@+id/qa_reply"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:tint="?android:attr/textColorPrimary"
+                android:src="@drawable/ic_reply_white_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="15sp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:text="@string/notify_reply_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/qa_forward"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:tint="?android:attr/textColorPrimary"
+                android:src="@drawable/ic_forward_white_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="15sp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:text="@string/menu_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/qa_copy"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:tint="?android:attr/textColorPrimary"
+                android:src="@drawable/ic_content_copy_white_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="15sp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:text="@string/menu_copy_text_to_clipboard" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/qa_delete"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="?android:attr/selectableItemBackground">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:tint="#ffff0c16"
+                android:src="@drawable/ic_delete_white_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="15sp"
+                android:textColor="#ffff0c16"
+                android:text="@string/delete" />
+        </LinearLayout>
+
+    </org.thoughtcrime.securesms.reactions.MessageQuickActionsView>
 
 </FrameLayout>

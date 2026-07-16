@@ -118,6 +118,7 @@ public class ApplicationPreferencesActivity extends PassphraseRequiredActionBarA
     overridePendingTransition(
         0, 0); // let the activity appear in the same way as the other pages (which are mostly
     // fragments)
+    skipDefaultExitTransition(); // don't clobber the no-op transition above with the default one
     finishAffinity(); // see comment (**2) in BackupTransferActivity.doFinish()
   }
 
@@ -320,6 +321,9 @@ public class ApplicationPreferencesActivity extends PassphraseRequiredActionBarA
 
           FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
           FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+          fragmentTransaction.setCustomAnimations(
+              R.anim.slide_in_right, R.anim.slide_out_left,
+              R.anim.slide_in_left, R.anim.slide_out_right);
           fragmentTransaction.replace(R.id.fragment, fragment);
           fragmentTransaction.addToBackStack(null);
           fragmentTransaction.commit();

@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4sp"
                     android:layout_marginEnd="4sp"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="?colorAccent"
                     android:maxLines="1"
@@ -157,8 +157,8 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="5dp"
-                android:paddingBottom="4dp"
-                android:textSize="15sp"
+                android:paddingBottom="3dp"
+                android:textSize="16sp"
                 android:textColor="?conversation_item_outgoing_text_primary_color"
                 android:textColorLink="@color/tg_link"
                 android:importantForAccessibility="no"
@@ -198,30 +198,74 @@
                 android:text="@string/show_full_message"
                 android:textAllCaps="false" />
 
-            <org.thoughtcrime.securesms.reactions.ReactionsConversationView
-                android:id="@+id/reactions_view"
+            <LinearLayout
+                android:id="@+id/reactions_footer_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-        android:layout_gravity="start"
-        android:orientation="horizontal"
-        app:message_type="outgoing" />
-
-            <org.thoughtcrime.securesms.components.ConversationItemFooter
-                android:id="@+id/conversation_item_footer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="4dp"
                 android:layout_gravity="end"
-                android:gravity="end"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                app:footer_text_color="?attr/conversation_item_outgoing_text_secondary_color" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <org.thoughtcrime.securesms.reactions.ReactionsConversationView
+                    android:id="@+id/reactions_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:message_type="outgoing" />
+
+                <org.thoughtcrime.securesms.components.ConversationItemFooter
+                    android:id="@+id/conversation_item_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="end"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    app:footer_text_color="?attr/conversation_item_outgoing_text_secondary_color" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/selection_checkbox"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignTop="@id/body_bubble"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:elevation="2dp"
+            tools:visibility="visible">
+
+            <View
+                android:id="@+id/selection_checkbox_unchecked_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/selection_checkbox_unchecked" />
+
+            <ImageView
+                android:id="@+id/selection_checkbox_checked_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:importantForAccessibility="no"
+                android:src="@drawable/circle_check_bg" />
+
+            <ImageView
+                android:id="@+id/selection_checkbox_tick"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:importantForAccessibility="no"
+                android:tint="@color/white"
+                android:src="@drawable/ic_check" />
+
+        </FrameLayout>
 
         <View
             android:visibility="gone"

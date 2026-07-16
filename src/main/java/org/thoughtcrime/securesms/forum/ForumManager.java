@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 
 public class ForumManager {
     private static final String TAG = "ForumManager";
@@ -17,6 +18,7 @@ public class ForumManager {
     private static final String KEY_NAME = "n";
     private static final String KEY_EMOJI = "e";
     private static final String KEY_COLOR = "c";
+    private static final String KEY_VERSION = "v";
 
     private final DcContext dcContext;
     private final Rpc rpc;
@@ -44,10 +46,25 @@ public class ForumManager {
         return desc != null && desc.startsWith("{") && desc.contains(KEY_TOPICS);
     }
 
+    /** True if this chat's forum data was written by a newer WL Chat version using a data
+     * format this build doesn't know how to parse - callers should show a "new content, update
+     * WL Chat" placeholder instead of attempting to read or, worse, overwrite the data. */
+    public boolean isUnsupportedVersion(int chatId) {
+        String desc = getDescription(chatId);
+        if (desc == null || !desc.startsWith("{")) return false;
+        try {
+            JSONObject json = new JSONObject(desc);
+            return json.optInt(KEY_VERSION, 1) > WlChatMarker.SCHEMA_VERSION;
+        } catch (JSONException e) {
+            return false;
+        }
+    }
+
     public List<ForumTopic> getTopics(int chatId) {
         List<ForumTopic> topics = new ArrayList<>();
         String desc = getDescription(chatId);
         if (desc == null || desc.isEmpty()) return topics;
+        if (isUnsupportedVersion(chatId)) return topics;
 
         try {
             JSONObject json = new JSONObject(desc);
@@ -82,6 +99,7 @@ public class ForumManager {
                 arr.put(t);
             }
             json.put(KEY_TOPICS, arr);
+            json.put(KEY_VERSION, WlChatMarker.SCHEMA_VERSION);
             setDescription(chatId, json.toString());
             return true;
         } catch (Exception e) {

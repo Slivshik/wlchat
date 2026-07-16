@@ -49,6 +49,7 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
   private static final String TAG = "GroupCreateActivity";
   public static final String EDIT_GROUP_CHAT_ID = "edit_group_chat_id";
   public static final String CREATE_BROADCAST = "create_broadcast";
+  public static final String CREATE_FORUM = "create_forum";
   public static final String UNENCRYPTED = "unencrypted";
   public static final String CLONE_CHAT_EXTRA = "clone_chat";
 
@@ -59,6 +60,7 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
 
   private boolean unencrypted;
   private boolean broadcast;
+  private boolean forum;
   private EditText groupName;
   private EditText chatDescription;
   private ListView lv;
@@ -75,6 +77,7 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
     dcContext = DcHelper.getContext(this);
     setContentView(R.layout.group_create_activity);
     broadcast = getIntent().getBooleanExtra(CREATE_BROADCAST, false);
+    forum = getIntent().getBooleanExtra(CREATE_FORUM, false);
     unencrypted = getIntent().getBooleanExtra(UNENCRYPTED, false);
     Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -123,6 +126,8 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
       title = getString(R.string.global_menu_edit_desktop);
     } else if (broadcast) {
       title = getString(R.string.new_channel);
+    } else if (forum) {
+      title = getString(R.string.new_forum);
     } else if (unencrypted) {
       title = getString(R.string.new_email);
     } else {
@@ -175,6 +180,11 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
     } else if (unencrypted) {
       avatar.setVisibility(View.GONE);
       groupName.setHint(R.string.subject);
+      findViewById(R.id.chat_description_container).setVisibility(View.GONE);
+      chatHints.setVisibility(View.GONE);
+    } else if (forum) {
+      // the chat description field is where forum topics are actually stored (as JSON) - hide it
+      // here so it can't be overwritten with plain text and corrupt the topic list.
       findViewById(R.id.chat_description_container).setVisibility(View.GONE);
       chatHints.setVisibility(View.GONE);
     } else {
@@ -260,6 +270,7 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
       intent.putExtra(ContactSelectionListFragment.SELECT_UNENCRYPTED_EXTRA, unencrypted);
       ArrayList<Integer> preselectedContacts = new ArrayList<>(getAdapter().getContacts());
       intent.putExtra(ContactSelectionListFragment.PRESELECTED_CONTACTS, preselectedContacts);
+      intent.putExtra(ContactSelectionListFragment.REQUIRE_WL_CHAT_EXTRA, forum);
       startActivityForResult(intent, PICK_CONTACT);
     }
   }
@@ -282,9 +293,15 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
         groupChatId = rpc.createGroupChat(accId, groupName, false);
       }
 
-      String description = getChatDescription();
-      if (!description.isEmpty()) {
-        rpc.setChatDescription(accId, groupChatId, description);
+      if (forum) {
+        // stores the initial topic list into the chat description field, so it must not also be
+        // overwritten with a plain-text description below.
+        new org.thoughtcrime.securesms.forum.ForumManager(dcContext, rpc).enableForum(groupChatId);
+      } else {
+        String description = getChatDescription();
+        if (!description.isEmpty()) {
+          rpc.setChatDescription(accId, groupChatId, description);
+        }
       }
     } catch (RpcException e) {
       Log.e(TAG, "RPC error", e);
@@ -315,6 +332,16 @@ public class GroupCreateActivity extends PassphraseRequiredActionBarActivity
 
   private void updateGroup(String groupName) {
     if (groupChatId == 0) {
+      return;
+    }
+    DcChat editedChat = dcContext.getChat(groupChatId);
+    boolean isPlainGroup =
+        !editedChat.isInBroadcast() && !editedChat.isOutBroadcast() && !editedChat.isMailingList();
+    if (isPlainGroup && !editedChat.isOwnedBySelf(dcContext)) {
+      // defense in depth: the entry points into this edit screen already check this, but Delta
+      // Chat's protocol has no server-side enforcement of it at all, so double-check here too.
+      Toast.makeText(this, R.string.only_group_owner_can_edit, Toast.LENGTH_SHORT).show();
+      finish();
       return;
     }
     dcContext.setChatName(groupChatId, groupName);

@@ -348,9 +348,16 @@ public class ProfileActivity extends PassphraseRequiredActionBarActivity
       Intent intent = new Intent(this, MediaPreviewActivity.class);
       intent.setDataAndType(profileImageUri, type);
       intent.putExtra(MediaPreviewActivity.ACTIVITY_TITLE_EXTRA, title);
-      intent.putExtra( // show edit-button, if the user is allowed to edit the name/avatar
-          MediaPreviewActivity.EDIT_AVATAR_CHAT_ID,
-          (chatIsMultiUser && !chatIsInBroadcast && !chatIsMailingList) ? chatId : 0);
+      // show edit-button, if the user is allowed to edit the name/avatar: for a plain group, only
+      // its creator (client-side-only concept, see DcChat.isOwnedBySelf()); broadcast channels
+      // keep their existing canSend()-based check.
+      boolean canEditGroupInfo =
+          chatIsMultiUser && !chatIsInBroadcast && !chatIsMailingList
+              && (chatIsOutBroadcast
+                  ? dcContext.getChat(chatId).canSend()
+                  : dcContext.getChat(chatId).isOwnedBySelf(dcContext));
+      intent.putExtra(
+          MediaPreviewActivity.EDIT_AVATAR_CHAT_ID, canEditGroupInfo ? chatId : 0);
       startActivity(intent);
     } else if (chatIsMultiUser) {
       onEditName();
@@ -360,10 +367,19 @@ public class ProfileActivity extends PassphraseRequiredActionBarActivity
   private void onEditName() {
     if (chatIsMultiUser) {
       DcChat dcChat = dcContext.getChat(chatId);
-      if (chatIsMailingList || dcChat.canSend()) {
+      // Regular groups: only the creator may edit name/photo/description (Delta Chat's protocol
+      // has no admin concept, this is enforced client-side only, see DcChat.isOwnedBySelf()).
+      // Mailing lists and broadcast channels keep their existing, separate permission checks.
+      boolean isPlainGroup = !chatIsInBroadcast && !chatIsOutBroadcast && !chatIsMailingList;
+      boolean allowed =
+          chatIsMailingList
+              || (isPlainGroup ? dcChat.isOwnedBySelf(dcContext) : dcChat.canSend());
+      if (allowed) {
         Intent intent = new Intent(this, GroupCreateActivity.class);
         intent.putExtra(GroupCreateActivity.EDIT_GROUP_CHAT_ID, chatId);
         startActivity(intent);
+      } else {
+        Toast.makeText(this, R.string.only_group_owner_can_edit, Toast.LENGTH_SHORT).show();
       }
     } else {
       int accountId = dcContext.getAccountId();

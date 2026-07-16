@@ -6,7 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    env:
+      HAS_RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -30,8 +32,18 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Generate debug keystore for release signing
+    - name: Decode release keystore
+      if: ${{ env.HAS_RELEASE_KEYSTORE == 'true' }}
+      env:
+        RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
       run: |
+        mkdir -p keystore
+        echo "$RELEASE_KEYSTORE_BASE64" | base64 -d > keystore/release.keystore
+        echo "Decoded persistent release keystore from secrets."
+
+    - name: Generate debug keystore for release signing (fallback if no release keystore secret is set)
+      run: |
+        mkdir -p ~/.android
         if [ ! -f ~/.android/debug.keystore ]; then
           keytool -genkey -v -keystore ~/.android/debug.keystore \
             -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
@@ -53,24 +65,53 @@ jobs:
         find libs -name "*.so" | head -10
 
     - name: Build Release APK
+      env:
+        RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+        RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
       run: |
         export ANDROID_HOME=$ANDROID_HOME
-        ./gradlew assembleFossRelease --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+        if [ -f "keystore/release.keystore" ]; then
+          echo "Signing with the persistent release keystore."
+          # build.gradle evaluates every signingConfigs block during configuration, not just the
+          # one the invoked task actually uses, and releaseFdroid/releaseApk share the same
+          # `project.hasProperty("DC_RELEASE_STORE_FILE")` gate as release - so all of their
+          # referenced properties need to exist too, even though only "release" is used here.
+          ./gradlew assembleFossRelease --no-daemon --no-build-cache \
+            -Dorg.gradle.jvmargs="-Xmx4g" \
+            -PDC_RELEASE_STORE_FILE="$GITHUB_WORKSPACE/keystore/release.keystore" \
+            -PDC_RELEASE_STORE_PASSWORD="$RELEASE_STORE_PASSWORD" \
+            -PDC_RELEASE_KEY_ALIAS_FDROID="$RELEASE_KEY_ALIAS" \
+            -PDC_RELEASE_KEY_ALIAS_GPLAY="$RELEASE_KEY_ALIAS" \
+            -PDC_RELEASE_KEY_PASSWORD="$RELEASE_KEY_PASSWORD"
+        else
+          echo "::warning::No RELEASE_KEYSTORE_BASE64 secret set - signing with the debug keystore. Every build will have a different signature until the persistent keystore secrets are added."
+          ./gradlew assembleFossRelease --no-daemon --no-build-cache -Dorg.gradle.jvmargs="-Xmx4g"
+        fi
 
     - name: Find APK file
       id: find-apk
       run: |
-        APK_PATH=$(find . -name "*foss*release*.apk" -type f | head -1)
-        for apk in $(find . -name "*.apk" -type f); do
-          if unzip -l "$apk" 2>/dev/null | grep -q "libnative-utils.so"; then
-            if echo "$apk" | grep -q "release"; then
-              APK_PATH="$apk"
-              break
-            fi
-          fi
-        done
+        echo "All APKs produced by the build:"
+        find . -name "*.apk" -type f
+
+        # The build produces one APK per ABI split plus one "universal" APK containing all
+        # ABIs (splits.abi.universalApk true in build.gradle). Sideloading an ABI-specific
+        # split on a device with a different/unsupported CPU architecture (e.g. a 64-bit-only
+        # phone getting the armeabi-v7a-only split) fails with "app not installed, incompatible
+        # with your phone" - so for direct distribution we must always pick the universal one,
+        # identified as the release APK whose name does NOT carry one of the ABI tags.
+        APK_PATH=$(find . -path "*/release/*.apk" -type f \
+          ! -name "*armeabi-v7a*" ! -name "*arm64-v8a*" ! -name "*x86_64*" ! -name "*x86*" \
+          | head -1)
+
+        if [ -z "$APK_PATH" ]; then
+          echo "::error::Could not find the universal (all-ABI) release APK among the build outputs above."
+          exit 1
+        fi
+
         echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-        echo "Selected APK: $APK_PATH"
+        echo "Selected universal APK: $APK_PATH"
         
     - name: Upload Release APK
       uses: actions/upload-artifact@v4

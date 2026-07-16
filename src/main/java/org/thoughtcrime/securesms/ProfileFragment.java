@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import org.thoughtcrime.securesms.forum.ForumManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +30,10 @@ import java.util.Collection;
 import java.util.List;
 import org.thoughtcrime.securesms.connect.DcEventCenter;
 import org.thoughtcrime.securesms.connect.DcHelper;
+import org.thoughtcrime.securesms.forum.ForumManager;
 import org.thoughtcrime.securesms.mms.GlideApp;
 import org.thoughtcrime.securesms.qr.QrShowActivity;
+import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
 import chat.delta.rpc.Rpc;
@@ -308,30 +309,39 @@ public class ProfileFragment extends Fragment
   }
 
   private void onChannelType() {
-    DcChat dcChat = dcContext.getChat(chatId);
-    int chatType = dcChat.getType();
-
-    String[] options;
-    if (chatType == DcChat.DC_CHAT_TYPE_OUT_BROADCAST || chatType == DcChat.DC_CHAT_TYPE_IN_BROADCAST) {
-      options = new String[]{
-          getString(R.string.channel_type_public),
-          getString(R.string.channel_type_private)
-      };
-    } else {
-      options = new String[]{
-          getString(R.string.channel_type_private),
-          getString(R.string.channel_type_public)
-      };
-    }
+    // Only reachable for a channel this account owns (see ProfileAdapter) - subscribers to
+    // someone else's channel have no say in this, and it doesn't apply to regular groups.
+    boolean isPrivate = ChannelPrivacyPrefs.isPrivate(requireContext(), chatId);
+    String[] options = {
+        getString(R.string.channel_type_public),
+        getString(R.string.channel_type_private)
+    };
 
     new AlertDialog.Builder(requireContext())
         .setTitle(R.string.channel_type)
-        .setItems(options, (dialog, which) -> {
-          if (which == 0) {
-            Toast.makeText(requireContext(), "Current channel type is already active", Toast.LENGTH_SHORT).show();
+        .setSingleChoiceItems(options, isPrivate ? 1 : 0, (dialog, which) -> {
+          boolean makePrivate = which == 1;
+          dialog.dismiss();
+          if (makePrivate == isPrivate) return;
+
+          if (makePrivate) {
+            try {
+              // Delta Chat has no join-request/approval concept - a valid join link always lets
+              // anyone who has it join instantly - so "private" withdraws the current link
+              // instead, the same action as the explicit "Withdraw QR code" flow elsewhere.
+              // Old/already-shared copies of the link stop working; a fresh one is minted
+              // automatically next time it's shown, if switched back to public later.
+              dcContext.setConfigFromQr(dcContext.getSecurejoinQr(chatId));
+            } catch (Exception e) {
+              Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+              return;
+            }
+            Toast.makeText(requireContext(), R.string.channel_now_private_explain, Toast.LENGTH_LONG).show();
           } else {
-            Toast.makeText(requireContext(), "Channel type can be changed by recreating the group", Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext(), R.string.channel_now_public_explain, Toast.LENGTH_SHORT).show();
           }
+          ChannelPrivacyPrefs.setPrivate(requireContext(), chatId, makePrivate);
+          update();
         })
         .setNegativeButton(R.string.cancel, null)
         .show();
@@ -377,29 +387,9 @@ public class ProfileFragment extends Fragment
   }
 
   private void onForumTopics() {
-    DcChat dcChat = dcContext.getChat(chatId);
-    ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(requireContext()));
-    boolean isForum = fm.isForum(chatId);
-
-    if (!isForum) {
-      // Enable forum mode
-      new AlertDialog.Builder(requireContext())
-          .setTitle(R.string.enable_forum)
-          .setMessage("Enable topics for this group? Messages will be organized into topic threads.")
-          .setPositiveButton(R.string.ok, (d, w) -> {
-            try {
-              fm.enableForum(chatId);
-              Toast.makeText(requireContext(), "Forum enabled! Create topics from the chat menu.", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-              Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-          })
-          .setNegativeButton(R.string.cancel, null)
-          .show();
-    } else {
-      // Open forum topics list
-      org.thoughtcrime.securesms.forum.ForumActivity.start(requireActivity(), chatId);
-    }
+    // Only reachable when the chat is already a forum (see ProfileAdapter) - existing groups
+    // can't be converted anymore, forums are created as their own type from the start.
+    org.thoughtcrime.securesms.forum.ForumActivity.start(requireActivity(), chatId);
   }
 
   @Override
@@ -412,7 +402,10 @@ public class ProfileFragment extends Fragment
       }
 
       DcChat dcChat = dcContext.getChat(chatId);
-      if (!dcChat.canSend()) {
+      // Removing/banning members is limited to whoever created the group (client-side-only
+      // concept, Delta Chat's protocol has no admin/owner role - see DcChat.isOwnedBySelf()).
+      if (!dcChat.isOwnedBySelf(dcContext)) {
+        Toast.makeText(requireContext(), R.string.only_group_owner_can_edit, Toast.LENGTH_SHORT).show();
         return;
       }
 
@@ -510,6 +503,9 @@ public class ProfileFragment extends Fragment
       preselectedContacts.add(memberId);
     }
     intent.putExtra(ContactSelectionListFragment.PRESELECTED_CONTACTS, preselectedContacts);
+    ForumManager forumManager = new ForumManager(dcContext, DcHelper.getRpc(requireContext()));
+    intent.putExtra(
+        ContactSelectionListFragment.REQUIRE_WL_CHAT_EXTRA, forumManager.isForum(chatId));
     pickContactLauncher.launch(intent);
   }
 

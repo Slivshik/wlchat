@@ -135,6 +135,17 @@
     <color name="reaction_pill_border_selected">?attr/colorPrimary</color>
     <color name="reaction_pill_text_color_selected">@color/reaction_pill_text_color</color>
 
+    <!-- Outgoing bubbles are a solid accent color (blue/green/etc, not the app's neutral dark/light
+        surface), so the regular reaction_pill_background (a fixed dark navy) looked like a
+        separate dark patch stuck onto them. These are translucent overlays instead, which read
+        as "a shade of the bubble's own color" on any bubble tint. -->
+    <color name="reaction_pill_background_outgoing">#33FFFFFF</color>
+    <color name="reaction_pill_border_outgoing">#4DFFFFFF</color>
+    <color name="reaction_pill_text_color_outgoing">#ffF5F5F5</color>
+    <color name="reaction_pill_background_outgoing_selected">#59FFFFFF</color>
+    <color name="reaction_pill_border_outgoing_selected">#ffFFFFFF</color>
+    <color name="reaction_pill_text_color_outgoing_selected">@color/reaction_pill_text_color_outgoing</color>
+
     <color name="delete_account_item_bg">#eeeeee</color>
 
     <color name="calls_button_foreground">#FFFFFF</color>
@@ -206,4 +217,7 @@
     <color name="tg_reaction_bg_selected">#ff2AABEE</color>
     <color name="tg_reaction_border">#ff3A4754</color>
     <color name="tg_reaction_text">#ffF5F5F5</color>
+
+    <!-- Badge shown next to the name of contacts detected as using WL Chat themselves -->
+    <color name="wl_chat_badge">#ff2AABEE</color>
 </resources>

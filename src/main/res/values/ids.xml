@@ -27,4 +27,9 @@
     <item
         name="tag_window_insets_margin_bottom"
         type="id" />
+
+    <!-- Menu item id for the "Quote" action added to the text-selection ActionMode -->
+    <item
+        name="menu_quote_selection"
+        type="id" />
 </resources>

@@ -22,6 +22,7 @@ public abstract class BaseActionBarActivity extends AppCompatActivity {
 
   private static final String TAG = "BaseActionBarActivity";
   protected DynamicTheme dynamicTheme = new DynamicTheme();
+  private boolean skipDefaultExitTransition = false;
 
   protected void onPreCreate() {
     dynamicTheme.onCreate(this);
@@ -60,6 +61,31 @@ public abstract class BaseActionBarActivity extends AppCompatActivity {
     super.onResume();
     initializeScreenshotSecurity();
     dynamicTheme.onResume(this);
+    // dynamicTheme.onResume() may finish() + restart this activity with its own
+    // no-op transition (theme change); don't clobber that with the default exit one.
+    if (isFinishing()) {
+      skipDefaultExitTransition();
+    }
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    // Mirror the slide-in-from-right / fade-out entrance with a matching
+    // slide-out-to-right / fade-back-in exit, so screens that don't define
+    // their own closing transition still animate symmetrically.
+    if (isFinishing() && !skipDefaultExitTransition) {
+      overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+    }
+  }
+
+  /**
+   * Opts this activity instance out of the default slide-out exit transition, for callers that
+   * finish with their own explicit transition (e.g. an intentional no-op transition to make a
+   * follow-up activity feel like a continuation of this one).
+   */
+  protected void skipDefaultExitTransition() {
+    skipDefaultExitTransition = true;
   }
 
   private void initializeScreenshotSecurity() {

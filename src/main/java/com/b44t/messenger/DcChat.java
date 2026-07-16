@@ -89,6 +89,24 @@ public class DcChat {
     return getType() == DC_CHAT_TYPE_MAILINGLIST;
   }
 
+  /**
+   * Best-effort "is self the group's owner" check, used to gate group-management UI (editing
+   * name/photo, removing members, group-wide settings) to whoever created the group.
+   *
+   * <p>Delta Chat's protocol has no admin/owner/role concept at all - every member is equal - so
+   * this is a client-side-only heuristic: the oldest message in the chat is normally the "member
+   * added" system message generated when the group was created, so whoever sent it is treated as
+   * the creator. It is not cryptographically guaranteed and can be wrong for old chats whose full
+   * history wasn't synced to this device, or if that message was deleted.
+   */
+  public boolean isOwnedBySelf(DcContext dcContext) {
+    if (!canSend()) return false;
+    int[] msgIds = dcContext.getChatMsgs(getId(), 0, 0);
+    if (msgIds.length == 0) return true;
+    DcMsg oldest = dcContext.getMsg(msgIds[0]);
+    return oldest.getFromId() == DcContact.DC_CONTACT_ID_SELF;
+  }
+
   public boolean isInBroadcast() {
     return getType() == DC_CHAT_TYPE_IN_BROADCAST;
   }

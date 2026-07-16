@@ -78,6 +78,7 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
   private static final int MESSAGE_TYPE_STICKER_OUTGOING = 10;
 
   private final Set<DcMsg> batchSelected = Collections.synchronizedSet(new HashSet<DcMsg>());
+  private boolean selectionModeActive;
 
   private final @Nullable ItemClickListener clickListener;
   private final @NonNull GlideRequests glideRequests;
@@ -204,7 +205,7 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
   }
 
   interface ItemClickListener extends BindableConversationItem.EventListener {
-    void onItemClick(DcMsg item);
+    void onItemClick(DcMsg item, View view);
 
     void onItemLongClick(DcMsg item, View view);
   }
@@ -251,6 +252,7 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
             batchSelected,
             recipient,
             pulseHighlight,
+            selectionModeActive,
             playbackViewModel,
             audioPlayPauseListener);
 
@@ -274,7 +276,7 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
     itemView.setOnClickListener(
         view -> {
           if (clickListener != null) {
-            clickListener.onItemClick(itemView.getMessageRecord());
+            clickListener.onItemClick(itemView.getMessageRecord(), view);
           }
         });
     itemView.setOnLongClickListener(
@@ -339,6 +341,10 @@ public class ConversationAdapter<V extends View & BindableConversationItem>
 
   public void clearSelection() {
     batchSelected.clear();
+  }
+
+  public void setSelectionModeActive(boolean active) {
+    selectionModeActive = active;
   }
 
   public Set<DcMsg> getSelectedItems() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- common strings without special context -->
-    <string name="app_name">Arcane Chat</string>
+    <string name="app_name">WL Chat</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="clear_search">Clear Search</string>
@@ -26,8 +26,6 @@
     <string name="topic_name">Topic name</string>
     <string name="delete_topic">Delete Topic</string>
     <string name="delete_topic_confirm">Delete this topic and all its messages?</string>
-    <string name="enable_forum">Enable Topics</string>
-    <string name="forum_enabled">Topics enabled for this chat</string>
     <string name="all_topics">All Topics</string>
     <string name="topic_format">%1$s %2$s</string>
     <string name="automatic">Automatic</string>
@@ -193,6 +191,16 @@
     <string name="image">Image</string>
     <!-- Used in summaries as "Draft: Reply", similar as "Draft: Image". Use a noun here, not a verb (not: "to reply") -->
     <string name="reply_noun">Reply</string>
+    <!-- Action shown in the text-selection toolbar (after selecting a snippet of a message's text) that replies to the message quoting only the selected excerpt -->
+    <string name="quote_selection">Quote</string>
+    <!-- Small badge shown next to a contact's name when they are detected to be using WL Chat themselves. Keep it very short, it's rendered inline at reduced size. -->
+    <string name="wl_chat_user_badge">WL</string>
+    <!-- A member's display name with the WL Chat badge appended, e.g. "Alice · WL" -->
+    <string name="member_name_with_wl_chat_badge">%1$s · WL</string>
+    <!-- Shown under a contact's name in the "add member" list for a forum, when that contact isn't detected as a WL Chat user and so can't be added -->
+    <string name="forum_requires_wl_chat_user">Only WL Chat users can join forums</string>
+    <!-- Shown in place of content this build doesn't know how to read (e.g. forum data written by a newer WL Chat version) -->
+    <string name="new_content_update_app">New content. Update WL Chat</string>
     <string name="gif">GIF</string>
     <!-- "Stickers" as known from other messengers; in some languages, the English "Sticker" is fine. -->
     <string name="sticker">Sticker</string>
@@ -286,6 +294,7 @@
     <string name="channels">Channels</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="new_channel">New Channel</string>
+    <string name="new_forum">New Forum</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="channel_name">Channel Name</string>
     <!-- The number of times a message is shown in channels. Use what other messengers are using here, smth. as "N-times seen" or "1 Aufruf" (german) work as well, where "1 impression" or "1 hit" may sound too formal and may be more marketing slang. -->
@@ -320,7 +329,7 @@
     <string name="share_invite_link_explain">Anyone with this link can view your profile and start a chat with you. Only share it with people you trust.</string>
     <string name="invite_friends">Invite Friends</string>
     <!-- %1$s is replaced by the user's invitation link ("https://i.delta.chat/...") -->
-    <string name="invite_friends_text">Contact me on Delta Chat:\n%1$s</string>
+    <string name="invite_friends_text">Contact me on WL Chat:\n%1$s</string>
     <string name="menu_copy_selection_to_clipboard">Copy Selection</string>
     <string name="menu_copy_link_to_clipboard">Copy Link</string>
     <string name="menu_copy_text_to_clipboard">Copy Text</string>
@@ -618,13 +627,13 @@
     <string name="multidevice_this_creates_a_qr_code">This creates a QR code that the second device can scan to copy the profile.\n\nMake sure no unwanted observer or camera can see the following screen.</string>
     <string name="multidevice_install_dc_on_other_device">Install Delta Chat on your other device (https://get.delta.chat)</string>
     <!-- "I Already Have a Profile / Add as Second Device” should be the same text as defined by the keys onboarding_alternative_logins and multidevice_receiver_title -->
-    <string name="multidevice_tap_scan_on_other_device">Start Delta Chat, tap “I Already Have a Profile / Add as Second Device” and scan the code shown here</string>
+    <string name="multidevice_tap_scan_on_other_device">Start WL Chat, tap “I Already Have a Profile / Add as Second Device” and scan the code shown here</string>
     <!-- Shown inside a "QR code card" with very limited space; please formulate the text as short as possible therefore. The placeholder will be replaced by the profile name eg. "Scan to set up second device for Alice" -->
     <string name="multidevice_qr_subtitle">Scan to set up second device for %1$s</string>
     <string name="multidevice_receiver_title">Add as Second Device</string>
-    <string name="multidevice_open_settings_on_other_device">On the first device, start Delta Chat, go to “Settings / Add Second Device“ and scan the code shown there</string>
+    <string name="multidevice_open_settings_on_other_device">On the first device, start WL Chat, go to “Settings / Add Second Device“ and scan the code shown there</string>
     <string name="multidevice_receiver_scanning_ask">Copy the profile from the other device to this device?</string>
-    <string name="multidevice_receiver_needs_update">The profile you want to import is from a newer Delta Chat version.\n\nTo continue setting up second device, please update this device to the latest version of Delta Chat.</string>
+    <string name="multidevice_receiver_needs_update">The profile you want to import is from a newer WL Chat version.\n\nTo continue setting up second device, please update this device to the latest version of WL Chat.</string>
     <string name="multidevice_abort">Abort setting up second device?</string>
     <string name="multidevice_abort_will_invalidate_copied_qr">This will invalidate the QR code copied to clipboard.</string>
     <string name="multidevice_transfer_done_devicemsg">ℹ️ Profile transferred to your second device.</string>
@@ -916,7 +925,7 @@
 
     <!-- automatically delete message -->
     <string name="delete_sent_title">Delete Sent Messages from Server</string>
-    <string name="delete_sent_explain">Once delivered and cached on recipients\' devices, remove sent messages from the server to save space</string>
+    <string name="delete_sent_explain">Once delivered, remove sent messages from the server (within about 1 day, depending on your provider) to save space. Messages stay available on this device.</string>
     <string name="delete_old_messages">Delete Old Messages</string>
     <string name="autodel_device_title">Delete Messages from Device</string>
     <!-- deprecated -->
@@ -931,6 +940,8 @@
     <string name="autodel_messages_summary">Remove old messages from server to save storage</string>
     <string name="autodel_media_title">Auto-delete media</string>
     <string name="autodel_media_summary">Remove old photos, videos, and files from device</string>
+    <string name="autodel_1_day">After 1 day</string>
+    <string name="autodel_3_days">After 3 days</string>
     <string name="autodel_15_days">After 15 days</string>
     <string name="autodel_30_days">After 30 days</string>
     <string name="autodel_5_days">After 5 days</string>
@@ -1125,7 +1136,7 @@
 
     <!-- location streaming -->
     <string name="location_streaming_notification_text">You are sharing your location</string>
-    <string name="location_rationale">To share your live location with chat members, allow Delta Chat to use your location data.\n\nTo make live location work gaplessly, location data is used even when the app is closed or not in use.</string>
+    <string name="location_rationale">To share your live location with chat members, allow WL Chat to use your location data.\n\nTo make live location work gaplessly, location data is used even when the app is closed or not in use.</string>
 
     <!-- permissions -->
     <string name="perm_required_title">Permission required</string>
@@ -1135,7 +1146,7 @@
     <string name="perm_explain_access_to_mic_denied">To send audio messages, go to system or app settings, select "Permissions" or "Privacy &amp; Security", and enable \"Microphone\".</string>
     <string name="perm_explain_access_to_storage_denied">To receive or send files, go to the app settings, select \"Permissions\", and enable \"Storage\".</string>
     <string name="perm_explain_access_to_location_denied">To attach a location, go to the app settings, select \"Permissions\", and enable \"Location\".</string>
-    <string name="perm_explain_access_to_notifications_denied">To receive notifications, go to \"System Settings / Apps / Delta Chat\" and enable \"Notifications\".</string>
+    <string name="perm_explain_access_to_notifications_denied">To receive notifications, go to \"System Settings / Apps / WL Chat\" and enable \"Notifications\".</string>
 
     <!-- ImageEditorHud -->
     <string name="ImageEditorHud_draw_anywhere_to_blur">Draw anywhere to blur</string>
@@ -1225,11 +1236,14 @@
     <string name="channel_type">Channel Type</string>
     <string name="channel_type_public">Public - Anyone can join</string>
     <string name="channel_type_private">Private - Invite only</string>
+    <string name="channel_now_private_explain">Channel is now private. The old invite link/QR code no longer works - switch back to public to share a fresh one.</string>
+    <string name="channel_now_public_explain">Channel is now public. The invite link/QR code works again.</string>
     <string name="channel_type_password">Password Protected</string>
     <string name="banned_members">Banned Members</string>
     <string name="ban_member">Ban Member</string>
     <string name="unban_member">Unban Member</string>
     <string name="remove_member">Remove from Group</string>
+    <string name="only_group_owner_can_edit">Only the group\'s creator can do this</string>
     <string name="promote_to_admin">Promote to Admin</string>
     <string name="demote_from_admin">Demote from Admin</string>
     <string name="member_banned">This member is banned from the group</string>
@@ -1311,7 +1325,7 @@
     <!-- use the same translation for "Shortcuts" as the system is using, often the term "Shortcut" stays untranslated; check eg. how the "Shortcuts" system app is called in your locale -->
     <string name="shortcuts_widget_title">Shortcuts</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
-    <string name="shortcuts_widget_description">Use Delta Chat\'s \"Add to Widget\" to add items</string>
+    <string name="shortcuts_widget_description">Use WL Chat\'s \"Add to Widget\" to add items</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
     <string name="remove_from_widget">Remove from Widget</string>
     <!-- use the same translation for "Widget" as the system is using; often the term "Widget" stays untranslated -->
@@ -1329,8 +1343,8 @@
     <string name="pref_instant_delivery">Instant Delivery</string>
     <string name="pref_background_notifications">Use Background Connection</string>
     <string name="pref_background_notifications_explain">Requires ignored battery optimizations, use if notifications don\'t arrive on time</string>
-    <string name="pref_reliable_service">Force Background Connection</string>
-    <string name="pref_reliable_service_explain">Causes a permanent notification</string>
+    <string name="pref_reliable_service">Keep Running in Background</string>
+    <string name="pref_reliable_service_explain">Shows a permanent low-priority notification so messages keep arriving instantly while the app is closed. Turn off if the notification bothers you - messages will still arrive, just possibly with a delay.</string>
 
     <string name="pref_background_notifications_rationale">To maintain connection and receive messages in the background, ignore battery optimizations in the next step.\n\nDelta Chat uses few resources and takes care not to drain your battery.</string>
     <!-- disabling "Reliable service" will hide a the maybe annoying permanent-notification with the drawback that new-message-notifications get potentially unreliable -->

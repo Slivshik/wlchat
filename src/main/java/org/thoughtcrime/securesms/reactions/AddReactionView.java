@@ -1,9 +1,13 @@
 package org.thoughtcrime.securesms.reactions;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.LinearLayout;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
@@ -61,7 +65,12 @@ public class AddReactionView extends LinearLayout {
     }
   }
 
-  public void show(DcMsg msgToReactTo, View parentView, AddReactionListener listener) {
+  /** @param topY final vertical position, already decided by the caller. AddReactionView and
+   * MessageQuickActionsView are shown stacked together and the caller is the only one who knows
+   * about both of them, so it - not this view - decides whether the stack fits below the message
+   * or needs to flip above it; this view only clamps topY to its own screen bounds as a safety
+   * net. */
+  public void show(DcMsg msgToReactTo, View parentView, int topY, AddReactionListener listener) {
     init(); // init delayed as needed
 
     if (msgToReactTo.isInfo() || !dcContext.getChat(msgToReactTo.getChatId()).canSend()) {
@@ -101,16 +110,68 @@ public class AddReactionView extends LinearLayout {
     } else {
       x += offset;
     }
-    ViewUtil.setLeftMargin(this, Math.max(x, 0));
 
-    int y = Math.max((int) parentView.getY() - offset, offset / 2);
+    int y = topY;
+
+    // keep a small gap from the screen edge instead of letting the bar touch it.
+    int edgeMargin = (int) (getResources().getDisplayMetrics().density * 10);
+
+    View parent = (View) getParent();
+    if (parent != null) {
+      int maxLeft = Math.max(edgeMargin, parent.getWidth() - getWidth() - edgeMargin);
+      x = Math.min(Math.max(x, edgeMargin), maxLeft);
+      int maxTop = Math.max(0, parent.getHeight() - getHeight());
+      y = Math.min(Math.max(y, 0), maxTop);
+    } else {
+      x = Math.max(x, edgeMargin);
+    }
+
+    ViewUtil.setLeftMargin(this, x);
     ViewUtil.setTopMargin(this, y);
 
+    setPivotX(msgToReactTo.isOutgoing() ? getWidth() : 0f);
+    setPivotY(getHeight());
+    animate().cancel();
+    // ViewPropertyAnimator's listener is not tied to a single animation - once hide() sets one
+    // below, it stays attached to every future animate() call on this view until cleared, so
+    // without this, the *next* show() would run its animation to completion and then immediately
+    // trigger hide()'s leftover onAnimationEnd, hiding the view again right after it appeared.
+    animate().setListener(null);
+    setScaleX(0.4f);
+    setScaleY(0.4f);
+    setAlpha(0f);
     setVisibility(View.VISIBLE);
+    animate()
+        .scaleX(1f)
+        .scaleY(1f)
+        .alpha(1f)
+        .setDuration(220)
+        .setInterpolator(new OvershootInterpolator(1.2f))
+        .start();
   }
 
   public void hide() {
-    setVisibility(View.GONE);
+    if (getVisibility() != View.VISIBLE) {
+      return;
+    }
+    animate().cancel();
+    animate()
+        .scaleX(0.4f)
+        .scaleY(0.4f)
+        .alpha(0f)
+        .setDuration(140)
+        .setInterpolator(new FastOutSlowInInterpolator())
+        .setListener(
+            new AnimatorListenerAdapter() {
+              @Override
+              public void onAnimationEnd(Animator animation) {
+                setVisibility(View.GONE);
+                setScaleX(1f);
+                setScaleY(1f);
+                setAlpha(1f);
+              }
+            })
+        .start();
   }
 
   public void move(int dy) {

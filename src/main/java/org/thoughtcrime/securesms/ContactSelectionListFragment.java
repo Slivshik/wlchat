@@ -73,6 +73,7 @@ public class ContactSelectionListFragment extends Fragment
   public static final String SELECT_UNENCRYPTED_EXTRA = "select_unencrypted_extra";
   public static final String ALLOW_CREATION = "allow_creation";
   public static final String PRESELECTED_CONTACTS = "preselected_contacts";
+  public static final String REQUIRE_WL_CHAT_EXTRA = "require_wl_chat_extra";
 
   private DcContext dcContext;
 
@@ -270,6 +271,8 @@ public class ContactSelectionListFragment extends Fragment
     ContactSelectionListAdapter adapter =
         new ContactSelectionListAdapter(
             getActivity(), GlideApp.with(this), new ListClickListener(), isMulti(), true);
+    adapter.setRequireWlChat(
+        getActivity().getIntent().getBooleanExtra(REQUIRE_WL_CHAT_EXTRA, false));
     selectedContacts = adapter.getSelectedContacts();
     deselectedContacts = new HashSet<>();
     ArrayList<Integer> preselectedContacts =

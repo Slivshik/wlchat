@@ -188,6 +188,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private FrameLayout emojiPickerContainer;
   private MediaKeyboard emojiPicker;
   private InputPanel inputPanel;
+  private int inputPanelVisibilityBeforeSelection = -1;
   private @Nullable MediaController mediaController;
   private com.google.common.util.concurrent.ListenableFuture<MediaController> mediaControllerFuture;
   private AudioPlaybackViewModel playbackViewModel;
@@ -429,7 +430,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
 
     DcHelper.getNotificationCenter(this).clearVisibleChat();
-    if (isFinishing()) overridePendingTransition(R.anim.fade_scale_in, R.anim.slide_to_right);
+    if (isFinishing()) overridePendingTransition(R.anim.fade_in_reveal, R.anim.slide_to_right);
     inputPanel.onPause();
   }
 
@@ -1111,6 +1112,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     container.addOnKeyboardShownListener(this);
     container.addOnKeyboardHiddenListener(backgroundView);
     container.addOnKeyboardShownListener(backgroundView);
+    // keep any open reply/forward/copy/delete or reaction popup anchored to its message instead
+    // of staying stuck at its pre-keyboard position while the list resizes underneath it.
+    container.addOnKeyboardShownListener(
+        () -> fragment.onKeyboardHeightChanged(container.getKeyboardHeight()));
+    container.addOnKeyboardHiddenListener(() -> fragment.onKeyboardHeightChanged(0));
     inputPanel.setListener(this);
     inputPanel.setMediaListener(this);
 
@@ -1899,6 +1905,25 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   }
 
   @Override
+  public void handleQuotePartMessage(DcMsg msg, CharSequence excerpt) {
+    if (isEditing) composeText.setText("");
+    isEditing = false;
+
+    Recipient author =
+        new Recipient(this, DcHelper.getContext(context).getContact(msg.getFromId()));
+
+    SlideDeck slideDeck = new SlideDeck();
+    if (msg.hasFile()) {
+      slideDeck.addSlide(MediaUtil.getSlideForMsg(this, msg));
+    }
+
+    inputPanel.setQuote(
+        GlideApp.with(this), msg, msg.getTimestamp(), author, excerpt, slideDeck, false);
+
+    inputPanel.clickOnComposeInput();
+  }
+
+  @Override
   public void handleEditMessage(DcMsg msg) {
     isEditing = true;
     Recipient author =
@@ -1912,6 +1937,19 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     setDraftText(msg.getText());
     inputPanel.clickOnComposeInput();
+  }
+
+  @Override
+  public void onSelectionModeChanged(boolean active) {
+    // The fragment's own Reply/Forward pill bar takes the input bar's place while a message
+    // multi-selection is active (matching Telegram, where selection replaces the compose row).
+    if (active) {
+      inputPanelVisibilityBeforeSelection = inputPanel.getVisibility();
+      inputPanel.setVisibility(View.GONE);
+    } else if (inputPanelVisibilityBeforeSelection != -1) {
+      inputPanel.setVisibility(inputPanelVisibilityBeforeSelection);
+      inputPanelVisibilityBeforeSelection = -1;
+    }
   }
 
   @Override

@@ -24,19 +24,28 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import chat.delta.rpc.RpcException;
 import chat.delta.rpc.types.CallInfo;
@@ -81,6 +90,7 @@ import org.thoughtcrime.securesms.util.MarkdownUtil;
 import org.thoughtcrime.securesms.util.MediaUtil;
 import org.thoughtcrime.securesms.util.Util;
 import org.thoughtcrime.securesms.util.ViewUtil;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 import org.thoughtcrime.securesms.util.views.Stub;
 
 /**
@@ -103,6 +113,7 @@ public class ConversationItem extends BaseConversationItem {
 
   protected ViewGroup bodyBubble;
   protected ReactionsConversationView reactionsView;
+  private View reactionsFooterRow;
   protected View replyView;
   protected View jumptoView;
   @Nullable private QuoteView quoteView;
@@ -114,6 +125,10 @@ public class ConversationItem extends BaseConversationItem {
   private ViewGroup container;
   private Button msgActionButton;
   private Button showFullButton;
+  private View selectionCheckbox;
+  private View selectionCheckboxUnchecked;
+  private View selectionCheckboxChecked;
+  private View selectionCheckboxTick;
 
   private @NonNull Stub<ConversationItemThumbnail> mediaThumbnailStub;
   private @NonNull Stub<AudioView> audioViewStub;
@@ -149,6 +164,7 @@ public class ConversationItem extends BaseConversationItem {
     this.bodyText = findViewById(R.id.conversation_item_body);
     this.footer = findViewById(R.id.conversation_item_footer);
     this.reactionsView = findViewById(R.id.reactions_view);
+    this.reactionsFooterRow = findViewById(R.id.reactions_footer_row);
     this.groupSender = findViewById(R.id.group_message_sender);
     this.contactPhoto = findViewById(R.id.contact_photo);
     this.contactPhotoHolder = findViewById(R.id.contact_photo_container);
@@ -167,6 +183,10 @@ public class ConversationItem extends BaseConversationItem {
     this.jumptoView = findViewById(R.id.jumpto_icon);
     this.msgActionButton = findViewById(R.id.msg_action_button);
     this.showFullButton = findViewById(R.id.show_full_button);
+    this.selectionCheckbox = findViewById(R.id.selection_checkbox);
+    this.selectionCheckboxUnchecked = findViewById(R.id.selection_checkbox_unchecked_bg);
+    this.selectionCheckboxChecked = findViewById(R.id.selection_checkbox_checked_bg);
+    this.selectionCheckboxTick = findViewById(R.id.selection_checkbox_tick);
 
     setOnClickListener(new ClickListener(null));
 
@@ -184,9 +204,10 @@ public class ConversationItem extends BaseConversationItem {
       @NonNull Set<DcMsg> batchSelected,
       @NonNull Recipient recipients,
       boolean pulseHighlight,
+      boolean selectionModeActive,
       @Nullable AudioPlaybackViewModel playbackViewModel,
       AudioView.OnActionListener audioPlayPauseListener) {
-    bindPartial(messageRecord, dcChat, batchSelected, pulseHighlight, recipients);
+    bindPartial(messageRecord, dcChat, batchSelected, pulseHighlight, selectionModeActive, recipients);
     this.glideRequests = glideRequests;
     this.showSender =
         ((dcChat.isMultiUser() || dcChat.isSelfTalk()) && !messageRecord.isOutgoing())
@@ -220,6 +241,7 @@ public class ConversationItem extends BaseConversationItem {
     setReactions(messageRecord);
     setFooter(messageRecord);
     setQuote(messageRecord);
+    setSelectionCheckbox(selectionModeActive, batchSelected.contains(messageRecord));
     if (Util.isTouchExplorationEnabled(context)) {
       setContentDescription();
     }
@@ -427,9 +449,67 @@ public class ConversationItem extends BaseConversationItem {
     return dcMsg.getType() == DcMsg.DC_MSG_FILE;
   }
 
+  // While exactly one message is checked in the multi-select action mode, arm real text
+  // selection on its body so a follow-up long-press on part of the text (a second, separate
+  // gesture from the one that entered multi-select) starts native selection instead of
+  // toggling the checkbox - lets the user quote just the selected excerpt via the "Quote"
+  // item added to the selection's floating toolbar below.
+  private final ActionMode.Callback quoteSelectionActionModeCallback =
+      new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+          menu.add(Menu.NONE, R.id.menu_quote_selection, 1, R.string.quote_selection);
+          return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+          return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+          if (item.getItemId() == R.id.menu_quote_selection) {
+            int start = bodyText.getSelectionStart();
+            int end = bodyText.getSelectionEnd();
+            CharSequence body = bodyText.getText();
+            if (eventListener != null
+                && start >= 0
+                && end > start
+                && end <= body.length()) {
+              eventListener.onQuotePartClicked(messageRecord, body.subSequence(start, end));
+            }
+            mode.finish();
+            return true;
+          }
+          return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {}
+      };
+
+  private void setTextQuoteSelectable(boolean selectable) {
+    if (selectable) {
+      bodyText.setCustomSelectionActionModeCallback(quoteSelectionActionModeCallback);
+      bodyText.setTextIsSelectable(true);
+    } else {
+      // setTextIsSelectable(true) replaces the TextView's movement method with
+      // ArrowKeyMovementMethod internally - restore the link/copy-span movement method every
+      // time selection is turned back off, otherwise a recycled row that was once armed for
+      // quote-selection would permanently lose clickable-link handling.
+      bodyText.setTextIsSelectable(false);
+      bodyText.setCustomSelectionActionModeCallback(null);
+      bodyText.setClickable(false);
+      bodyText.setFocusable(false);
+      bodyText.setMovementMethod(LongClickMovementMethod.getInstance(getContext()));
+    }
+  }
+
   private void setBodyText(DcMsg messageRecord) {
-    bodyText.setClickable(false);
-    bodyText.setFocusable(false);
+    boolean allowQuoteSelection =
+        selectionModeActive && batchSelected.size() == 1 && batchSelected.contains(messageRecord);
+    setTextQuoteSelectable(false);
 
     // Remove any link actions registered for the previous message binding
     for (int id : linkActionIds) {
@@ -452,6 +532,7 @@ public class ConversationItem extends BaseConversationItem {
       }
       bodyText.setText(spannable);
       bodyText.setVisibility(View.VISIBLE);
+      setTextQuoteSelectable(allowQuoteSelection);
 
       // Register a TalkBack "Actions" entry for each link in the message
       Spanned spanned = (Spanned) spannable;
@@ -875,6 +956,16 @@ public class ConversationItem extends BaseConversationItem {
     activeFooter.setMessageRecord(current);
   }
 
+  private void setSelectionCheckbox(boolean selectionModeActive, boolean checked) {
+    if (selectionCheckbox == null) return;
+    selectionCheckbox.setVisibility(selectionModeActive ? View.VISIBLE : View.GONE);
+    if (selectionModeActive) {
+      selectionCheckboxUnchecked.setVisibility(checked ? View.GONE : View.VISIBLE);
+      selectionCheckboxChecked.setVisibility(checked ? View.VISIBLE : View.GONE);
+      selectionCheckboxTick.setVisibility(checked ? View.VISIBLE : View.GONE);
+    }
+  }
+
   private void setReactions(@NonNull DcMsg current) {
     try {
       Reactions reactions = rpc.getMessageReactions(dcContext.getAccountId(), current.getId());
@@ -894,6 +985,16 @@ public class ConversationItem extends BaseConversationItem {
     } catch (RpcException e) {
       reactionsView.clear();
     }
+
+    // With reactions, the row hugs the bubble's start side so the footer sits right next to them
+    // on the same line, instead of getting pushed to its own line below (which only added height
+    // without the bubble getting any wider to make room, looking like a tall, cramped stack).
+    // Without reactions, the row is just the footer alone and keeps its normal end-aligned spot.
+    boolean hasReactions = reactionsView.getChildCount() > 0;
+    LinearLayout.LayoutParams rowParams =
+        (LinearLayout.LayoutParams) reactionsFooterRow.getLayoutParams();
+    rowParams.gravity = hasReactions ? Gravity.START : Gravity.END;
+    reactionsFooterRow.setLayoutParams(rowParams);
   }
 
   private ConversationItemFooter getActiveFooter(@NonNull DcMsg messageRecord) {
@@ -921,15 +1022,37 @@ public class ConversationItem extends BaseConversationItem {
     if (messageRecord.isForwarded()) {
       if (showSender && dcContact != null) {
         this.groupSender.setText(
-            context.getString(R.string.forwarded_by, messageRecord.getSenderName(dcContact)));
+            withWlChatBadge(
+                context.getString(R.string.forwarded_by, messageRecord.getSenderName(dcContact)),
+                dcContact));
       } else {
         this.groupSender.setText(context.getString(R.string.forwarded_message));
       }
       this.groupSender.setTextColor(context.getResources().getColor(R.color.unknown_sender));
     } else if (showSender && dcContact != null) {
-      this.groupSender.setText(messageRecord.getSenderName(dcContact));
+      this.groupSender.setText(withWlChatBadge(messageRecord.getSenderName(dcContact), dcContact));
       this.groupSender.setTextColor(Util.rgbToArgbColor(dcContact.getColor()));
     }
+  }
+
+  private CharSequence withWlChatBadge(String name, DcContact contact) {
+    if (!WlChatMarker.isWlChatUser(contact)) {
+      return name;
+    }
+    SpannableStringBuilder builder = new SpannableStringBuilder(name).append(" ");
+    int badgeStart = builder.length();
+    builder.append(context.getString(R.string.wl_chat_user_badge));
+    builder.setSpan(
+        new RelativeSizeSpan(0.75f),
+        badgeStart,
+        builder.length(),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    builder.setSpan(
+        new ForegroundColorSpan(ContextCompat.getColor(context, R.color.wl_chat_badge)),
+        badgeStart,
+        builder.length(),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    return builder;
   }
 
   private void setAuthor(@NonNull DcMsg current, boolean showSender) {

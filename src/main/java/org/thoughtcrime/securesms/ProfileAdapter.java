@@ -29,7 +29,9 @@ import java.util.Set;
 import org.thoughtcrime.securesms.connect.DcHelper;
 import org.thoughtcrime.securesms.contacts.ContactSelectionListItem;
 import org.thoughtcrime.securesms.mms.GlideRequests;
+import org.thoughtcrime.securesms.util.ChannelPrivacyPrefs;
 import org.thoughtcrime.securesms.util.Util;
+import org.thoughtcrime.securesms.util.WlChatMarker;
 
 public class ProfileAdapter extends RecyclerView.Adapter {
   private static final String TAG = "ProfileAdapter";
@@ -208,6 +210,9 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         dcContact = dcContext.getContact(contactId);
         name = dcContact.getDisplayName();
         addr = dcContact.getAddr();
+        if (WlChatMarker.isWlChatUser(dcContact)) {
+          name = context.getString(R.string.member_name_with_wl_chat_badge, name);
+        }
       }
 
       contactItem.unbind(glideRequests);
@@ -372,11 +377,15 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         itemDataStatusText = rpc.getChatDescription(rpc.getSelectedAccountId(), chatId);
         ForumManager fm = new ForumManager(dcContext, rpc);
         if (fm.isForum(chatId) && itemDataStatusText != null && itemDataStatusText.startsWith("{")) {
-          List<ForumTopic> topics = fm.getTopics(chatId);
-          if (!topics.isEmpty()) {
-            itemDataStatusText = topics.size() + " " + context.getString(R.string.forum_topics);
+          if (fm.isUnsupportedVersion(chatId)) {
+            itemDataStatusText = context.getString(R.string.new_content_update_app);
           } else {
-            itemDataStatusText = context.getString(R.string.forum_topics);
+            List<ForumTopic> topics = fm.getTopics(chatId);
+            if (!topics.isEmpty()) {
+              itemDataStatusText = topics.size() + " " + context.getString(R.string.forum_topics);
+            } else {
+              itemDataStatusText = context.getString(R.string.forum_topics);
+            }
           }
         }
       } catch (RpcException e) {
@@ -431,23 +440,39 @@ public class ProfileAdapter extends RecyclerView.Adapter {
     if (memberList != null && !isInBroadcast && !isMailingList) {
       itemData.add(new ItemData(ITEM_DIVIDER, null, 0));
 
-      // Group Settings Section (admin-only: require canSend)
+      // Group Settings Section. Muting is a personal per-device notification preference, so
+      // every member who can send sees it. Delta Chat's protocol has no admin/owner concept, so
+      // the group-wide settings below it (ephemeral timer, channel type, banned members, forum
+      // topics) are gated to whoever created the group client-side only - see
+      // DcChat.isOwnedBySelf().
       if (dcChat != null && dcChat.isMultiUser() && dcChat.canSend()) {
         itemData.add(new ItemData(ITEM_GROUP_SETTINGS_HEADER, context.getString(R.string.group_settings), 0));
         String muteLabel = dcChat.isMuted()
             ? context.getString(R.string.mute) + " (" + context.getString(R.string.on) + ")"
             : context.getString(R.string.mute);
         itemData.add(new ItemData(ITEM_GROUP_SETTING_MUTE, muteLabel, 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
-        // Forum Topics
-        ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
-        boolean isForum = fm.isForum(dcChat.getId());
-        String forumLabel = isForum
-            ? context.getString(R.string.forum_topics) + " ✓"
-            : context.getString(R.string.forum_topics);
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_FORUM, forumLabel, 0));
+
+        if (dcChat.isOwnedBySelf(dcContext)) {
+          itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
+          // Public/private only makes sense for a channel you own - a regular group's join
+          // link is always a self-service instant-join, there's no "channel type" to switch.
+          if (isOutBroadcast) {
+            String channelTypeLabel =
+                ChannelPrivacyPrefs.isPrivate(context, dcChat.getId())
+                    ? context.getString(R.string.channel_type) + ": " + context.getString(R.string.channel_type_private)
+                    : context.getString(R.string.channel_type) + ": " + context.getString(R.string.channel_type_public);
+            itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, channelTypeLabel, 0));
+          }
+          itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
+          // Forum topics can only be managed here if the chat was created as a forum to begin
+          // with (see GroupCreateActivity) - existing regular groups can no longer be converted,
+          // so the entry is hidden entirely instead of offering a one-way "enable" action.
+          ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
+          if (fm.isForum(dcChat.getId())) {
+            itemData.add(
+                new ItemData(ITEM_GROUP_SETTING_FORUM, context.getString(R.string.forum_topics), 0));
+          }
+        }
       }
 
       // Members Section
@@ -456,7 +481,12 @@ public class ProfileAdapter extends RecyclerView.Adapter {
           if (!isOutBroadcast) {
             itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_ADD_MEMBER, 0));
           }
-          itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_QR_INVITE, 0));
+          // A private channel's join link is withdrawn (see onChannelType()/ProfileFragment),
+          // so there's nothing valid to invite with until it's switched back to public.
+          boolean hideInvite = isOutBroadcast && ChannelPrivacyPrefs.isPrivate(context, dcChat.getId());
+          if (!hideInvite) {
+            itemData.add(new ItemData(ITEM_MEMBERS, DcContact.DC_CONTACT_ID_QR_INVITE, 0));
+          }
         }
       }
       for (int value : memberList) {
