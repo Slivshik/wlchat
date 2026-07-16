@@ -29,15 +29,21 @@ public class PrivacyPreferenceFragment extends ListSummaryPreferenceFragment {
   private static final String PREF_AUTODEL_SERVER = "autodel_server";
   private static final String PREF_AUTODEL_MEDIA = "autodel_media";
   private static final String MANAGED_PROVIDER_DOMAIN = "wlrus.lol";
-  // "delete_server_after" core config, in seconds (0 = never). Confirmed by testing: neither
-  // 1 ("at once") nor 3600 (1 hour) stick for this config - toggling on, leaving and reopening
-  // this screen shows it reverted to off - while "delete_device_after" (a purely local,
-  // non-server config) persists fine with arbitrary values. That points at server/provider-side
-  // rejection of short intervals for THIS config specifically, not a bug in how it's set here.
-  // Use 1296000 (15 days) - the same value already shipped and presumably working via the
-  // "Managed storage" section below for the same core config. Only ever deletes the
-  // server-side copy - the local copy on this device is never touched by this config.
-  private static final int DELETE_SERVER_AFTER_SOON = 1296000;
+  // "delete_server_after" core config, in seconds (0 = never). Only ever deletes the server-side
+  // copy - the local copy on this device is never touched by this config.
+  //
+  // Requested value is 86400 (1 day). Earlier testing found that neither 1 ("at once") nor 3600
+  // (1 hour) stuck for this config - toggling on, leaving and reopening this screen showed it
+  // reverted to off - while "delete_device_after" (a purely local, non-server config) persists
+  // fine with arbitrary values, and 1296000 (15 days) is known to work via the "Managed storage"
+  // section below (same core config, different UI). That pattern points at a floor enforced by
+  // the wlrus.lol provider itself somewhere between 1 hour and 15 days, not a bug in how this is
+  // set - the app has no way to inspect or change server-side retention policy. If 86400 also
+  // silently reverts after testing, use the "Managed storage" section's 1/3/15/30-day options
+  // (visible for @wlrus.lol accounts) to narrow down the actual floor without a code change -
+  // whatever's selected there is read back from the real config on every resume, so a revert
+  // will show up immediately by reopening the screen.
+  private static final int DELETE_SERVER_AFTER_SOON = 86400;
 
   private CheckBoxPreference readReceiptsCheckbox;
   private CheckBoxPreference deleteSentCheckbox;

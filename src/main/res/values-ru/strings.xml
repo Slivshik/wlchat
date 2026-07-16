@@ -950,7 +950,7 @@
 
     <!-- automatically delete message -->
     <string name="delete_sent_title">Удалять отправленные сообщения с сервера</string>
-    <string name="delete_sent_explain">После доставки удалять отправленные сообщения с сервера (примерно в течение 15 дней, зависит от провайдера) для экономии места. На этом устройстве сообщения останутся.</string>
+    <string name="delete_sent_explain">После доставки удалять отправленные сообщения с сервера (примерно в течение 1 дня, зависит от провайдера) для экономии места. На этом устройстве сообщения останутся.</string>
     <string name="delete_old_messages">Удалить старые сообщения</string>
     <string name="autodel_device_title">Удалять сообщения с устройства</string>
     <!-- deprecated -->
@@ -1434,6 +1434,8 @@
     <string name="autodel_messages_summary">Удалять старые сообщения с сервера</string>
     <string name="autodel_media_title">Автоудаление медиа</string>
     <string name="autodel_media_summary">Удалять старые фото, видео и файлы</string>
+    <string name="autodel_1_day">Через 1 день</string>
+    <string name="autodel_3_days">Через 3 дня</string>
     <string name="autodel_15_days">Через 15 дней</string>
     <string name="autodel_30_days">Через 30 дней</string>
     <string name="autodel_5_days">Через 5 дней</string>

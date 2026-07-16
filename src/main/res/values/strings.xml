@@ -915,7 +915,7 @@
 
     <!-- automatically delete message -->
     <string name="delete_sent_title">Delete Sent Messages from Server</string>
-    <string name="delete_sent_explain">Once delivered, remove sent messages from the server (within about 15 days, depending on your provider) to save space. Messages stay available on this device.</string>
+    <string name="delete_sent_explain">Once delivered, remove sent messages from the server (within about 1 day, depending on your provider) to save space. Messages stay available on this device.</string>
     <string name="delete_old_messages">Delete Old Messages</string>
     <string name="autodel_device_title">Delete Messages from Device</string>
     <!-- deprecated -->
@@ -930,6 +930,8 @@
     <string name="autodel_messages_summary">Remove old messages from server to save storage</string>
     <string name="autodel_media_title">Auto-delete media</string>
     <string name="autodel_media_summary">Remove old photos, videos, and files from device</string>
+    <string name="autodel_1_day">After 1 day</string>
+    <string name="autodel_3_days">After 3 days</string>
     <string name="autodel_15_days">After 15 days</string>
     <string name="autodel_30_days">After 30 days</string>
     <string name="autodel_5_days">After 5 days</string>
