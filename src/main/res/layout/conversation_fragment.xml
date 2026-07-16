@@ -84,7 +84,7 @@
         android:paddingBottom="6dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:background="@drawable/input_panel_rounded_bg"
         tools:visibility="visible">
 
@@ -118,16 +118,6 @@
             android:text="@string/menu_forward" />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/message_popup_scrim"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@null" />
 
     <org.thoughtcrime.securesms.reactions.AddReactionView
         android:id="@+id/add_reaction_view"

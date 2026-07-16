@@ -104,7 +104,7 @@ public class ConversationFragment extends MessageSelectorFragment {
   private View bottomDivider;
   private AddReactionView addReactionView;
   private MessageQuickActionsView messageQuickActionsView;
-  private View messagePopupScrim;
+  private Integer openQuickActionsMessageId;
   private View selectionPillBar;
   private TextView selectionPillReply;
   private TextView selectionPillForward;
@@ -153,8 +153,6 @@ public class ConversationFragment extends MessageSelectorFragment {
     floatingLocationButton = ViewUtil.findById(view, R.id.floating_location_button);
     addReactionView = ViewUtil.findById(view, R.id.add_reaction_view);
     messageQuickActionsView = ViewUtil.findById(view, R.id.message_quick_actions_view);
-    messagePopupScrim = ViewUtil.findById(view, R.id.message_popup_scrim);
-    messagePopupScrim.setOnClickListener(v -> hideAddReactionView());
     selectionPillBar = ViewUtil.findById(view, R.id.selection_pill_bar);
     selectionPillReply = ViewUtil.findById(view, R.id.selection_pill_reply);
     selectionPillForward = ViewUtil.findById(view, R.id.selection_pill_forward);
@@ -352,18 +350,34 @@ public class ConversationFragment extends MessageSelectorFragment {
   public void hideAddReactionView() {
     addReactionView.hide();
     messageQuickActionsView.hide();
-    messagePopupScrim.setVisibility(View.GONE);
+    openQuickActionsMessageId = null;
   }
 
   /** Shows the small floating reply/forward/copy/delete popup for a single message, triggered by
    * a plain tap. Acts directly on {@code messageRecord} - unlike the long-press multi-select
-   * mode, this never touches the adapter's selection state. */
+   * mode, this never touches the adapter's selection state. Tapping the same message again
+   * closes it; tapping a different message switches the popup to that one. */
   private void showQuickActionsPopup(DcMsg messageRecord, View view) {
-    addReactionView.show(messageRecord, view, this::hideAddReactionView);
-    messagePopupScrim.setVisibility(View.VISIBLE);
+    if (openQuickActionsMessageId != null && openQuickActionsMessageId == messageRecord.getId()) {
+      hideAddReactionView();
+      return;
+    }
+    openQuickActionsMessageId = messageRecord.getId();
 
-    int reactionBarOffset = (int) (addReactionView.getHeight() * 0.666);
-    int quickActionsTopY = (int) view.getY() - reactionBarOffset + addReactionView.getHeight();
+    // Both views are anchored off the same reaction-bar offset, but AddReactionView clamps its
+    // own Y against the screen edges internally - mirror that same clamp here so the quick
+    // actions card always starts exactly where the reaction bar actually ends up, instead of
+    // where it *would* be without clamping (which made them overlap near the top of the list).
+    int offset = (int) (addReactionView.getHeight() * 0.666);
+    int reactionTopY = Math.max((int) view.getY() - offset, offset / 2);
+    View parent = (View) addReactionView.getParent();
+    if (parent != null) {
+      int maxTop = Math.max(0, parent.getHeight() - addReactionView.getHeight());
+      reactionTopY = Math.min(reactionTopY, maxTop);
+    }
+    int quickActionsTopY = reactionTopY + addReactionView.getHeight();
+
+    addReactionView.show(messageRecord, view, this::hideAddReactionView);
     messageQuickActionsView.show(
         messageRecord,
         view,
