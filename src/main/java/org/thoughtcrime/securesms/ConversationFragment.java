@@ -117,6 +117,7 @@ public class ConversationFragment extends MessageSelectorFragment {
   private boolean pendingAddBottomInsets;
   private boolean pendingRemoveBottomInsets;
   private int lastKnownKeyboardHeight;
+  private int pillBarExtraBottomPadding;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -376,11 +377,24 @@ public class ConversationFragment extends MessageSelectorFragment {
     int quickActionsTopY = reactionTopY + reactionHeight;
 
     View parent = (View) addReactionView.getParent();
-    if (parent != null && quickActionsTopY + quickActionsHeight > parent.getHeight()) {
+    int parentHeight = parent != null ? parent.getHeight() : Integer.MAX_VALUE;
+    if (quickActionsTopY + quickActionsHeight > parentHeight) {
       // doesn't fit below - anchor the whole stack so it ends just above the message instead.
       quickActionsTopY = (int) view.getY() - quickActionsHeight;
       reactionTopY = quickActionsTopY - reactionHeight;
     }
+
+    // Final safety net: with the keyboard open the available height can be smaller than the
+    // combined stack height even after the flip above. AddReactionView/MessageQuickActionsView
+    // each clamp their own position to stay on screen internally, but they do that
+    // independently using only their own height - if the precomputed positions above aren't
+    // already within bounds, that independent clamping collapses both onto the same spot
+    // instead of respecting the gap between them. Clamping the pair together here first keeps
+    // them stacked (with the card's bottom possibly running past the screen edge as the only
+    // remaining compromise) rather than sitting on top of each other.
+    int maxReactionTopY = Math.max(0, parentHeight - (reactionHeight + quickActionsHeight));
+    reactionTopY = Math.min(Math.max(reactionTopY, 0), maxReactionTopY);
+    quickActionsTopY = reactionTopY + reactionHeight;
 
     addReactionView.show(messageRecord, view, reactionTopY, this::hideAddReactionView);
     messageQuickActionsView.show(
@@ -420,6 +434,20 @@ public class ConversationFragment extends MessageSelectorFragment {
    * ActionMode is active and how many messages are currently selected. */
   private void updateSelectionPillBar() {
     boolean shouldShow = actionMode != null && getListAdapter().getSelectedItems().size() > 0;
+
+    // The pill bar floats on top of the list rather than pushing it up, so without this the
+    // last message(s) end up hidden behind it instead of just scrolling clear of it.
+    int desiredExtraPadding = shouldShow ? selectionPillBar.getHeight() : 0;
+    if (desiredExtraPadding != pillBarExtraBottomPadding) {
+      int basePaddingBottom = list.getPaddingBottom() - pillBarExtraBottomPadding;
+      list.setPadding(
+          list.getPaddingLeft(),
+          list.getPaddingTop(),
+          list.getPaddingRight(),
+          basePaddingBottom + desiredExtraPadding);
+      pillBarExtraBottomPadding = desiredExtraPadding;
+    }
+
     if (shouldShow) {
       ViewUtil.animateIn(
           selectionPillBar, AnimationUtils.loadAnimation(getContext(), R.anim.slide_fade_in_bottom));

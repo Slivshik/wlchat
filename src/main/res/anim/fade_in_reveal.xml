@@ -3,8 +3,19 @@
 <set
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/decelerate_interpolator">
+    <!-- mirrors fade_scale_out's scale-down (1.0->0.85) so the list looks like it's scaling back
+         up to the foreground on the way back, instead of just fading with no depth to match how
+         it visually receded when the chat was opened. -->
+    <scale
+        android:duration="200"
+        android:fromXScale="0.85"
+        android:fromYScale="0.85"
+        android:toXScale="1.0"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%" />
     <alpha
-        android:duration="220"
+        android:duration="200"
         android:fromAlpha="0.75"
         android:toAlpha="1.0" />
 </set>
