@@ -79,7 +79,7 @@ public class ReactionsConversationView extends LinearLayout {
       List<Integer> contactIds =
           reaction.emoji != null ? emojiToContactIds.get(reaction.emoji) : null;
       if (contactIds == null) contactIds = new ArrayList<>();
-      View pill = buildPill(getContext(), this, reaction, contactIds, glideRequests);
+      View pill = buildPill(getContext(), this, reaction, contactIds, glideRequests, isIncoming);
       addView(pill);
     }
 
@@ -144,7 +144,8 @@ public class ReactionsConversationView extends LinearLayout {
       @NonNull ViewGroup parent,
       @NonNull Reaction reaction,
       @NonNull List<Integer> contactIds,
-      @Nullable GlideRequests glideRequests) {
+      @Nullable GlideRequests glideRequests,
+      boolean isIncoming) {
     View root = LayoutInflater.from(context).inflate(R.layout.reactions_pill, parent, false);
     AppCompatTextView emojiView = root.findViewById(R.id.reactions_pill_emoji);
     TextView countView = root.findViewById(R.id.reactions_pill_count);
@@ -166,14 +167,33 @@ public class ReactionsConversationView extends LinearLayout {
       countView.setText("+" + reaction.count);
     }
 
-    if (reaction.isFromSelf) {
-      root.setBackground(
-          ContextCompat.getDrawable(context, R.drawable.reaction_pill_background_selected));
-      countView.setTextColor(
-          ContextCompat.getColor(context, R.color.reaction_pill_text_color_selected));
+    // Incoming bubbles are a neutral dark/light surface, so the fixed dark pill blends fine
+    // there. Outgoing bubbles are a solid accent color - a translucent white overlay instead of
+    // the same fixed dark pill keeps it reading as part of the bubble instead of a patch stuck
+    // onto it.
+    int backgroundRes;
+    int textColorRes;
+    if (isIncoming) {
+      backgroundRes =
+          reaction.isFromSelf
+              ? R.drawable.reaction_pill_background_selected
+              : R.drawable.reaction_pill_background;
+      textColorRes =
+          reaction.isFromSelf
+              ? R.color.reaction_pill_text_color_selected
+              : R.color.reaction_pill_text_color;
     } else {
-      root.setBackground(ContextCompat.getDrawable(context, R.drawable.reaction_pill_background));
+      backgroundRes =
+          reaction.isFromSelf
+              ? R.drawable.reaction_pill_background_outgoing_selected
+              : R.drawable.reaction_pill_background_outgoing;
+      textColorRes =
+          reaction.isFromSelf
+              ? R.color.reaction_pill_text_color_outgoing_selected
+              : R.color.reaction_pill_text_color_outgoing;
     }
+    root.setBackground(ContextCompat.getDrawable(context, backgroundRes));
+    countView.setTextColor(ContextCompat.getColor(context, textColorRes));
 
     if (glideRequests != null && !contactIds.isEmpty()) {
       avatarsContainer.setVisibility(VISIBLE);
