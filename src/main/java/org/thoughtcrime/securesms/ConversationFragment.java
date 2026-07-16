@@ -1236,6 +1236,12 @@ public class ConversationFragment extends MessageSelectorFragment {
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+      // startSupportActionMode() only assigns its result to the `actionMode` field *after* it
+      // returns, but it calls this callback synchronously before returning - so anything here
+      // that reads the `actionMode` field (like updateSelectionPillBar() below) would still see
+      // null and skip itself, unless it's assigned right here first.
+      actionMode = mode;
+
       MenuInflater inflater = mode.getMenuInflater();
       inflater.inflate(R.menu.conversation_context, menu);
 

@@ -132,6 +132,11 @@ public class AddReactionView extends LinearLayout {
     setPivotX(msgToReactTo.isOutgoing() ? getWidth() : 0f);
     setPivotY(getHeight());
     animate().cancel();
+    // ViewPropertyAnimator's listener is not tied to a single animation - once hide() sets one
+    // below, it stays attached to every future animate() call on this view until cleared, so
+    // without this, the *next* show() would run its animation to completion and then immediately
+    // trigger hide()'s leftover onAnimationEnd, hiding the view again right after it appeared.
+    animate().setListener(null);
     setScaleX(0.4f);
     setScaleY(0.4f);
     setAlpha(0f);

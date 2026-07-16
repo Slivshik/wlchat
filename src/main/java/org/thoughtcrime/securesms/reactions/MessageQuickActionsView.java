@@ -95,6 +95,11 @@ public class MessageQuickActionsView extends LinearLayout {
     setPivotX(message.isOutgoing() ? getWidth() : 0f);
     setPivotY(0f);
     animate().cancel();
+    // ViewPropertyAnimator's listener is not tied to a single animation - once hide() sets one
+    // below, it stays attached to every future animate() call on this view until cleared, so
+    // without this, the *next* show() would run its animation to completion and then immediately
+    // trigger hide()'s leftover onAnimationEnd, hiding the view again right after it appeared.
+    animate().setListener(null);
     setScaleX(0.7f);
     setScaleY(0.7f);
     setAlpha(0f);
