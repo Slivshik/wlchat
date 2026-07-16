@@ -92,17 +92,26 @@ jobs:
     - name: Find APK file
       id: find-apk
       run: |
-        APK_PATH=$(find . -name "*foss*release*.apk" -type f | head -1)
-        for apk in $(find . -name "*.apk" -type f); do
-          if unzip -l "$apk" 2>/dev/null | grep -q "libnative-utils.so"; then
-            if echo "$apk" | grep -q "release"; then
-              APK_PATH="$apk"
-              break
-            fi
-          fi
-        done
+        echo "All APKs produced by the build:"
+        find . -name "*.apk" -type f
+
+        # The build produces one APK per ABI split plus one "universal" APK containing all
+        # ABIs (splits.abi.universalApk true in build.gradle). Sideloading an ABI-specific
+        # split on a device with a different/unsupported CPU architecture (e.g. a 64-bit-only
+        # phone getting the armeabi-v7a-only split) fails with "app not installed, incompatible
+        # with your phone" - so for direct distribution we must always pick the universal one,
+        # identified as the release APK whose name does NOT carry one of the ABI tags.
+        APK_PATH=$(find . -path "*/release/*.apk" -type f \
+          ! -name "*armeabi-v7a*" ! -name "*arm64-v8a*" ! -name "*x86_64*" ! -name "*x86*" \
+          | head -1)
+
+        if [ -z "$APK_PATH" ]; then
+          echo "::error::Could not find the universal (all-ABI) release APK among the build outputs above."
+          exit 1
+        fi
+
         echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-        echo "Selected APK: $APK_PATH"
+        echo "Selected universal APK: $APK_PATH"
         
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
