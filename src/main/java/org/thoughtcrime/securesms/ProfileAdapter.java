@@ -441,13 +441,14 @@ public class ProfileAdapter extends RecyclerView.Adapter {
         itemData.add(new ItemData(ITEM_GROUP_SETTING_EPHEMERAL, context.getString(R.string.pref_ephemeral_messages), 0));
         itemData.add(new ItemData(ITEM_GROUP_SETTING_CHANNEL_TYPE, context.getString(R.string.channel_type), 0));
         itemData.add(new ItemData(ITEM_GROUP_SETTING_BANNED, context.getString(R.string.banned_members), 0));
-        // Forum Topics
+        // Forum topics can only be managed here if the chat was created as a forum to begin
+        // with (see GroupCreateActivity) - existing regular groups can no longer be converted,
+        // so the entry is hidden entirely instead of offering a one-way "enable" action.
         ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(context));
-        boolean isForum = fm.isForum(dcChat.getId());
-        String forumLabel = isForum
-            ? context.getString(R.string.forum_topics) + " ✓"
-            : context.getString(R.string.forum_topics);
-        itemData.add(new ItemData(ITEM_GROUP_SETTING_FORUM, forumLabel, 0));
+        if (fm.isForum(dcChat.getId())) {
+          itemData.add(
+              new ItemData(ITEM_GROUP_SETTING_FORUM, context.getString(R.string.forum_topics), 0));
+        }
       }
 
       // Members Section

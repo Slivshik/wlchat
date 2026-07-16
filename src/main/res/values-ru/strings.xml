@@ -26,8 +26,6 @@
     <string name="topic_name">Название темы</string>
     <string name="delete_topic">Удалить тему</string>
     <string name="delete_topic_confirm">Удалить эту тему и все её сообщения?</string>
-    <string name="enable_forum">Включить темы</string>
-    <string name="forum_enabled">Темы включены для этого чата</string>
     <string name="all_topics">Все темы</string>
     <string name="topic_format">%1$s %2$s</string>
 
@@ -306,6 +304,7 @@
     <string name="channels">Каналы</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="new_channel">Новый канал</string>
+    <string name="new_forum">Новый форум</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="channel_name">Название канала</string>
     <!-- The number of times a message is shown in channels. Use what other messengers are using here, smth. as "N-times seen" or "1 Aufruf" (german) work as well, where "1 impression" or "1 hit" may sound too formal and may be more marketing slang. -->

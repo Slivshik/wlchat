@@ -26,8 +26,6 @@
     <string name="topic_name">Topic name</string>
     <string name="delete_topic">Delete Topic</string>
     <string name="delete_topic_confirm">Delete this topic and all its messages?</string>
-    <string name="enable_forum">Enable Topics</string>
-    <string name="forum_enabled">Topics enabled for this chat</string>
     <string name="all_topics">All Topics</string>
     <string name="topic_format">%1$s %2$s</string>
     <string name="automatic">Automatic</string>
@@ -286,6 +284,7 @@
     <string name="channels">Channels</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="new_channel">New Channel</string>
+    <string name="new_forum">New Forum</string>
     <!-- consider keeping the term "channel" as in WhatsApp or Telegram -->
     <string name="channel_name">Channel Name</string>
     <!-- The number of times a message is shown in channels. Use what other messengers are using here, smth. as "N-times seen" or "1 Aufruf" (german) work as well, where "1 impression" or "1 hit" may sound too formal and may be more marketing slang. -->

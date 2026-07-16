@@ -297,6 +297,8 @@ public class ContactSelectionListAdapter
       name = context.getString(R.string.new_email);
     } else if (id == DcContact.DC_CONTACT_ID_NEW_BROADCAST) {
       name = context.getString(R.string.new_channel);
+    } else if (id == DcContact.DC_CONTACT_ID_NEW_FORUM) {
+      name = context.getString(R.string.new_forum);
     } else if (id == DcContact.DC_CONTACT_ID_QR_INVITE) {
       name = context.getString(R.string.menu_new_contact);
     } else {

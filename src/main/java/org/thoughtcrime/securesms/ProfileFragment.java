@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import org.thoughtcrime.securesms.forum.ForumManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -377,29 +376,9 @@ public class ProfileFragment extends Fragment
   }
 
   private void onForumTopics() {
-    DcChat dcChat = dcContext.getChat(chatId);
-    ForumManager fm = new ForumManager(dcContext, DcHelper.getRpc(requireContext()));
-    boolean isForum = fm.isForum(chatId);
-
-    if (!isForum) {
-      // Enable forum mode
-      new AlertDialog.Builder(requireContext())
-          .setTitle(R.string.enable_forum)
-          .setMessage("Enable topics for this group? Messages will be organized into topic threads.")
-          .setPositiveButton(R.string.ok, (d, w) -> {
-            try {
-              fm.enableForum(chatId);
-              Toast.makeText(requireContext(), "Forum enabled! Create topics from the chat menu.", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-              Toast.makeText(requireContext(), "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-          })
-          .setNegativeButton(R.string.cancel, null)
-          .show();
-    } else {
-      // Open forum topics list
-      org.thoughtcrime.securesms.forum.ForumActivity.start(requireActivity(), chatId);
-    }
+    // Only reachable when the chat is already a forum (see ProfileAdapter) - existing groups
+    // can't be converted anymore, forums are created as their own type from the start.
+    org.thoughtcrime.securesms.forum.ForumActivity.start(requireActivity(), chatId);
   }
 
   @Override
